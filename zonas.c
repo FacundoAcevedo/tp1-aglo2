@@ -18,6 +18,18 @@ zona3 = cola_crear();
 zona4 = cola_crear();
 zona5 = cola_crear();
 
+cola_t* zona1_aux;
+cola_t* zona2_aux;
+cola_t* zona3_aux;
+cola_t* zona4_aux;
+cola_t* zona5_aux;
+
+zona1_aux = cola_crear();
+zona2_aux = cola_crear();
+zona3_aux = cola_crear();
+zona4_aux = cola_crear();
+zona5_aux = cola_crear();
+
 cola_t** vector[] = {*zona1, *zona2, *zona3, *zona4, *zona5};
 
 // Reparte todos los elementos de la lista de pedidos_entrantes entre las

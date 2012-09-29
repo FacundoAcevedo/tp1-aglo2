@@ -4,9 +4,10 @@
 #include <stdio.h>
 #include "pila.h"
 #include "pedidos_entrantes.c"
+#include "zonas.c"
+
 
 pila_t* moto = pila_crear();
-cola_t* cola_aux = cola_crear();
 
 // Recibe la zona a la cual se quiere enviar las pizzas
 bool moto_cargar(cola_t* zona){
