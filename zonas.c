@@ -35,7 +35,8 @@ bool zona_preparar_pedidos(cola_t** vector[], pedidos_entrantes_t* pedidos){
 			if (lista->tamanio >= 0){
 				pedido_t* pedido;
 				pedido = pedidos_entrantes_sacar(lista);
-				cola_apilar(vector[i], pedido);
+				/*cola_apilar(vector[i], pedido);*/
+				cola_encolar(vector[i], pedido);
 				}
 			}
 		}
