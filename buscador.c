@@ -10,7 +10,7 @@
  *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
  *devuelve false o true de caso contrario
  */
-lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisegned int id)
+lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisigned int id)
 {
     //variables
     lista_t* lista = pedidos->lista;
@@ -20,7 +20,7 @@ lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisegned int id)
 
 
     //reinicio la posicion del iter
-    iter->actual = lista.inicio;
+    iter->actual = lista->inicio;
     iter->siguiente = (iter->actual)->siguiente;
 
     //Busco
