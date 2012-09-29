@@ -127,9 +127,9 @@ void pedidos_entrantes_destruir (pedidos_entrantes_t* pedidos_entrantes){
 	
 	// Se destruye el iterador de pedidos_entrantes
 	lista_iter_destruir(pedidos_entrantes->iter_lista_pedidos);
-	
+	// Se destruye la lista con lista_destruir, pasándole el dato de pedido_destruir()
 	lista_destruir(pedidos_entrantes->lista_pedidos, (*destruir_pedido));
-	//~ 
+	
 	//~ // Si la lista de pedidos_entrantes esta vacia, se libera la lista
 	//~ if (pedidos_entrantes->lista_pedidos->inicio == NULL){
 		 //~ free(pedidos_entrantes->lista_pedidos);
