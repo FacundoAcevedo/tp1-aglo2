@@ -20,11 +20,16 @@ zona5 = cola_crear();
 
 cola_t** vector[] = {*zona1, *zona2, *zona3, *zona4, *zona5};
 
+// Reparte todos los elementos de la lista de pedidos_entrantes entre las
+// cinco zonas del tipo cola_t. 
 bool zona_preparar_pedidos(cola_t** vector[], pedidos_entrantes_t* pedidos){
+	// Si pedidos_entrantes no existe
 	if (!pedidos_entrantes) return false;
+	// Si la lista de pedidos_entrantes esta vacia
 	if (pedidos_entrantes->lista == NULL) return false;
 	int i;
 	lista_t* lista = pedidos_entrantes->lista;
+	// Reparto entre las zonas
 	while (lista->tamanio >= 0){
 		for (i=0, i<5, i++){
 			if (lista->tamanio >= 0){
@@ -35,4 +40,13 @@ bool zona_preparar_pedidos(cola_t** vector[], pedidos_entrantes_t* pedidos){
 			}
 		}
 	return true;
+	}
+
+// Desencola un pedido de la zona que se pasa por parametro.
+// Devuelve el pedido desencolado.
+pedido_t* zona_sacar (cola_t** vector[], int zona){
+	if (cola_esta_vacia(vector[zona-1])) return NULL;
+	pedido_t* pedido_sacado;
+	pedido_sacado = cola_desencolar(vector[zona-1]);
+	return pedido_sacado;	
 	}
