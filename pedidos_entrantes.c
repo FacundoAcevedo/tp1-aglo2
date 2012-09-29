@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lista.h"
+#include "buscador.c"
 
 typedef struct pedido pedido_t;
 
@@ -18,6 +19,7 @@ struct pedido{
 	} pedido_t;
 
 unsigned int get_id();
+lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisigned int id);
 
 pedido_t* pedido_crear( int zona, int cant_pizzas){
 	pedido_t* pedido;
