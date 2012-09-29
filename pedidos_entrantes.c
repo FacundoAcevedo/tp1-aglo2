@@ -34,6 +34,11 @@ void pedido_destruir(pedido_t* pedido){
 	return;
 	}
 
+void (destruir_pedido)(void*dato){
+	pedido_destruir((pedido_t*)dato);
+	}
+
+
 bool pedido_cambiar_zona (pedido_t* pedido, int nueva_zona){
 	if (!pedido) return false;
 	pedido->zona = nueva_zona;
@@ -123,28 +128,30 @@ void pedidos_entrantes_destruir (pedidos_entrantes_t* pedidos_entrantes){
 	// Se destruye el iterador de pedidos_entrantes
 	lista_iter_destruir(pedidos_entrantes->iter_lista_pedidos);
 	
-	// Si la lista de pedidos_entrantes esta vacia, se libera la lista
-	if (pedidos_entrantes->lista_pedidos->inicio == NULL){
-		 free(pedidos_entrantes->lista_pedidos);
-		 return;
-		}
-	
-	// Sino, se deben borrar los nodos (que contienen datos del tipo pedido_t)
-	pedido_t* borrado;
-	int i;
-	size_t largo;
-	largo = pedidos_entrantes_largo(pedidos_entrantes); 
-	// Se itera sobre los nodos de la lista
-	for (i=0; i<largo; i++){
-		// borrado es el valor del nodo borrado
-		borrado = lista_borrar_primero(pedidos_entrantes->lista_pedidos);
-		// Se destruye borrado con pedido_destruir
-		pedido_destruir(borrado);	
-		}
-	// Se libera la lista vacia
-	free (pedidos_entrantes->lista_pedidos);
-	
-	// Se libera la estructura pedidos_entrantes
+	lista_destruir(pedidos_entrantes->lista_pedidos, (*destruir_pedido));
+	//~ 
+	//~ // Si la lista de pedidos_entrantes esta vacia, se libera la lista
+	//~ if (pedidos_entrantes->lista_pedidos->inicio == NULL){
+		 //~ free(pedidos_entrantes->lista_pedidos);
+		 //~ return;
+		//~ }
+	//~ 
+	//~ // Sino, se deben borrar los nodos (que contienen datos del tipo pedido_t)
+	//~ pedido_t* borrado;
+	//~ int i;
+	//~ size_t largo;
+	//~ largo = pedidos_entrantes_largo(pedidos_entrantes); 
+	//~ // Se itera sobre los nodos de la lista
+	//~ for (i=0; i<largo; i++){
+		//~ // borrado es el valor del nodo borrado
+		//~ borrado = lista_borrar_primero(pedidos_entrantes->lista_pedidos);
+		//~ // Se destruye borrado con pedido_destruir
+		//~ pedido_destruir(borrado);	
+		//~ }
+	//~ // Se libera la lista vacia
+	//~ free (pedidos_entrantes->lista_pedidos);
+	//~ 
+	//~ // Se libera la estructura pedidos_entrantes
     free(pedidos_entrantes);
     return;
  }
