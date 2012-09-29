@@ -1,0 +1,75 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25100\viewh13780\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 \
+El programa debe llevar un registro de los pedidos recibidos, permitiendo \
+agregar un nuevo pedido, modificar la cantidad de pizzas de un pedido \
+y cancelar un pedido.\
+DISE\'d1\uc0\u145 O: una \'fa\u131 nica lista llamada "pedidos_entrantes" en la cual se agregan los nuevos,\
+ se modifican sus atributos y se cancelan. Propongo una lista porque ni\
+ la cola ni la pila me permiten acceder a elementos que se encuentran\
+ en el medio (ni principio ni fin). En la lista cobrar\'e1 importancia\
+ el ORDEN de los elementos.\
+ \
+ \
+ \
+Adem\'e1\uc0\u131 s debe contar con una opci\'f3n para preparar todos los pedidos, \
+agrup\'e1ndolos seg\uc0\u140 \'fan la zona de env\'ed\u140 \u129 \u132 o (los pedidos se preparan en \
+el orden que fueron registrados). Una vez que los pedidos son preparados\
+no pueden ser modificados ni cancelados.\
+DISE\uc0\u131 \'d1O: 5 colas (una por zona) llamadas "zona1", "zona2"..., en la que se van encolando los pedidos\
+ de acuerdo a su atributo "zona" y respetando su orden. Las caracter\'edsticas\
+ de los pedidos no se pueden modificar por enunciado y porque la estructura\
+ de cola no lo permite.\
+\
+\
+\
+Finalmente debe permitir enviar los pedidos a los clientes. Esto consiste\
+en sacar algunos de los pedidos preparados por zona, utilizando una \
+estrategia que permita optimizar los env\uc0\u140 \u129 \u132 \'edos. Los pedidos que no \
+entren en la moto deber\'e1n postergarse para poder maximizar la cantidad\
+de pedidos a env\uc0\u140 \u129 \u132 iar en cada viaje. El programa debe informar los \
+pedidos enviados.\
+DISE\'d1O: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto\
+ ser\'e1 una pila "moto" en la cual se apilan las pizzas de los pedidos. \
+ El m\'e1\uc0\u131 ximo de pizzas por pedido es 5. La moto podr\'e1 llevar \'fa\u131 nicamente \
+ pedidos enteros, es decir :\
+ 	- 1 pedido de 5 pizzas\
+ 	- 2 pedidos de 1 y 4 pizzas c/1\
+ 					2 y 3 pizzas c/1\
+ 	- 3 pedidos de 1, 2 y 2 pizzas c/1 \
+ 					3, 1 y 1 pizzas c/1\
+ 	- 4 pedidos de 1, 1, 1 y 2 pizzas c/1\
+ 	- 5 pedidos de 1, 1, 1, 1 y 1 pizzas c/1\
+ IMPORTANTE: para que la moto se llene siempre de 5 pizzas, los pedidos\
+ que queden "cortados" tienen que ser postergados. Es decir, el des-\
+ encolamiento de los primeros pedidos en la cola deber\'e1 "saltearse"\
+ al primero para apilar el segundo (o as\'ed\'ad sucesivamente hasta encontrar\
+ un pedido que se ajuste a las cantidades de la moto). Sugerencia:\
+ dado que el m\'e9todo desencolar no permite saltearse nodos, se crean\
+ colas auxiliares con los pedidos postergados. \'c9stos ser\'e1n los primeros\
+ en intentar desencolar cuando se vaya a llenar una moto vac\uc0\u131 \'eda (porque\
+ llevan esperando m\'e1s tiempo!). Si ninguno de los pedidos de la cola\
+ auxiliar cumple los requerimientos de la moto, reci\uc0\u131 \'e9n ah\u131 \'ed se pasa a\
+ intentar desencolar las colas "zonai". \
+\
+\
+\
+El programa debe permitir observar el estado de la pizzer\uc0\u140 \u129 \u132 \'eda incluyendo \
+los pedidos registrados hasta el momento, los pedidos preparados (por zona)\
+y los u \'faltimos N pedidos enviados (desde el m\uc0\u140 \'e1s reciente al m\'e1s antiguo).\
+DISE\'c3\uc0\u131 \'c2\u145 O: b\u131 \'e1sicamente es una posibilidad de printear la lista "pedidos",\
+ las colas "zonai" y las \'fa\uc0\u131 ltimas pila-moto que se se han creado. Para \
+ imprimir las motos pasadas, \uc0\u131 \'e9stas deben ir apil\'e1ndose en una pila \
+ "motos_enviadas" dentro de las funciones de la moto. "motos_enviadas" es\
+ una pila porque al printearla se utilizar\'e1\uc0\u131  el m\u131 \'e9todo desapilar que devolver\'e1\
+ los pedidos desde el m\'e1s reciente hasta el m\'e1s antiguo.\
+\
+\
+\
+\
+El programa deber\'e1 contar con una men\uc0\u140 \'fa de opciones para la funcionalidad \
+mencionada.}
