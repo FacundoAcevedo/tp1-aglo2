@@ -6,10 +6,10 @@
 //Este archivo define las estructuras a utilizar
 
 
-struct pedidos_entrantes {
-	lista_t* lista_pedidos;
+struct lista_con_iter {
+	lista_t* lista;
 	lista_iter_t* iter;
-} pedidos_entrantes_t;
+} lista_con_iter_t;
 	
 struct pedido{
 	int zona;

@@ -10,7 +10,7 @@
 pila_t* moto = pila_crear();
 
 // Recibe la zona a la cual se quiere enviar las pizzas
-bool moto_cargar(cola_t* zona){
+bool moto_cargar(zona_t* zona){
 	int cont;
 	cont = 0;
 	pedido_t* desencolado;
@@ -29,25 +29,35 @@ bool moto_cargar(cola_t* zona){
 			cola_encolar(cola_auz, desencolado);
 			}
 		}
+
+// Recibe la lista de espera de una zona y un int "pizzas_cargadas con la cantidad de pizzas
+// que ya tiene cargada la moto. Itera sobre la lista buscando un pedido
+// cuyo valor de cant_pizzas sea (5 - pizzas_cargadas) o menor. Si lo encuentra,
+// lo borra de la lista y lo devuelve. Si no lo encuentra, devuelve NULL. 
+pedido_t* buscar_adecuado (lista_con_iter_t* lista_espera, int pizzas_cargadas) {
+	
+	
+	
+	}
 /* PSEUDO CÓDIGO:
  * 
 	contador = 0
-	miro el primer pedido
-	contador += pedido->cant_pizzas
-		if contador == 5:
-			desencolo ese pedido de zonaX
-			apilo ese pedido a la moto
-			termino
+	
+	Si zona->lista_espera == NULL o "no encontré pedido matcheable en zona->lista_espera":
+		miro el primer pedido
+		contador += pedido->cant_pizzas
+			if contador == 5, termino
+			if contador > 5:
+				contador -= pedido->cant_pizzas
+				desencolo ese pedido de zona->cola_ppal
+				encolo ese pedido a zona->lista_espera
+				sigo
 
-	miro el segundo pedido
-	contador += pedido->cant_pizzas
-		if contador == 5, termino
-		if contador > 5:
-			contador -= pedido->cant_pizzas
-			desencolo ese pedido de zonaX
-			apilo ese pedido a cola_aux
-			sigo
-	miro el tercer pedido...
+	Sino:
+	if contador ==5, termino
+	if contador
+		apilo pedido a la moto
+		contador = contador + pedido->cant_pizzas
 */
 
 

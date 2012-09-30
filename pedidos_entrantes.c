@@ -8,7 +8,7 @@
 
 
 unsigned int get_id();
-lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisigned int id);
+lista_iter_t* buscar_id(lista_con_iter_t* pedidos, unisigned int id);
 
 pedido_t* pedido_crear( int zona, int cant_pizzas){
 	pedido_t* pedido;
@@ -49,23 +49,19 @@ bool pedido_cambiar_cant (pedido_t* pedido, int nueva_cant){
 
 
 // Crea una objeto pedidos_entrantes
-pedidos_entrantes_t* pedidos_entrantes_crear(){
-	pedidos_entrantes_t* pedidos_entrantes;
-	pedidos_entrantes = malloc (sizeof(pedidos_entrantes_t));
-	if (!pedidos_entrantes) return NULL;
-	lista_t* lista;
-	lista = lista_crear();
-	lista_iter_t* iter = lista_iter_crear(lista);
+lista_con_iter* pedidos_entrantes_crear(){
+	lista_con_iter_t* pedidos_entrantes;
+	pedidos_entrantes = lista_con_iter_crear();
 	return pedidos_entrantes;
 	}
 	
 // devuelve la cantidad de pedidos que contiene la lista pedidos_entrantes
-size_t pedidos_entrantes_largo(const pedidos_entrantes_t* pedidos_entrantes){
+size_t pedidos_entrantes_largo(const lista_con_iter_t* pedidos_entrantes){
 	return pedidos_entrantes->lista->largo;
 	}
 	
 // Agrega pedido al final de la lista.
-bool pedidos_entrantes_agregar (pedidos_entrantes_t* pedidos_entrantes, pedido_t* pedido){
+bool pedidos_entrantes_agregar (lista_con_iter_t* pedidos_entrantes, pedido_t* pedido){
 	if (lista_insertar_ultimo(pedidos_entrantes->lista, pedido)) return true;
 	return false;
 	}
@@ -73,14 +69,14 @@ bool pedidos_entrantes_agregar (pedidos_entrantes_t* pedidos_entrantes, pedido_t
 // Saca el primer pedido de la lista.
 // Recibe: struct pedidos_entrantes.
 // Devuelve el dato del tipo pedido_t* que fue sacado de la lista.
-pedido_t* pedidos_entrantes_sacar (pedidos_entrantes_t* pedidos_entrantes){
+pedido_t* pedidos_entrantes_sacar (lista_con_iter_t* pedidos_entrantes){
 	return (lista_borrar_primero(pedidos_entrantes->lista));
 	}
 
 // Modifica la zona de un pedido.
 // Recibe: struct pedidos_entrantes, un int con la nueva zona
 // y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_zona (pedidos_entrantes_t* pedidos_entrantes, unsigned int id, int nueva_zona){
+bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_zona){
 	if (pedidos_entrantes->lista->largo == 0) return false;
 	lista_iter_t* iter_pedido_a_modif = lista_iter_buscar(pedidos_entrantes->iter, id);
 	pedido_t* pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
@@ -91,7 +87,7 @@ bool pedidos_entrantes_zona (pedidos_entrantes_t* pedidos_entrantes, unsigned in
 // Modifica cant_pizzas de un pedido
 // Recibe: struct pedidos_entrantes, un int con la nueva cantidad
 // y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_cant_pizzas (pedidos_entrantes_t* pedidos_entrantes, unsigned int id, int nueva_cant){
+bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_cant){
 	if (pedidos_entrantes->lista->largo == 0) return false;
 	lista_iter_t* iter_pedido_a_modif = lista_iter_buscar(pedidos_entrantes->iter, id);
 	pedido_t* pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
@@ -102,7 +98,7 @@ bool pedidos_entrantes_cant_pizzas (pedidos_entrantes_t* pedidos_entrantes, unsi
 // Saca el pedido de la lista de pedidos_entrantes y lo destruye.
 // Recibe: struct pedidos_entrantes, un unsigned int con el id del pedido
 // a cancelar.
-bool pedidos_entrantes_cancelar (pedidos_entrantes_t* pedidos_entrantes, unsigned int id){
+bool pedidos_entrantes_cancelar (lista_con_iter_t* pedidos_entrantes, unsigned int id){
 	if (pedidos_entrantes->lista->largo == 0) return false;
 	lista_iter_t* iter_pedido_a_cancelar = lista_iter_buscar(pedidos_entrantes->iter, id);
 	pedido_t* pedido_a_cancelar = lista_borrar(pedidos_entrantes->lista, iter_pedido_a_cancelar);
@@ -112,38 +108,9 @@ bool pedidos_entrantes_cancelar (pedidos_entrantes_t* pedidos_entrantes, unsigne
 
 // Destruyo el struct pedidos_entrantes
 // Recibe: struct pedidos_entrantes
-void pedidos_entrantes_destruir (pedidos_entrantes_t* pedidos_entrantes){
-	// Si pedidos_entrantes no existe, termina la funcion
-	if (!pedidos_entrantes) return;
+void pedidos_entrantes_destruir (lista_con_iter_t* pedidos_entrantes){
+	lista_con_iter_destruir(pedidos_entrantes, (*destruir_pedido));
 	
-	// Se destruye el iterador de pedidos_entrantes
-	lista_iter_destruir(pedidos_entrantes->iter);
-	// Se destruye la lista con lista_destruir, pasándole el dato de pedido_destruir()
-	lista_destruir(pedidos_entrantes->lista, (*destruir_pedido));
-	
-	//~ // Si la lista de pedidos_entrantes esta vacia, se libera la lista
-	//~ if (pedidos_entrantes->lista->inicio == NULL){
-		 //~ free(pedidos_entrantes->lista);
-		 //~ return;
-		//~ }
-	//~ 
-	//~ // Sino, se deben borrar los nodos (que contienen datos del tipo pedido_t)
-	//~ pedido_t* borrado;
-	//~ int i;
-	//~ size_t largo;
-	//~ largo = pedidos_entrantes_largo(pedidos_entrantes); 
-	//~ // Se itera sobre los nodos de la lista
-	//~ for (i=0; i<largo; i++){
-		//~ // borrado es el valor del nodo borrado
-		//~ borrado = lista_borrar_primero(pedidos_entrantes->lista);
-		//~ // Se destruye borrado con pedido_destruir
-		//~ pedido_destruir(borrado);	
-		//~ }
-	//~ // Se libera la lista vacia
-	//~ free (pedidos_entrantes->lista);
-	//~ 
-	//~ // Se libera la estructura pedidos_entrantes
-    free(pedidos_entrantes);
     return;
  }
 
