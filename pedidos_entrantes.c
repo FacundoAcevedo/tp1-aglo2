@@ -8,7 +8,7 @@
 
 
 unsigned int get_id();
-lista_iter_t* buscar_id(lista_con_iter_t* pedidos, unisigned int id);
+/*lista_iter_t* buscar_id(lista_con_iter_t* pedidos, unsigned int id);*/
 
 pedido_t* pedido_crear( int zona, int cant_pizzas){
 	pedido_t* pedido;

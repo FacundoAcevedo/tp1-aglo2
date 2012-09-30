@@ -1,3 +1,10 @@
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "estructuras.h"
+#include "lista.h"
+
 lista_con_iter* lista_con_iter_crear(){
 	lista_con_iter_t* lista_con_iter;
 	lista_con_iter = malloc (sizeof(lista_con_iter_t));

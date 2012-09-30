@@ -10,7 +10,7 @@
  *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
  *devuelve false o true de caso contrario
  */
-lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisigned int id)
+lista_con_iter_t*  buscar_id(lista_con_iter_t* pedidos, unsigned int id)
 {
     //variables
     lista_t* lista = pedidos->lista;
