@@ -3,13 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cola.h"
-#include "pedidos_entrantes.c"
+#include "pedidos_entrantes.h"
+#include "estructuras.h"
 
-typedef struct zona zona_t*;
-struct zona{
-	cola_t* cola_ppal;
-	lista_con_iter_t* lista_espera;
-	} zona_t*;
+
 
 zona_t* zona_crear(){
 	zona_t* zona;
@@ -22,7 +19,7 @@ zona_t* zona_crear(){
 	zona->cola_ppal = cola_ppal;
 	zona->lista_espera = lista_espera;
 	return pedido;
-	}
+}
 
 // Creo las zonas
 zona_t* zona1;
