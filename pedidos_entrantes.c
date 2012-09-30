@@ -2,21 +2,10 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "estructuras.h"
 #include "lista.h"
 #include "buscador.c"
 
-typedef struct pedido pedido_t;
-
-typedef struct pedidos_entrantes pedidos_entrantes_t{
-	lista_t* lista_pedidos;
-	lista_iter_t* iter;
-} pedidos_entrantes_t;
-	
-struct pedido{
-	int zona;
-	int cant_pizzas;
-	unsigned int id;
-	} pedido_t;
 
 unsigned int get_id();
 lista_iter_t* buscar_id(pedidos_entrantes_t* pedidos, unisigned int id);
