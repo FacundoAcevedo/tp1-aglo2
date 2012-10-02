@@ -1,4 +1,19 @@
-/* This file was automatically generated.  Do not edit! */
+#ifndef PEDIDOS_ENTRANTES_H
+#define PEDIDOS_ENTRANTES_H
+
+/*
+ *TIPOS
+ */
+
+typedef struct pedido pedido_t;
+
+
+
+
+/*
+ *PRIMITIVAS
+ */
+
 void pedidos_entrantes_destruir(lista_con_iter_t *pedidos_entrantes);
 bool pedidos_entrantes_cancelar(lista_con_iter_t *pedidos_entrantes,unsigned int id);
 bool pedidos_entrantes_cant_pizzas(lista_con_iter_t *pedidos_entrantes,unsigned int id,int nueva_cant);
@@ -13,3 +28,5 @@ void(destruir_pedido)(void *dato);
 void pedido_destruir(pedido_t *pedido);
 pedido_t *pedido_crear(int zona,int cant_pizzas);
 unsigned int get_id();
+
+#endif

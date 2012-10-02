@@ -1,3 +1,22 @@
-/* This file was automatically generated.  Do not edit! */
-void lista_con_iter_destruir(lista_con_iter_t *lista_con_iter,(*destruir));
-lista_con_iter *lista_con_iter_crear();
+#ifndef LISTA_CON_ITER
+#define LISTA_CON_ITER
+
+/*
+ *ESTRUCTURAS
+ */
+
+typedef struct lista_con_iter lista_con_iter_t;
+
+struct lista_con_iter{
+	lista_t* lista;
+	lista_iter_t* iter;
+}lista_con_iter_t;
+
+/*
+ *PRIMITIVAS
+ */
+
+lista_con_iter* lista_con_iter_crear();
+void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, (*destruir));
+
+#endif

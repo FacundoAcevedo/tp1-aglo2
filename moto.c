@@ -2,9 +2,14 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "lista.h"
+#include "cola.h"
 #include "pila.h"
-#include "pedidos_entrantes.c"
-#include "zonas.c"
+#include "pedidos_entrantes.h"
+#include "zonas.h"
+#include "moto.h"
+#include "lista_con_iter.h"
+#include "buscador.h"
 
 
 

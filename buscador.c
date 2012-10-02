@@ -1,7 +1,15 @@
-#include <stdio.h>
+
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "lista.h"
-#include "estructuras.h"
+#include "cola.h"
+#include "pila.h"
+#include "pedidos_entrantes.h"
+#include "zonas.h"
+#include "moto.h"
+#include "lista_con_iter.h"
 
 /*
  *Busca sobre una lista, y devuelve un nodo.

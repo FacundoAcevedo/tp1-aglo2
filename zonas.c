@@ -2,11 +2,15 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "lista.h"
 #include "cola.h"
+#include "pila.h"
 #include "pedidos_entrantes.h"
-#include "estructuras.h"
+#include "moto.h"
+#include "lista_con_iter.h"
+#include "buscador.h"
 
-
+/*typedef struct zona zona_t;*/
 
 zona_t* zona_crear(){
 	zona_t* zona;
@@ -18,7 +22,7 @@ zona_t* zona_crear(){
 	lista_espera = lista_con_iter_crear();
 	zona->cola_ppal = cola_ppal;
 	zona->lista_espera = lista_espera;
-	return pedido;
+	return zona;
 }
 
 // Creo las zonas
