@@ -1,6 +1,6 @@
 #ifndef PEDIDOS_ENTRANTES_H
 #define PEDIDOS_ENTRANTES_H
-
+#include "lista_con_iter.h"
 /*
  *TIPOS
  */
@@ -36,10 +36,9 @@ bool pedidos_entrantes_agregar(lista_con_iter_t *pedidos_entrantes,pedido_t *ped
 
 size_t pedidos_entrantes_largo(const lista_con_iter_t *pedidos_entrantes);
 
-lista_con_iter *pedidos_entrantes_crear();
-
+lista_con_iter_t *pedidos_entrantes_crear();
 
 unsigned int get_id();
-
+lista_iter_t* buscar_id(lista_con_iter_t* pedidos_entrantes, unsigned int id);
 
 #endif

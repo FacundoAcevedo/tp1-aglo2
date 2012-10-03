@@ -1,6 +1,6 @@
 #ifndef LISTA_CON_ITER
 #define LISTA_CON_ITER
-#include "lista.h"
+#include "listaycola.h"
 /*
  *ESTRUCTURAS
  */

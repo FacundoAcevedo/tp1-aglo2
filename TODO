@@ -15,4 +15,4 @@ Todos los includes
 #include "zonas.h"
 #include "moto.h"
 #include "lista_con_iter.h"
-#include "buscador.h"
+

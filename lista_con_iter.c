@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "lista.h"
+#include "listaycola.h"
 #include "lista_con_iter.h"
 
 //~ 

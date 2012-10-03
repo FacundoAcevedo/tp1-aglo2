@@ -12,14 +12,18 @@ struct _pila
 };
 
 // Crea una pila.
-// Post: devuelve una nueva pila vacía.
+// Post: devuelve una nueva pila vacÃ­a.
 pila_t* pila_crear()
 {
     pila_t* pila = malloc(sizeof(pila_t));
     if (pila == NULL) return NULL;
     pila->tamanio = 0;
     pila->cantidad = 0;
-    pila->datos = NULL;
+    pila->datos = malloc(sizeof(void*));
+    if (!pila->datos){
+		free(pila);
+		return NULL;
+		}
     return pila;
 }
 
@@ -28,94 +32,86 @@ pila_t* pila_crear()
 // Post: se eliminaron todos los elementos de la pila.
 void pila_destruir(pila_t *pila)
 {
-    //es una pre-condicion, pero igual, verifico que la pila haya sido creada
-
-    
-    if (pila->cantidad != 0 ||  pila->datos != NULL){
-
+    if (pila->cantidad != 0 ||  pila->datos != NULL)
         free(pila->datos);
-        }
     if (pila != NULL) free(pila);
 }
 
-// Devuelve verdadero o falso, según si la pila tiene o no elementos apilados.
+// Devuelve verdadero o falso, segÃºn si la pila tiene o no elementos apilados.
 // Pre: la pila fue creada.
 bool pila_esta_vacia(const pila_t *pila)
 {
-    if (pila->tamanio == 0) return true;
+	//Verifico que fue creada.
+	if (pila == NULL) return false;
+    if (pila->cantidad == 0) return true;
     
     return false;
 }
 
 // Agrega un nuevo elemento a la pila. Devuelve falso en caso de error.
 // Pre: la pila fue creada.
-// Post: se agregó un nuevo elemento a la pila, valor es el nuevo tope.
+// Post: se agregÃ³ un nuevo elemento a la pila, valor es el nuevo tope.
 bool pila_apilar(pila_t *pila, void* valor)
 {
     //es una pre-condicion, pero igual, verifico que la pila haya sido creada
     if (pila == NULL) return false;
-
-    /*size_t nuevo_tamanio =  pila->tamanio + 1;*/
-    (*pila).tamanio += 1;
-
-
-    //le reasigno memoria a pila.dato
-    /*pila->datos = realloc(pila->datos, pila->tamanio * sizeof(pila_t));*/
-    pila->datos = realloc(pila->datos, pila->tamanio * sizeof(size_t));
     
+    //le reasigno memoria a pila.dato si llegue paso un multiplo de 10 en cantidad 
+    if ((pila->tamanio - pila->cantidad) == 0){
+	    pila->datos = realloc(pila->datos, 10* sizeof(void*));
+	    //~ puts("hice un realloc");
+	    pila->tamanio += 10;
+	    printf("tamanio: %zu\n", pila->tamanio);
+		}    
     //verifico que todo haya funcionado
     if (pila->datos == NULL) return false;
-
-    *(pila->datos + pila->tamanio - 1) = valor;
+	//~ printf("cantidad %zu\n", pila->cantidad);
+	//~ printf("direccion de datos %p\n", pila->datos);
+	//~ printf("direccion de datos + pila->cantidad (antes de agregar valor) %p\n", pila->datos + pila->cantidad);
     pila->cantidad += 1;
-    return true;
+	*(pila->datos + pila->cantidad) = valor;
+    //~ printf("direccion de datos + pila->cantidad (despues de agregar valor) %p\n", pila->datos + pila->cantidad);
+	return true;
 }
 
 // Obtiene el valor del tope de la pila. Si la pila tiene elementos,
-// se devuelve el valor del tope. Si está vacía devuelve NULL.
+// se devuelve el valor del tope. Si estÃ¡ vacÃ­a devuelve NULL.
 // Pre: la pila fue creada.
-// Post: se devolvió el valor del tope de la pila, cuando la pila no está
-// vacía, NULL en caso contrario.
-void* pila_ver_tope(const pila_t *pila)
-{
-    if (pila->cantidad <= 0) return NULL;
-    
-    return *(pila->datos + pila->tamanio -1);
-}
+// Post: se devolviÃ³ el valor del tope de la pila, cuando la pila no estÃ¡
+// vacÃ­a, NULL en caso contrario.
+void* pila_ver_tope(const pila_t *pila){
+    //~ printf("tam - cant: %zu ###### ", (pila->tamanio -pila->cantidad));
+    void* tope;
+    /*tope = (pila->datos + (pila->cantidad));    */
+    tope = *(pila->datos + (pila->cantidad));    
+    //~ printf("tope: %p \n", tope);  
+    if (pila->cantidad == 0) return NULL;
+    return tope;
+	}
    
     
 // Saca el elemento tope de la pila. Si la pila tiene elementos, se quita el
-// tope de la pila, y se devuelve ese valor. Si la pila está vacía, devuelve 
+// tope de la pila, y se devuelve ese valor. Si la pila estÃ¡ vacÃ­a, devuelve 
 // NULL.
 // Pre: la pila fue creada.
-// Post: si la pila no estaba vacía, se devuelve el valor del tope anterior 
+// Post: si la pila no estaba vacÃ­a, se devuelve el valor del tope anterior 
 // y la pila contiene un elemento menos.
 void* pila_desapilar(pila_t *pila)
 {
-    //es una pre-condicion, pero igual, verifico que la pila haya sido creada
-    if (pila_ver_tope(pila) == NULL || pila == NULL || pila->datos == NULL) 
-        return NULL;
+    if (pila_ver_tope(pila) == NULL) return NULL;
     // Guardo un puntero al valor que voy a desapilar
-    void* desapilado = pila_ver_tope(pila);
-    pila->tamanio -=1;
-    
-
-    if (pila->tamanio== 0) {
-        free(pila->datos);
-        pila->datos = NULL;
-    } else {
-        /*datos_nuevo = realloc(pila->datos, nuevo_tamanio);*/
-        pila->datos = realloc(pila->datos, pila->tamanio*sizeof(size_t));
-        /*pila->datos = realloc(pila->datos, pila->tamanio*sizeof(pila_t));*/
-
-        if (pila->datos == NULL) 
-            return false;
-    }
-    //asigno el puntero
-    pila->cantidad -= 1;
+    void* desapilado;
+    desapilado = pila_ver_tope(pila);
+	if ((pila->tamanio - pila->cantidad) == 10){
+		pila->tamanio -= 10;
+		void** nuevo_datos;
+		nuevo_datos= realloc(pila->datos, pila->tamanio*sizeof(void*));
+		if (nuevo_datos == NULL) return NULL;
+		pila->datos = nuevo_datos;
+		printf("tamanio SAQUE REALLOC: %zu // cantiad: %zu \n", pila->tamanio, pila->cantidad);
+		}
+    pila->cantidad -=1;
     // Devuelvo la referencia al valor desapilado
+    printf("cantidad = %zu", pila->cantidad);
     return desapilado;
 }
-
-
-

@@ -2,32 +2,88 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "lista.h"
-#include "cola.h"
+#include "listaycola.h"
+
 #include "pila.h"
 //~ #include "zonas.h"
 //~ #include "moto.h"
 #include "lista_con_iter.h"
-#include "buscador.h"
 
-
-
+// Structs
 typedef struct pedido{
 	int zona;
 	int cant_pizzas;
 	unsigned int id;
 }pedido_t;
 
-unsigned int get_id();
-/*lista_iter_t* buscar_id(lista_con_iter_t* pedidos, unsigned int id);*/
+// PARCHE - BORRAR EN FUTURO
+typedef struct nodo{
+    void* valor;
+    struct nodo* ref;
+} nodo_t;
 
+
+
+
+
+
+// Funciones auxiliares
+unsigned int get_id(pedido_t* pedido){ //// DUDO QUE FUNCIONE
+	unsigned int dire; ///////////////////// LA ARME ASI NOMAS PARA SALIR DEL PASO
+	dire = (size_t) &pedido;
+	unsigned int id;
+	id = ((dire-344)%100);
+	printf("%d", id);
+	return id;
+	}
+/*
+ *Busca sobre una lista, y devuelve un iterador donde hay un pedido.
+ *PRE: recibe una pedidos_entrates_t con la lista de pedidos, y un unsigned int con el
+ *id a buscar
+ *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
+ *devuelve false o el iter de caso contrario
+ */
+lista_iter_t*  buscar_id(lista_con_iter_t* pedidos, unsigned int id)
+{
+    //variables
+    lista_t* lista = pedidos->lista;
+    lista_iter_t* iter = pedidos->iter;
+    nodo_t* act;
+    unsigned int id_cmp;
+
+
+    //reinicio el iter
+    lista_iter_destruir(iter);
+    lista_iter_t* iter1;
+    iter1 = lista_iter_crear(lista);
+
+    //Busco
+    while(true){
+        act = lista_iter_ver_actual(iter1);
+        pedido_t* pedido;
+        pedido = act->valor;
+        id_cmp = pedido->id;
+        
+        if (id_cmp == id)
+            return iter1;
+        else if (act->ref == NULL)
+            break;
+
+       lista_iter_avanzar(iter1);     
+		}
+    return NULL;
+}
+
+
+
+// Funciones de pedido 
 pedido_t* pedido_crear( int zona, int cant_pizzas){
 	pedido_t* pedido;
 	pedido = malloc(sizeof(pedido_t));
 	if (pedido == NULL) return NULL;
 	pedido->zona = zona;
 	pedido->cant_pizzas = cant_pizzas;
-	pedido->id = get_id();	
+	pedido->id = get_id(pedido);	
 	return pedido;
 	}
 
@@ -91,8 +147,10 @@ pedido_t* pedidos_entrantes_sacar (lista_con_iter_t* pedidos_entrantes){
 // y un unsigned int id que identifica al pedido a modificar.
 bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_zona){
 	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
-	lista_iter_t* iter_pedido_a_modif = buscar_id(pedidos_entrantes->iter, id);
-	pedido_t* pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
+	lista_iter_t* iter_pedido_a_modif;
+	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
+	pedido_t* pedido_a_modif;
+	pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
 	pedido_cambiar_zona(pedido_a_modif, nueva_zona);
 	return true;
 	}
@@ -101,11 +159,11 @@ bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int i
 // Recibe: struct pedidos_entrantes, un int con la nueva cantidad
 // y un unsigned int id que identifica al pedido a modificar.
 bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_cant){
-	if (pedidos_entrantes->lista->largo == 0) return false;
+	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
-	iter_pedido_a_modif = buscar_id(pedidos_entrantes->iter, id);
+	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
 	pedido_t* pedido_a_modif;
-	pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
+	pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
 	pedido_cambiar_zona(pedido_a_modif, nueva_cant);
 	return true;
 	}
@@ -114,9 +172,11 @@ bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigne
 // Recibe: struct pedidos_entrantes, un unsigned int con el id del pedido
 // a cancelar.
 bool pedidos_entrantes_cancelar (lista_con_iter_t* pedidos_entrantes, unsigned int id){
-	if (pedidos_entrantes->lista->largo == 0) return false;
-	lista_iter_t* iter_pedido_a_cancelar = lista_iter_buscar(pedidos_entrantes->iter, id);
-	pedido_t* pedido_a_cancelar = lista_borrar(pedidos_entrantes->lista, iter_pedido_a_cancelar);
+	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
+	lista_iter_t* iter_pedido_a_cancelar;
+	iter_pedido_a_cancelar = buscar_id(pedidos_entrantes, id);
+	pedido_t* pedido_a_cancelar;
+	pedido_a_cancelar = lista_borrar(pedidos_entrantes->lista, iter_pedido_a_cancelar);
 	pedido_destruir(pedido_a_cancelar);
 	return true;
 	}
@@ -128,4 +188,3 @@ void pedidos_entrantes_destruir (lista_con_iter_t* pedidos_entrantes){
 	
     return;
  }
-
