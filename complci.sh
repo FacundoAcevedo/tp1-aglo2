@@ -2,6 +2,6 @@
 OPCIONES="-std=c99 -Wall -pedantic -g"
 
 
-gcc $OPCIONES -c lista.c 
+gcc $OPCIONES -c listaycola.c 
 
-gcc $OPCIONES lista.o lista_con_iter.c -o lista_con_iter.bin
+gcc $OPCIONES listaycola.o lista_con_iter.c -o lista_con_iter.bin

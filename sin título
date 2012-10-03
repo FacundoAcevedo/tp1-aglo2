@@ -1,9 +1,3 @@
-TODO!
-1) Estaria piola que las zonas sean dinamicas, osea que uno pueda extender la 
-pizzeria a cualquier lado
-
-Todos los includes
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -15,3 +9,8 @@ Todos los includes
 #include "moto.h"
 #include "lista_con_iter.h"
 
+
+int main(){
+
+
+}

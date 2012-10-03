@@ -1,6 +1,8 @@
 #ifndef MOTO_H
 #define MOTO_H
 #include "pila.h"
+#include "lista_con_iter.h"
+#include "zonas.h"
 
 pila_t* moto_cargar(zona_t* zona);
 

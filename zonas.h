@@ -1,7 +1,7 @@
 #ifndef ZONA_H
 #define ZONA_H
 #include "lista_con_iter.h"
-#include "pedidos_entrantes.h"
+//~ #include "pedidos_entrantes.h"
 /*
  *TIPOS
  */
