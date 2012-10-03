@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "tads.h"
+#include "tdas.h"
 
 
 typedef struct nodo{
