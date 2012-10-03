@@ -1,6 +1,6 @@
 #ifndef MOTO_H
 #define MOTO_H
-
+#include "pila.h"
 
 pila_t* moto_cargar(zona_t* zona);
 
