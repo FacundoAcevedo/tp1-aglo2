@@ -5,7 +5,7 @@
 #include "tdas.h"
 #include "pedidos.h"
 /*##############################################################*/
-/*SALIENTES*/
+/*							SALIENTES*/
 /*##############################################################*/
 
 pila_t* salientes_crear(){
@@ -14,19 +14,20 @@ pila_t* salientes_crear(){
     return salientes;
     }
 	
-int printeo_salientes(pila_t* salientes){
+// Imprime los ultimos n pedidos entregados
+int printeo_salientes(pila_t* salientes, int n){
 	int i;
 	i = 0;
 	pila_t* copia;
 	copia = salientes;
-	while (!pila_esta_vacia(copia)){
+	while (n<i){
 		pedido_t* desapilado;
 		desapilado = pila_desapilar(copia);
 		/*printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);*/
+		i += 1;
 		}
-	pila_destruir(copia, NULL);
-	
-	
+	pila_destruir(copia, (void destruir_pedido(void *));
+	return 0;
 	}
 	
 
@@ -37,7 +38,7 @@ void salientes_destruir(pila_t* salientes, void pedido_destruir (void*)){
 
 
 /*##############################################################*/
-/*ENTRANTES*/
+/*						ENTRANTES*/
 /*##############################################################*/
 
 
@@ -49,11 +50,11 @@ void salientes_destruir(pila_t* salientes, void pedido_destruir (void*)){
 	/*unsigned int id;*/
 /*}pedido_t;*/
 
-// PARCHE - BORRAR EN FUTURO
-typedef struct nodo{
-    void* valor;
-    struct nodo* ref;
-} nodo_t;
+//~ // PARCHE - BORRAR EN FUTURO
+//~ typedef struct nodo{
+    //~ void* valor;
+    //~ struct nodo* ref;
+//~ } nodo_t;
 
 
 
@@ -71,35 +72,23 @@ unsigned int get_id(pedido_t* pedido){
  *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
  *devuelve false o el iter de caso contrario
  */
-lista_iter_t*  buscar_id(lista_con_iter_t* pedidos_entrantes, unsigned int id)
-{
+lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, unsigned int id){
     //variables
-    lista_t* lista = (*pedidos_entrantes)->lista;
-    lista_iter_t* iter = pedidos_entrantes->iter;
     nodo_t* act;
     unsigned int id_cmp;
-
-
-    //reinicio el iter
-    lista_iter_destruir(iter);
-    lista_iter_t* iter1;
-    iter1 = lista_iter_crear(lista);
-
+    // Creo un iter
+    lista_iter_t* iter;
+    iter = lista_iter_crear(pedidos_entrantes);
     //Busco
     while(true){
-        act = lista_iter_ver_actual(iter1);
+        act = lista_iter_ver_actual(iter);
         pedido_t* pedido;
         pedido = act->valor;
         id_cmp = pedido->id;
-        
-        if (id_cmp == id)
-            return iter1;
-        else if (act->ref == NULL)
-            break;
-
-       lista_iter_avanzar(iter1);     
+        if (id_cmp == id) return iter;
+        else if (act->ref == NULL) break;
+       lista_iter_avanzar(iter);     
 		}
-	pedidos_entrantes->iter = iter1;
     return NULL;
 }
 
@@ -144,37 +133,37 @@ bool pedido_cambiar_cant (pedido_t* pedido, int nueva_cant){
 
 
 // Crea una objeto pedidos_entrantes
-lista_con_iter_t* pedidos_entrantes_crear(){
-	lista_con_iter_t* pedidos_entrantes;
-	pedidos_entrantes = lista_con_iter_crear();
+lista_t* pedidos_entrantes_crear(){
+	lista_t* pedidos_entrantes;
+	pedidos_entrantes = lista_crear();
 	return pedidos_entrantes;
 	}
 	
 // devuelve la cantidad de pedidos que contiene la lista pedidos_entrantes
-size_t pedidos_entrantes_largo(const lista_con_iter_t* pedidos_entrantes){
+size_t pedidos_entrantes_largo(const lista_t* pedidos_entrantes){
 	size_t largo;
-	largo = lista_largo(pedidos_entrantes->lista);
+	largo = lista_largo(pedidos_entrantes);
 	return largo;
 	}
 	
 // Agrega pedido al final de la lista.
-bool pedidos_entrantes_agregar (lista_con_iter_t* pedidos_entrantes, pedido_t* pedido){
-	if (lista_insertar_ultimo(pedidos_entrantes->lista, pedido)) return true;
+bool pedidos_entrantes_agregar (lista_t* pedidos_entrantes, pedido_t* pedido){
+	if (lista_insertar_ultimo(pedidos_entrantes, pedido)) return true;
 	return false;
 	}
 
 // Saca el primer pedido de la lista.
 // Recibe: struct pedidos_entrantes.
 // Devuelve el dato del tipo pedido_t* que fue sacado de la lista.
-pedido_t* pedidos_entrantes_sacar (lista_con_iter_t* pedidos_entrantes){
-	return (lista_borrar_primero(pedidos_entrantes->lista));
+pedido_t* pedidos_entrantes_sacar (lista_t* pedidos_entrantes){
+	return (lista_borrar_primero(pedidos_entrantes));
 	}
 
 // Modifica la zona de un pedido.
 // Recibe: struct pedidos_entrantes, un int con la nueva zona
 // y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_zona){
-	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
+bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, unsigned int id, int nueva_zona){
+	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
 	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
 	pedido_t* pedido_a_modif;
@@ -186,8 +175,8 @@ bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int i
 // Modifica cant_pizzas de un pedido
 // Recibe: struct pedidos_entrantes, un int con la nueva cantidad
 // y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_cant){
-	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
+bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, unsigned int id, int nueva_cant){
+	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
 	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
 	pedido_t* pedido_a_modif;
@@ -199,8 +188,8 @@ bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigne
 // Saca el pedido de la lista de pedidos_entrantes y lo destruye.
 // Recibe: struct pedidos_entrantes, un unsigned int con el id del pedido
 // a cancelar.
-bool pedidos_entrantes_cancelar (lista_con_iter_t* pedidos_entrantes, unsigned int id){
-	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
+bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, unsigned int id){
+	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_cancelar;
 	iter_pedido_a_cancelar = buscar_id(pedidos_entrantes, id);
 	pedido_t* pedido_a_cancelar;
@@ -209,36 +198,31 @@ bool pedidos_entrantes_cancelar (lista_con_iter_t* pedidos_entrantes, unsigned i
 	return true;
 	}
 
-// Destruyo el struct pedidos_entrantes
-// Recibe: struct pedidos_entrantes
-void pedidos_entrantes_destruir (lista_con_iter_t* pedidos_entrantes){
-	lista_con_iter_destruir(pedidos_entrantes, (*destruir_pedido));
+// Destruyo la lista pedidos_entrantes
+// Recibe: lista pedidos_entrantes
+void pedidos_entrantes_destruir (lista_t* pedidos_entrantes){
+	lista_destruir(pedidos_entrantes, (*destruir_pedido));
 	
     return;
  }
  
-
-bool pedidos_entrantes_print (lista_con_iter_t* pedidos_entrantes){
+// Printea el historial de los pedidos entrantes
+bool pedidos_entrantes_print (lista_t* pedidos_entrantes){
 	if (!pedidos_entrantes) return false;
-	lista_t* lista;
-	lista = pedidos_entrantes->lista;
-	if (lista_largo(lista) == 0){
+	if (lista_largo(pedidos_entrantes) == 0){
 		puts ("No hay pedidos entrantes por preparar.\n");
 		return true;
 		}
 	
 	// Reinicio el iter
-	lista_iter_destruir(pedidos_entrantes->iter);
-    lista_iter_t* iter1;
-    iter1 = lista_iter_crear(lista);
+    iter = lista_iter_crear(pedidos_entrantes);
 	
-	while (lista_iter_avanzar(iter1)){
+	while (lista_iter_avanzar(iter)){
 		pedido_t* pedido;
-		pedido = lista_iter_ver_actual(iter1);
+		pedido = lista_iter_ver_actual(iter);
 		printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",pedido->id, pedido->cant_pizzas, pedido->zona);
-		lista_iter_avanzar(iter1);
+		lista_iter_avanzar(iter);
 		}
 		
-	pedidos_entrantes->iter = iter1;
 	return true;
 	}

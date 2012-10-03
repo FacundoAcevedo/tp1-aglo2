@@ -55,12 +55,5 @@ void *lista_iter_ver_actual(const lista_iter_t *iter);
 bool lista_iter_al_final(const lista_iter_t *iter);
 void lista_iter_destruir(lista_iter_t *iter);
 
-/* *****************************************************************
- *                    PRIMITIVAS DE LA LISTA CON ITER
- * *****************************************************************/
-
-lista_con_iter_t* lista_con_iter_crear();
-void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, void destruir(void *));
-
 
 #endif // TDAS_H
