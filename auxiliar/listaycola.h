@@ -18,6 +18,7 @@ typedef struct lista lista_t;
 typedef struct lista_iter lista_iter_t;
 
 
+typedef struct cola cola_t;
 /* ******************************************************************
  *                    PRIMITIVAS BASICAS DE LA LISTA
  * *****************************************************************/
@@ -125,7 +126,7 @@ void lista_iter_destruir(lista_iter_t *iter);
 
 /* La cola estÃ¡ planteada como una cola de punteros genÃ©ricos. */
 
-typedef struct cola cola_t;
+//typedef struct cola cola_t;
 
 /* ******************************************************************
  *                    PRIMITIVAS DE LA COLA

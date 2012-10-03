@@ -5,19 +5,17 @@
 #include "listaycola.h"
 #include "lista_con_iter.h"
 
-//~ 
-//~ typedef struct lista_con_iter{
-	//~ lista_t* lista;
-	//~ lista_iter_t* iter;
-//~ }lista_con_iter_t;
+/*struct lista_con_iter{*/
+     /*lista_t* lista;*/
+     /*lista_iter_t* iter;*/
+/*};*/
 
 
 lista_con_iter_t* lista_con_iter_crear(){
 	lista_con_iter_t* lista_con_iter;
 	lista_con_iter = malloc (sizeof(lista_con_iter_t));
 	if (!lista_con_iter) return NULL;
-	lista_t* lista;
-	lista = lista_crear();
+	lista_t* lista = lista_crear();
 	lista_con_iter->lista = lista;
 	lista_iter_t* iter;
 	iter = lista_iter_crear(lista);
