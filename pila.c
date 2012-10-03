@@ -30,9 +30,11 @@ pila_t* pila_crear()
 // Destruye la pila.
 // Pre: la pila fue creada.
 // Post: se eliminaron todos los elementos de la pila.
-void pila_destruir(pila_t *pila)
+void pila_destruir(pila_t *pila , void destruir_dato(void *))
 {
     if (pila->cantidad != 0 ||  pila->datos != NULL)
+        if (destruir_dato)
+                destruir_dato(pila->datos);
         free(pila->datos);
     if (pila != NULL) free(pila);
 }
@@ -51,7 +53,7 @@ bool pila_esta_vacia(const pila_t *pila)
 // Agrega un nuevo elemento a la pila. Devuelve falso en caso de error.
 // Pre: la pila fue creada.
 // Post: se agregÃ³ un nuevo elemento a la pila, valor es el nuevo tope.
-bool pila_apilar(pila_t *pila, void* valor)
+bool pila_apilar(pila_t *pila, void* valor )
 {
     //es una pre-condicion, pero igual, verifico que la pila haya sido creada
     if (pila == NULL) return false;
