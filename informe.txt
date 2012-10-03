@@ -2,7 +2,7 @@
 El programa debe llevar un registro de los pedidos recibidos, permitiendo 
 agregar un nuevo pedido, modificar la cantidad de pizzas de un pedido 
 y cancelar un pedido.
-DISEÑO: una única lista llamada "pedidos_entrantes" en la cual se agregan los nuevos,
+DISEÑO: una única lista llamada "pedidos_entrantes" en la cual se agregan los nuevos,
  se modifican sus atributos y se cancelan. Propongo una lista porque ni
  la cola ni la pila me permiten acceder a elementos que se encuentran
  en el medio (ni principio ni fin). En la lista cobrará importancia
@@ -10,26 +10,26 @@ DISEÑO: una única lista llamada "pedidos_entrantes" en la cual se agregan 
  
  
  
-Además debe contar con una opción para preparar todos los pedidos, 
-agrupándolos según la zona de envío (los pedidos se preparan en 
+Además debe contar con una opción para preparar todos los pedidos, 
+agrupándolos según la zona de envío (los pedidos se preparan en 
 el orden que fueron registrados). Una vez que los pedidos son preparados
 no pueden ser modificados ni cancelados.
-DISEÑO: 5 colas (una por zona) llamadas "zona1", "zona2"..., en la que se van encolando los pedidos
- de acuerdo a su atributo "zona" y respetando su orden. Las características
- de los pedidos no se pueden modificar por enunciado y porque la estructura
- de cola no lo permite.
+DISEÑO: 5 colas (una por zona) llamadas "zona1", "zona2"..., en la que se 
+van encolando los pedidos de acuerdo a su atributo "zona" y respetando 
+su orden. Las características de los pedidos no se pueden modificar por 
+enunciado y porque la estructura de cola no lo permite.
 
 
 
 Finalmente debe permitir enviar los pedidos a los clientes. Esto consiste
 en sacar algunos de los pedidos preparados por zona, utilizando una 
-estrategia que permita optimizar los envíos. Los pedidos que no 
+estrategia que permita optimizar los envíos. Los pedidos que no 
 entren en la moto deberán postergarse para poder maximizar la cantidad
-de pedidos a enviar en cada viaje. El programa debe informar los 
+de pedidos a enviar en cada viaje. El programa debe informar los 
 pedidos enviados.
 DISEÑO: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto
  será una pila "moto" en la cual se apilan las pizzas de los pedidos. 
- El máximo de pizzas por pedido es 5. La moto podrá llevar únicamente 
+ El máximo de pizzas por pedido es 5. La moto podrá llevar únicamente 
  pedidos enteros, es decir :
     - 1 pedido de 5 pizzas
     - 2 pedidos de 1 y 4 pizzas c/1
@@ -45,21 +45,21 @@ DISEÑO: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto
  un pedido que se ajuste a las cantidades de la moto). Sugerencia:
  dado que el método desencolar no permite saltearse nodos, se crean
  colas auxiliares con los pedidos postergados. Éstos serán los primeros
- en intentar desencolar cuando se vaya a llenar una moto vacía (porque
+ en intentar desencolar cuando se vaya a llenar una moto vacía (porque
  llevan esperando más tiempo!). Si ninguno de los pedidos de la cola
- auxiliar cumple los requerimientos de la moto, recién ahí se pasa a
+ auxiliar cumple los requerimientos de la moto, recién ahí se pasa a
  intentar desencolar las colas "zonai". 
 
 
 
-El programa debe permitir observar el estado de la pizzería incluyendo 
+El programa debe permitir observar el estado de la pizzería incluyendo 
 los pedidos registrados hasta el momento, los pedidos preparados (por zona)
-y los u últimos N pedidos enviados (desde el más reciente al más antiguo).
-DISEÃÂO: básicamente es una posibilidad de printear la lista "pedidos",
- las colas "zonai" y las últimas pila-moto que se se han creado. Para 
- imprimir las motos pasadas, éstas deben ir apilándose en una pila 
+y los u últimos N pedidos enviados (desde el más reciente al más antiguo).
+DISEÑO: básicamente es una posibilidad de printear la lista "pedidos",
+ las colas "zonai" y las últimas pila-moto que se se han creado. Para 
+ imprimir las motos pasadas, éstas deben ir apilándose en una pila 
  "motos_enviadas" dentro de las funciones de la moto. "motos_enviadas" es
- una pila porque al printearla se utilizará el método desapilar que devolverá
+ una pila porque al printearla se utilizará el método desapilar que devolverá
  los pedidos desde el más reciente hasta el más antiguo.
 
 

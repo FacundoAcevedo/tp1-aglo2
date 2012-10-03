@@ -6,9 +6,9 @@
 #include "cola.h"
 #include "pila.h"
 #include "pedidos_entrantes.h"
-#include "moto.h"
+//~ #include "moto.h"
 #include "lista_con_iter.h"
-#include "buscador.h"
+//~ #include "buscador.h"
 
 /*typedef struct zona zona_t;*/
 

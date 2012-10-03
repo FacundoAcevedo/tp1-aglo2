@@ -5,14 +5,14 @@
 #include "lista.h"
 #include "cola.h"
 #include "pila.h"
-#include "zonas.h"
-#include "moto.h"
+//~ #include "zonas.h"
+//~ #include "moto.h"
 #include "lista_con_iter.h"
 #include "buscador.h"
 
 
 
-typdef struct pedido{
+typedef struct pedido{
 	int zona;
 	int cant_pizzas;
 	unsigned int id;
@@ -60,7 +60,7 @@ bool pedido_cambiar_cant (pedido_t* pedido, int nueva_cant){
 
 
 // Crea una objeto pedidos_entrantes
-lista_con_iter* pedidos_entrantes_crear(){
+lista_con_iter_t* pedidos_entrantes_crear(){
 	lista_con_iter_t* pedidos_entrantes;
 	pedidos_entrantes = lista_con_iter_crear();
 	return pedidos_entrantes;
@@ -68,7 +68,9 @@ lista_con_iter* pedidos_entrantes_crear(){
 	
 // devuelve la cantidad de pedidos que contiene la lista pedidos_entrantes
 size_t pedidos_entrantes_largo(const lista_con_iter_t* pedidos_entrantes){
-	return pedidos_entrantes->lista->largo;
+	size_t largo;
+	largo = lista_largo(pedidos_entrantes->lista);
+	return largo;
 	}
 	
 // Agrega pedido al final de la lista.
@@ -88,9 +90,9 @@ pedido_t* pedidos_entrantes_sacar (lista_con_iter_t* pedidos_entrantes){
 // Recibe: struct pedidos_entrantes, un int con la nueva zona
 // y un unsigned int id que identifica al pedido a modificar.
 bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_zona){
-	if (pedidos_entrantes->lista->largo == 0) return false;
-	lista_iter_t* iter_pedido_a_modif = lista_iter_buscar(pedidos_entrantes->iter, id);
-	pedido_t* pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
+	if (lista_largo(pedidos_entrantes->lista) == 0) return false;
+	lista_iter_t* iter_pedido_a_modif = buscar_id(pedidos_entrantes->iter, id);
+	pedido_t* pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
 	pedido_cambiar_zona(pedido_a_modif, nueva_zona);
 	return true;
 	}
@@ -100,8 +102,10 @@ bool pedidos_entrantes_zona (lista_con_iter_t* pedidos_entrantes, unsigned int i
 // y un unsigned int id que identifica al pedido a modificar.
 bool pedidos_entrantes_cant_pizzas (lista_con_iter_t* pedidos_entrantes, unsigned int id, int nueva_cant){
 	if (pedidos_entrantes->lista->largo == 0) return false;
-	lista_iter_t* iter_pedido_a_modif = lista_iter_buscar(pedidos_entrantes->iter, id);
-	pedido_t* pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
+	lista_iter_t* iter_pedido_a_modif;
+	iter_pedido_a_modif = buscar_id(pedidos_entrantes->iter, id);
+	pedido_t* pedido_a_modif;
+	pedido_a_modif = lista_iter_ver_actual(pedidos_entrantes->lista, iter_pedido_a_modif);
 	pedido_cambiar_zona(pedido_a_modif, nueva_cant);
 	return true;
 	}

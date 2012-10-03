@@ -38,10 +38,13 @@ pila_t* moto_cargar(zona_t* zona){
 		return moto;
 		}
 	intentar_cola_ppal(zona, moto);
+	
+	// Apilo esta moto en pedidos_salientes
+	pila_apilar(pedidos_salientes, moto);
 	return moto;
 	
 	}
-	
+
 
 
 // Recibe la lista de espera de una zona y un int "pizzas_cargadas con la cantidad de pizzas
@@ -51,7 +54,10 @@ pila_t* moto_cargar(zona_t* zona){
 pedido_t* buscar_adecuado (lista_con_iter_t* lista_espera, int pizzas_cargadas) {
 	
 	// Reinicio el iter a la pos 0.
-	lista_espera->iter = lista_espera->lista->prim;
+	lista_espera->iter->actual = lista_espera->lista->inicio;
+	lista_espera->iter->siguiente = lista_espera->lista->inicio->siguiente;
+	
+	
 	lista_iter_t* actual;
 	actual = lista_iter_ver_actual(lista_espera->iter);
 	if (actual->valor->cant_pizzas <= (5-pizzas_cargadas){
@@ -61,7 +67,6 @@ pedido_t* buscar_adecuado (lista_con_iter_t* lista_espera, int pizzas_cargadas) 
 		}
 	return NULL;
 	}
-
 // Intenta poner en la moto los pedidos de la lista de espera. Para elegir
 // los pedidos adecuardos de la lista de espera, llama a buscar_adecuado.
 // Recibe lista_con_iter_t* zona, devuelve nada si buscar_adecuado no
@@ -145,26 +150,8 @@ int intentar_cola_ppal(lista_con_iter_t* zona, pila_t* moto){
 	return cont;
 	}
 	
-/* PSEUDO CÓDIGO:
 
-	contador = 0
-	
-	Si zona->lista_espera == NULL o "no encontré pedido matcheable en zona->lista_espera":
-		miro el primer pedido
-		contador += pedido->cant_pizzas
-			if contador == 5, termino
-			if contador > 5:
-				contador -= pedido->cant_pizzas
-				desencolo ese pedido de zona->cola_ppal
-				encolo ese pedido a zona->lista_espera
-				sigo
-
-	Sino:
-	if contador ==5, termino
-	if contador
-		apilo pedido a la moto
-		contador = contador + pedido->cant_pizzas
-*/
-
-
-		
+void moto_destruir (pila_t* moto, (*destruir_pedido)){
+	pila_destruir(moto, (*destruir_pedido));
+	return;
+	}

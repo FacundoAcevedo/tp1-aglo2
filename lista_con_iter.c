@@ -1,17 +1,18 @@
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "lista.h"
-#include "cola.h"
-#include "pila.h"
-#include "pedidos_entrantes.h"
-#include "zonas.h"
-#include "moto.h"
-#include "buscador.h"
+#include "lista_con_iter.h"
 
-lista_con_iter* lista_con_iter_crear(){
+//~ 
+//~ typedef struct lista_con_iter{
+	//~ lista_t* lista;
+	//~ lista_iter_t* iter;
+//~ }lista_con_iter_t;
+
+
+lista_con_iter_t* lista_con_iter_crear(){
 	lista_con_iter_t* lista_con_iter;
 	lista_con_iter = malloc (sizeof(lista_con_iter_t));
 	if (!lista_con_iter) return NULL;
@@ -24,7 +25,7 @@ lista_con_iter* lista_con_iter_crear(){
 	return lista_con_iter;
 	}
 
-void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, (*destruir)){
+void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, void destruir(void *)){
 	// Si lista_con_iter no existe, termina la funcion
 	if (!lista_con_iter) return;
 
@@ -37,3 +38,10 @@ void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, (*destruir)){
     free(lista_con_iter);
     return;
  }
+ 
+ 
+ 
+ // SACAR
+int main(){
+	return 0;
+}
