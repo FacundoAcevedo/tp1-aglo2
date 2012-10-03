@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "tdas.h"
 #include "pedidos.h"
 /*##############################################################*/
 /*SALIENTES*/
 /*##############################################################*/
 
 pila_t* salientes_crear(){
-	pila_t* salientes;
-	salientes = pila_crear();
-	return salientes;
-	}
+    pila_t* salientes;
+    salientes = pila_crear();
+    return salientes;
+    }
 	
 int printeo_salientes(pila_t* salientes){
 	int i;
@@ -21,17 +22,17 @@ int printeo_salientes(pila_t* salientes){
 	while (!pila_esta_vacia(copia)){
 		pedido_t* desapilado;
 		desapilado = pila_desapilar(copia);
-		printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);
+		/*printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);*/
 		}
-	pila_destruir(copia);
+	pila_destruir(copia, NULL);
 	
 	
 	}
 	
 
 void salientes_destruir(pila_t* salientes, void pedido_destruir (void*)){
-	pila_destrurir(salientes, pedido_destruir);
-	return;	}
+	pila_destruir(salientes, pedido_destruir);
+}
 
 
 
@@ -42,11 +43,11 @@ void salientes_destruir(pila_t* salientes, void pedido_destruir (void*)){
 
 
 // Structs
-typedef struct pedido{
-	int zona;
-	int cant_pizzas;
-	unsigned int id;
-}pedido_t;
+/*typedef struct pedido{*/
+	/*int zona;*/
+	/*int cant_pizzas;*/
+	/*unsigned int id;*/
+/*}pedido_t;*/
 
 // PARCHE - BORRAR EN FUTURO
 typedef struct nodo{
@@ -62,7 +63,7 @@ unsigned int get_id(pedido_t* pedido){
 	unsigned int id	;
 	id = rand() % (10001);
 	return id;
-	}
+}
 /*
  *Busca sobre una lista, y devuelve un iterador donde hay un pedido.
  *PRE: recibe una pedidos_entrates_t con la lista de pedidos, y un unsigned int con el
@@ -70,11 +71,11 @@ unsigned int get_id(pedido_t* pedido){
  *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
  *devuelve false o el iter de caso contrario
  */
-lista_iter_t*  buscar_id(lista_con_iter_t* pedidos, unsigned int id)
+lista_iter_t*  buscar_id(lista_con_iter_t* pedidos_entrantes, unsigned int id)
 {
     //variables
-    lista_t* lista = pedidos->lista;
-    lista_iter_t* iter = pedidos->iter;
+    lista_t* lista = (*pedidos_entrantes)->lista;
+    lista_iter_t* iter = pedidos_entrantes->iter;
     nodo_t* act;
     unsigned int id_cmp;
 
@@ -98,7 +99,7 @@ lista_iter_t*  buscar_id(lista_con_iter_t* pedidos, unsigned int id)
 
        lista_iter_avanzar(iter1);     
 		}
-	pedidos->iter = iter1;
+	pedidos_entrantes->iter = iter1;
     return NULL;
 }
 
@@ -117,7 +118,6 @@ pedido_t* pedido_crear( int zona, int cant_pizzas){
 
 void pedido_destruir(pedido_t* pedido){
 	free(pedido);
-	return;
 	}
 
 void (destruir_pedido)(void*dato){
