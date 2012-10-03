@@ -1,6 +1,6 @@
 #ifndef PEDIDOS_H
 #define PEDIDOS_H
-
+#include "tdas.h"
 /*
  *TIPOS
  */
