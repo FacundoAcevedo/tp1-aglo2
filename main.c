@@ -29,7 +29,7 @@ int main(){
     			  "5) Cargar y despachar moto \n"
     			  "6) Ver historial de motos enviadas \n"
     			  "7) Ver lista de pedidos entrantes \n");
-    	   scanf("%d", &choice);
+    	   scanf("%d", &opc);
     
     		// 1) INGRESAR PEDIDO
     	switch ( opc){	
@@ -45,6 +45,7 @@ int main(){
     		   pedido_t* pedido;
     		   pedido = pedido_crear(zona, cant_pizzas);
     		   pedidos_entrantes_agregar(pedidos_entrantes, pedido);
+               break;
     
     		// 2) MODIFICAR PEDIDO
     
@@ -77,6 +78,7 @@ int main(){
     				puts("Eleccion invalida");
     				break;
     				}
+               break;
     		   
     
     		// 3) CANCELAR PEDIDO
@@ -86,13 +88,13 @@ int main(){
     		   printf("Ingrese numero identificador del pedido a cancelar \n" );
     		    scanf("u", &id);
     			pedidos_entrantes_cancelar(pedidos_entrantes, id);	
+               break;
     		   
     	   
     	   // 4) PREPARAR PEDIDOS
     	   
     	   case 4:
     		   
-    		   }
     	   
     	   // 5) CARGAR Y DESPACHAR MOTO
     	   
@@ -103,16 +105,19 @@ int main(){
     
     	   case  6:
     		   printeo_salientes(pedidos_salientes);
+               break;
     		   
     	   // 7) PRINTEO PEDIDOS ENTRANTES
     	   
     	   case 7:
     		   pedidos_entrantes_print(pedidos_entrantes);
+               break;
            default:
                //  no cipayeees que las opciones van es espa;ol
                //  MALDITO TECALDO YANQUI!!! NO TIENE ENIE XD
     			/*printf("Invalid Choice");*/
                 puts(" Senor pizzero, la opcion es invalida")
+                break;
                 
     	} //case
     } // while
