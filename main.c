@@ -24,17 +24,17 @@ int main(){
 	
 	int choice;
 	do {
-	   printf("Please make a choice: \n"
+	   printf("Elija una opcion (0 para salir): \n"
 			  "1) Ingresar pedido \n"
 			  "2) Modificar pedido \n"
 			  "3) Cancelar pedido \n"
 			  "4) Preparar pedidos \n"
-			  "5) Cargar moto \n"
-			  "6) Ver historial de motos enviadas \n");
+			  "5) Cargar y despachar moto \n"
+			  "6) Ver historial de motos enviadas \n"
+			  "7) Ver lista de pedidos entrantes \n");
 	   scanf("%d", &choice);
 
-
-		// INGRESAR PEDIDO
+		// 1) INGRESAR PEDIDO
 		
 	   if (choice == 1) {
 		   int cant_pizzas;
@@ -50,7 +50,7 @@ int main(){
 		   pedidos_entrantes_agregar(pedidos_entrantes, pedido);
 		   }
 
-		// MODIFICAR PEDIDO
+		// 2) MODIFICAR PEDIDO
 
 	   else if (choice == 2) {
 			int eleccion;
@@ -83,7 +83,7 @@ int main(){
 				}
 		   }
 
-		// CANCELAR PEDIDO
+		// 3) CANCELAR PEDIDO
 
 	   else if (choice == 3) {
 		   unsigned int id;
@@ -92,20 +92,31 @@ int main(){
 			pedidos_entrantes_cancelar(pedidos_entrantes, id);	
 		   }
 	   
-	   // PREPARAR PEDIDOS
+	   // 4) PREPARAR PEDIDOS
 	   
 	   else if (choice == 4) {
 		   
 		   }
 	   
+	   // 5) CARGAR Y DESPACHAR MOTO
 	   
 	   else if (choice == 5) {}
+
+		
+		// 6) HISTORIAL MOTOS DESPACHADAS
+
 	   else if (choice == 6) {
 		   printeo_salientes(pedidos_salientes);
+		   }
+		   
+	   // 7) PRINTEO PEDIDOS ENTRANTES
+	   
+	   else if (choice == 7) {
+		   pedidos_entrantes_print(pedidos_entrantes);
 		   }
 	   else {
 			printf("Invalid Choice");
 			}
-	} while (choice != 5);
+	} while (choice != 0);
 
 }

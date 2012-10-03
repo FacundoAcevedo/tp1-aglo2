@@ -38,12 +38,12 @@ void lista_con_iter_destruir(lista_con_iter_t* lista_con_iter, void destruir(voi
     return;
  }
  
-<<<<<<< HEAD
-=======
+//~ <<<<<<< HEAD
+//~ =======
  
  
  /*// SACAR*/
 /*int main(){*/
 	/*return 0;*/
 /*}*/
->>>>>>> fd4f0e2a01bb3b27d04f7ba19caf0a6b3d810f9e
+//~ >>>>>>> fd4f0e2a01bb3b27d04f7ba19caf0a6b3d810f9e

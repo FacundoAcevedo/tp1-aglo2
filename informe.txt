@@ -1,13 +1,21 @@
+Separamos el problema en módulos y planteamos el diseño de cada uno por separado,
+para luego generar la resolución final.
 
-El programa debe llevar un registro de los pedidos recibidos, permitiendo 
+1) Pedidos entrantes
+Análisis: El programa debe llevar un registro de los pedidos recibidos, permitiendo 
 agregar un nuevo pedido, modificar la cantidad de pizzas de un pedido 
 y cancelar un pedido.
-DISEÑO: una única lista llamada "pedidos_entrantes" en la cual se agregan los nuevos,
- se modifican sus atributos y se cancelan. Propongo una lista porque ni
- la cola ni la pila me permiten acceder a elementos que se encuentran
- en el medio (ni principio ni fin). En la lista cobrará importancia
- el ORDEN de los elementos.
- 
+DISEÑO: 
+Se tiene desde el arranque del programa, una única lista a la cual se 
+agregan los nuevos pedidos, se modifican sus atributos y se cancelan. 
+Proponemos implementar este conjunto de datos en una lista enlazada porque ni
+la cola ni la pila permiten acceder a elementos que se encuentran en el 
+medio (ni principio ni fin). Como el orden en el que se agregan los elementos
+es de vital importancia, los métodos que usaremos para agregar y borrar
+simularán los de una cola: los nuevos entran por el final y los viejos
+salen por el principio.
+Especificación: 
+llamada "pedidos_entrantes" 
  
  
 Además debe contar con una opción para preparar todos los pedidos, 

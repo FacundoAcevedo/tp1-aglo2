@@ -25,15 +25,10 @@ typedef struct nodo{
 
 
 
-
-
 // Funciones auxiliares
-unsigned int get_id(pedido_t* pedido){ //// DUDO QUE FUNCIONE
-	unsigned int dire; ///////////////////// LA ARME ASI NOMAS PARA SALIR DEL PASO
-	dire = (size_t) &pedido;
-	unsigned int id;
-	id = ((dire-344)%100);
-	printf("%d", id);
+unsigned int get_id(pedido_t* pedido){
+	unsigned int id	;
+	id = rand() % (10001);
 	return id;
 	}
 /*
@@ -71,6 +66,7 @@ lista_iter_t*  buscar_id(lista_con_iter_t* pedidos, unsigned int id)
 
        lista_iter_avanzar(iter1);     
 		}
+	pedidos->iter = iter1;
     return NULL;
 }
 
@@ -188,3 +184,29 @@ void pedidos_entrantes_destruir (lista_con_iter_t* pedidos_entrantes){
 	
     return;
  }
+ 
+
+bool pedidos_entrantes_print (lista_con_iter_t* pedidos_entrantes){
+	if (!pedidos_entrantes) return false;
+	lista_t* lista;
+	lista = pedidos_entrantes->lista;
+	if (lista_largo(lista) == 0){
+		puts ("No hay pedidos entrantes por preparar.\n");
+		return true;
+		}
+	
+	// Reinicio el iter
+	lista_iter_destruir(pedidos_entrantes->iter);
+    lista_iter_t* iter1;
+    iter1 = lista_iter_crear(lista);
+	
+	while (lista_iter_avanzar(iter1)){
+		pedido_t* pedido;
+		pedido = lista_iter_ver_actual(iter1);
+		printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",pedido->id, pedido->cant_pizzas, pedido->zona);
+		lista_iter_avanzar(iter1);
+		}
+		
+	pedidos_entrantes->iter = iter1;
+	return true;
+	}
