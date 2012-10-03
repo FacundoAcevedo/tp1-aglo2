@@ -1,9 +1,0 @@
-ARCHIVOS QUE COMPILAN MÁS O MENOS OK:
-
-OK  lista_con_iter.c >>> Compilador: complci.sh
-
-OK pedidos_entrantes.c >>> Compilador compent.sh
-
-OK zonas.c >>> Compilador: compzon.sh
-
-EN VISTA moto.c >>> Compilador: compmoto.sh
