@@ -1,8 +1,10 @@
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "listaycola.h"
+#include "lista_con_iter.h"
 
 
 typedef struct nodo{

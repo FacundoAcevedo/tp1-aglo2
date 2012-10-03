@@ -2,17 +2,16 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "listaycola.h"
-#include "pila.h"
-#include "pedidos_entrantes.h"
+/*#include "listaycola.h"*/
+/*#include "pila.h"*/
+/*#include "pedidos_entrantes.h"*/
 #include "zonas.h"
-#include "moto.h"
-#include "lista_con_iter.h"
+/*#include "moto.h"*/
+/*#include "lista_con_iter.h"*/
 
-pila_t* pedidos_salientes;
-zona_t* zona1;
-zona1 = zona_crear();
-if (cola_esta_vacia(zona1->cola_ppal)) puts ("OK");
+/*pila_t* pedidos_salientes;*/
+zona_t* zn = zona_crear();
+if (cola_esta_vacia(zn->cola_ppal)) puts ("OK");
 
 //~ // Recibe la zona a la cual se quiere enviar las pizzas. Devuelve una moto
 //~ // tipo pila_t*.
@@ -153,7 +152,7 @@ if (cola_esta_vacia(zona1->cola_ppal)) puts ("OK");
 	//~ }
 	
 
-void moto_destruir (pila_t* moto, void destruir_pedido(void *)){
-	pila_destruir(moto, (*destruir_pedido));
-	return;
-	}
+/*void moto_destruir (pila_t* moto, void destruir_pedido(void *)){*/
+	/*pila_destruir(moto, (*destruir_pedido));*/
+	/*return;*/
+	/*}*/
