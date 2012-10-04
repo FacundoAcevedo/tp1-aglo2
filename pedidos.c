@@ -218,12 +218,14 @@ bool pedidos_entrantes_print (lista_t* pedidos_entrantes){
 	// Reinicio el iter
 	lista_iter_t* iter;
     iter = lista_iter_crear(pedidos_entrantes);
-	
-	while (lista_iter_avanzar(iter)){
-		pedido_t* pedido;
+	pedido_t* pedido;
+	int i;
+	i =0;
+	while (i<lista_largo(pedidos_entrantes)){
 		pedido = lista_iter_ver_actual(iter);
 		printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",pedido->id, pedido->cant_pizzas, pedido->zona);
 		lista_iter_avanzar(iter);
+		i += 1;
 		}
 		
 	return true;

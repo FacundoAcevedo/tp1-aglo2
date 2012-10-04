@@ -30,7 +30,6 @@ int main(){
     int opc;
     unsigned int id;
 
-
     /*Bucle del menu*/
     while (true)
         {
@@ -77,7 +76,14 @@ int main(){
     		// 2) MODIFICAR PEDIDO
     
     	   case 2 :
-    		   printf("1) Modificar cantidad de pizzas \n 2) Modificar zona \n");
+    	      printf("Ingrese el número identificador del pedido a modificar: \n");
+    		   scanf("%u", &id);
+				if (!buscar_id(pedidos_entrantes, id)){
+					puts("Ese pedido no se encuentra registrado");
+                    getch();
+    				break;
+					}
+    		   printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
     		   scanf("%d", &eleccion);
     		   if (eleccion == 1){
     			   int nueva_cant;
@@ -87,8 +93,9 @@ int main(){
     					puts("Cantidad de pizzas o zona invalidas");
                         getch();
     					break;
-    					}
-    				pedidos_entrantes_cant_pizzas(pedidos_entrantes, pedido->id, nueva_cant);
+						}
+
+    				pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant);
     			   }
     			else if (eleccion == 2){
     			   int nueva_zona;
@@ -99,7 +106,8 @@ int main(){
                         getch();
     					break;
     					}
-    				pedidos_entrantes_zona(pedidos_entrantes, pedido->id, nueva_zona);
+    				
+    				pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona);
     
     				}
     			else{
@@ -146,7 +154,8 @@ int main(){
     	   // 7) PRINTEO PEDIDOS ENTRANTES
     	   
     	   case 7:
-               /*pedidos_entrantes_print(pedidos_entrantes);*/
+               pedidos_entrantes_print(pedidos_entrantes);
+               getch();
                break;
            default:
                 //  no cipayeees que las opciones van es espa;ol
