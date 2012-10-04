@@ -24,6 +24,10 @@ pila_t* salientes_crear(){
 	
 // Imprime los ultimos n pedidos entregados
 int printeo_salientes(pila_t* salientes, int n){
+	if (pila_esta_vacia(salientes)){
+		puts("Todavia no ha salido ningun pedido");
+		return 1;
+		}
 	int i;
 	i = 0;
 	pila_t* copia;

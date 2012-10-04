@@ -81,8 +81,9 @@ int main(){
 				if (!buscar_id(pedidos_entrantes, id)){
 					puts("Ese pedido no se encuentra registrado");
                     getch();
-    				break;
-					}
+
+						
+					} 
     		   printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
     		   scanf("%d", &eleccion);
     		   if (eleccion == 1){
@@ -138,7 +139,8 @@ int main(){
     	   // 5) CARGAR Y DESPACHAR MOTO
     	   
     	   case 5: 
-    	   
+			puts("Todavía no se ha implementado esta seccion");
+			getch();
     			break;
     
     		
@@ -149,6 +151,7 @@ int main(){
                 scanf("%i", &n);
     		
                 printeo_salientes(pedidos_salientes, n);
+                getch();
                 break;
     		   
     	   // 7) PRINTEO PEDIDOS ENTRANTES
