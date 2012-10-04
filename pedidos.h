@@ -27,23 +27,23 @@ void pedido_destruir(pedido_t *pedido);
 
 pedido_t *pedido_crear(int zona,int cant_pizzas);
 
-void pedidos_entrantes_destruir(lista_con_iter_t* pedidos_entrantes);
+void pedidos_entrantes_destruir(lista_t* pedidos_entrantes);
 
-bool pedidos_entrantes_cancelar(lista_con_iter_t *pedidos_entrantes,unsigned int id);
+bool pedidos_entrantes_cancelar(lista_t *pedidos_entrantes,unsigned int id);
 
-bool pedidos_entrantes_cant_pizzas(lista_con_iter_t *pedidos_entrantes,unsigned int id,int nueva_cant);
+bool pedidos_entrantes_cant_pizzas(lista_t *pedidos_entrantes,unsigned int id,int nueva_cant);
 
-bool pedidos_entrantes_zona(lista_con_iter_t *pedidos_entrantes,unsigned int id,int nueva_zona);
+bool pedidos_entrantes_zona(lista_t *pedidos_entrantes,unsigned int id,int nueva_zona);
 
-pedido_t *pedidos_entrantes_sacar(lista_con_iter_t *pedidos_entrantes);
+pedido_t *pedidos_entrantes_sacar(lista_t *pedidos_entrantes);
 
-bool pedidos_entrantes_agregar(lista_con_iter_t *pedidos_entrantes,pedido_t *pedido);
+bool pedidos_entrantes_agregar(lista_t *pedidos_entrantes,pedido_t *pedido);
 
-size_t pedidos_entrantes_largo(const lista_con_iter_t *pedidos_entrantes);
+size_t pedidos_entrantes_largo(const lista_t *pedidos_entrantes);
 
-lista_con_iter_t *pedidos_entrantes_crear();
+lista_t *pedidos_entrantes_crear();
 
 unsigned int get_id();
-lista_iter_t* buscar_id(lista_con_iter_t* pedidos_entrantes, unsigned int id);
+lista_iter_t* buscar_id(lista_t* pedidos_entrantes, unsigned int id);
 
 #endif

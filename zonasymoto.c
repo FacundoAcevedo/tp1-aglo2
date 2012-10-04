@@ -12,7 +12,7 @@
 
 struct zona{
 	cola_t* cola_ppal;
-	lista_con_iter_t* lista_espera;
+	lista_t* lista_espera;
 };
 
 zona_t* zona_crear(){
@@ -21,8 +21,8 @@ zona_t* zona_crear(){
 	if (zone == NULL) return NULL;
 	cola_t* cola_ppal;
 	cola_ppal = cola_crear();
-	lista_con_iter_t* lista_espera;
-	lista_espera = lista_con_iter_crear();
+	lista_t* lista_espera;
+	lista_espera = lista_crear();
 	zone->cola_ppal = cola_ppal;
 	zone->lista_espera = lista_espera;
 
@@ -43,17 +43,16 @@ zona1 = zona_crear();
 //~ 
 // Reparte todos los elementos de la lista de pedidos_entrantes entre las
 // cinco zonas. 
-bool zona_preparar_pedidos(zona_t** vector, lista_con_iter_t* pedidos_entrantes){
+bool zona_preparar_pedidos(zona_t** vector, lista_t* pedidos_entrantes){
 	// Si pedidos_entrantes no existe
 	if (!pedidos_entrantes) return false;
 	// Si la lista de pedidos_entrantes esta vacia
-	if (pedidos_entrantes->lista == NULL) return false;
+	if (pedidos_entrantes->inicio == NULL) return false;
 	int i;
-	lista_t* lista = pedidos_entrantes->lista;
 	// Reparto entre las zonas
-	while (lista_largo(lista) >= 0){
+	while (lista_largo(pedidos_entrantes) >= 0){
 		for (i=0; i<5; i++){
-			if (lista_largo(lista) >= 0){
+			if (lista_largo(pedidos_entrantes) >= 0){
 				pedido_t* pedido;
 				pedido = pedidos_entrantes_sacar(pedidos_entrantes);
 				cola_encolar(vector[i]->cola_ppal, pedido);
@@ -91,7 +90,7 @@ pila_t* moto_cargar(zona_t* zona){
 	if (cola_esta_vacia(cola_ppal)){
 		// Si no hay pedidos para la zona (ni en la cola principal ni en 
 		// la lista de espera), devuelvo NULL.
-		if (lista_esta_vacia(zona->lista_espera->lista)) return NULL;
+		if (lista_esta_vacia(zona->lista_espera)) return NULL;
 		
 		// Llamo a intentar_lista_espera para llenar la moto con los pedidos
 		// de lista_espera
@@ -120,18 +119,16 @@ pila_t* moto_cargar(zona_t* zona){
 // que ya tiene cargada la moto. Itera sobre la lista buscando un pedido
 // cuyo valor de cant_pizzas sea (5 - pizzas_cargadas) o menor. Si lo encuentra,
 // lo borra de la lista y lo devuelve. Si no lo encuentra, devuelve NULL. 
-pedido_t* buscar_adecuado (lista_con_iter_t* lista_espera, int pizzas_cargadas) {
-	
-	// Reinicio el iter a la pos 0.
-	lista_espera->iter->actual = lista_espera->lista->inicio;
-	lista_espera->iter->siguiente = lista_espera->lista->inicio->siguiente;
+pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) {
 	
 	
-	lista_iter_t* actual;
-	actual = lista_iter_ver_actual(lista_espera->iter);
+	lista_iter_t* iter;
+	iter = lista_iter_crear(lista_espera);
+	
+	actual = lista_iter_ver_actual(iter);
 	if (actual->valor->cant_pizzas <= (5-pizzas_cargadas){
 		pedido_t* sacado;
-		sacado = lista_borrar(lista_espera->lista, lista_espera->iter);
+		sacado = lista_borrar(lista_espera, iter);
 		return sacado;
 		}
 	return NULL;
@@ -141,7 +138,7 @@ pedido_t* buscar_adecuado (lista_con_iter_t* lista_espera, int pizzas_cargadas) 
 // Recibe lista_con_iter_t* zona, devuelve nada si buscar_adecuado no
 // encontro ningun pedido adecuado, devuelve un int cont con la cantidad de
 // pizzas que se han cargado en la moto.
-int intentar_lista_espera(lista_con_iter_t* zona, pila_t* moto){
+int intentar_lista_espera(lista_t* zona, pila_t* moto){
 	// Inicio el contador de pizzas que se cargan a la moto.
 	int cont;
 	cont = 0;
@@ -168,7 +165,7 @@ int intentar_lista_espera(lista_con_iter_t* zona, pila_t* moto){
 
 // Intenta poner en la moto los pedidos de cola_ppal. Recibe la zona,
 // y la moto (pila_t*).
-int intentar_cola_ppal(lista_con_iter_t* zona, pila_t* moto){
+int intentar_cola_ppal(lista_t* zona, pila_t* moto){
 	pedido_t* desencolado;
 	pedido_t* primero;
 	int cont;
