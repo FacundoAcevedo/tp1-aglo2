@@ -7,6 +7,11 @@
 /*##############################################################*/
 /*							SALIENTES*/
 /*##############################################################*/
+
+/*
+ *#REVISAR DESTRUIR PEIDO, SU STRUCT NO TIENE MALLOC NI NADA
+ */
+
 void (destruir_pedido)(void* dato) {
 	destruir_pedido((pedido_t*)dato);
 }
@@ -23,10 +28,10 @@ int printeo_salientes(pila_t* salientes, int n){
 	i = 0;
 	pila_t* copia;
 	copia = salientes;
-	while (n<i){
+	while (i<n){
 		pedido_t* desapilado;
 		desapilado = pila_desapilar(copia);
-		/*printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);*/
+        printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);
 		i += 1;
 		}
 	pila_destruir(copia, (*destruir_pedido));
@@ -63,7 +68,7 @@ void salientes_destruir(pila_t* salientes, void pedido_destruir (void*)){
 
 
 // Funciones auxiliares
-unsigned int get_id(pedido_t* pedido){
+unsigned int get_random_id(void){
 	unsigned int id	;
 	id = rand() % (10001);
 	return id;
@@ -101,7 +106,7 @@ pedido_t* pedido_crear( int zona, int cant_pizzas){
 	if (pedido == NULL) return NULL;
 	pedido->zona = zona;
 	pedido->cant_pizzas = cant_pizzas;
-	pedido->id = get_id(pedido);	
+	pedido->id = get_random_id();	
 	return pedido;
 	}
 
