@@ -29,18 +29,24 @@ zona_t* zona_crear(){
 	return zone;
 }
 
-zona_t* zona1;
-zona1 = zona_crear();
-// Creo las zonas
-//~ zona_t* zona1;
-//~ zona_t* zona2;
-//~ zona_t* zona3;
-//~ zona_t* zona4;
-//~ zona_t* zona5;
+zona_t** zonas_vector_crear(){
+	zona_t* zona1;
+	zona_t* zona2;
+	zona_t* zona3;
+	zona_t* zona4;
+	zona_t* zona5;
 
-// Creo un vector con las 5 zonas
-//~ zona_t** vector[] = {*zona1, *zona2, *zona3, *zona4, *zona5};
-//~ 
+	zona1 = zona_crear();
+	zona2 = zona_crear();
+	zona3 = zona_crear();
+	zona4 = zona_crear();
+	zona5 = zona_crear();
+	
+	zona_t** vector;
+	vector = {zona1, zona2, zona3, zona4, zona5};
+	return vector;
+	}
+
 // Reparte todos los elementos de la lista de pedidos_entrantes entre las
 // cinco zonas. 
 bool zona_preparar_pedidos(zona_t** vector, lista_t* pedidos_entrantes){

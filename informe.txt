@@ -26,8 +26,7 @@ es de vital importancia, los métodos que usaremos para agregar y borrar
 simularán los de una cola: los nuevos entran por el final y los viejos
 salen por el principio.
 Especificación: 
-Creamos un struct que contiene dos atributos: una lista del tipo enlazada,
-y un iterador. Tenemos: lista_con_iter_t* pedidos_entrantes. 
+lista_t* pedidos_entrantes;
 
  
 2) Preparación de pedidos: zonas 
@@ -40,10 +39,23 @@ Se tiene desde el arranque del programa, 5 colas (una por zona) en las que se
 van encolando los pedidos de acuerdo a su atributo "zona" y respetando 
 su orden. Las características de los pedidos no se pueden modificar por 
 enunciado y porque la estructura de cola no lo permite.
+Por cada cola debe existir una estructura de datos semejante que funciona
+como "auxiliar", para retener los pedidos que quedan en lista de espera por
+no tener la cantida dde pizzas adecuada para la moto.
 Especificación:
-Las colas se agrupan en orden en un vector de tamaño 5 para facilitar
-el acceso a cada una de ellas desde las funciones.
-
+Definimos un struct zona_t, que contiene dos atributos: una cola llamada 
+"cola_ppal" a donde van los pedidos_entrantes correspondientes, y una lista
+enlazada "lista_de_espera" a donde van los pedidos postergados.
+Elegimos una lista_enlazada para la lista de espera porque necesitaremos
+iterar sobre los elementos para buscar un match, así como eliminarlos
+si pasan a entrar en la moto.
+Las zonas se agrupan en orden en un vector de tamaño 5 para facilitar
+el acceso a cada una de ellas desde las funciones. Se nombran zona1, zona2,
+zona3, zona4, zona5 y se referencian por su número (1, 2...).
+typedef struct zona{
+	cola_t* cola_ppal;
+	lista_t* lista_espera;
+	} zona_t;
 
 3) Despacho de pedidos: la moto
 Análisis: El programa debe permitir enviar los pedidos a los clientes. Esto consiste
