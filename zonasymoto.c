@@ -29,40 +29,40 @@ zona_t* zona_crear(){
 	return zone;
 }
 
-zona_t** zonas_vector_crear(){
-	zona_t* zona1;
-	zona_t* zona2;
-	zona_t* zona3;
-	zona_t* zona4;
-	zona_t* zona5;
-
-	zona1 = zona_crear();
-	zona2 = zona_crear();
-	zona3 = zona_crear();
-	zona4 = zona_crear();
-	zona5 = zona_crear();
-	
-	zona_t** vector;
-	vector = {zona1, zona2, zona3, zona4, zona5};
-	return vector;
-	}
 
 // Reparte todos los elementos de la lista de pedidos_entrantes entre las
 // cinco zonas. 
-bool zona_preparar_pedidos(zona_t** vector, lista_t* pedidos_entrantes){
+bool zona_preparar_pedidos(zona_t* zona1, zona_t* zona2, zona_t* zona3, zona_t* zona4, zona_t* zona5, lista_t* pedidos_entrantes){
 	// Si pedidos_entrantes no existe
 	if (!pedidos_entrantes) return false;
 	// Si la lista de pedidos_entrantes esta vacia
-	if (pedidos_entrantes->inicio == NULL) return false;
-	int i;
+	if (lista_esta_vacia(pedidos_entrantes)) return false;
 	// Reparto entre las zonas
 	while (lista_largo(pedidos_entrantes) >= 0){
-		for (i=0; i<5; i++){
-			if (lista_largo(pedidos_entrantes) >= 0){
-				pedido_t* pedido;
-				pedido = pedidos_entrantes_sacar(pedidos_entrantes);
-				cola_encolar(vector[i]->cola_ppal, pedido);
-				}
+		if (lista_largo(pedidos_entrantes) >= 0){
+			pedido_t* pedido;
+			pedido = pedidos_entrantes_sacar(pedidos_entrantes);
+			cola_encolar(zona1->cola_ppal, pedido);
+			}
+		if (lista_largo(pedidos_entrantes) >= 0){
+			pedido_t* pedido;
+			pedido = pedidos_entrantes_sacar(pedidos_entrantes);
+			cola_encolar(zona2->cola_ppal, pedido);
+			}
+		if (lista_largo(pedidos_entrantes) >= 0){
+			pedido_t* pedido;
+			pedido = pedidos_entrantes_sacar(pedidos_entrantes);
+			cola_encolar(zona3->cola_ppal, pedido);
+			}
+		if (lista_largo(pedidos_entrantes) >= 0){
+			pedido_t* pedido;
+			pedido = pedidos_entrantes_sacar(pedidos_entrantes);
+			cola_encolar(zona4->cola_ppal, pedido);
+			}
+		if (lista_largo(pedidos_entrantes) >= 0){
+			pedido_t* pedido;
+			pedido = pedidos_entrantes_sacar(pedidos_entrantes);
+			cola_encolar(zona5->cola_ppal, pedido);
 			}
 		}
 	return true;
@@ -70,10 +70,10 @@ bool zona_preparar_pedidos(zona_t** vector, lista_t* pedidos_entrantes){
 
 // Desencola un pedido de la cola principal de la zona que se pasa por parametro.
 // Devuelve el pedido desencolado.
-pedido_t* zona_sacar (zona_t** vector[], int zona){
-	if (cola_esta_vacia((*vector[zona-1])->cola_ppal)) return NULL;
+pedido_t* zona_sacar (zona_t* zone, int zona_num){
+	if (cola_esta_vacia(zone->cola_ppal)) return NULL;
 	pedido_t* pedido_sacado;
-	pedido_sacado = cola_desencolar((*vector[zona-1])->cola_ppal);
+	pedido_sacado = cola_desencolar(zone->cola_ppal);
 	return pedido_sacado;	
 	}
 
@@ -93,25 +93,27 @@ pila_t* moto_cargar(zona_t* zona){
 	pila_t* moto = pila_crear();
 	cola_t* cola_ppal;
 	cola_ppal = zona->cola_ppal;
+	lista_t* lista_espera;
+	lista_espera = zona->lista_espera;
 	if (cola_esta_vacia(cola_ppal)){
 		// Si no hay pedidos para la zona (ni en la cola principal ni en 
 		// la lista de espera), devuelvo NULL.
-		if (lista_esta_vacia(zona->lista_espera)) return NULL;
+		if (lista_esta_vacia(lista_espera)) return NULL;
 		
 		// Llamo a intentar_lista_espera para llenar la moto con los pedidos
 		// de lista_espera
 		int pizzas_cargadas;
-		pizzas_cargadas = intentar_lista_espera(zona, moto);
-		// Si se cargaron 5 pizzas, el pedido esta listo para salir.########## VER ##########
-		// Devuelvo la moto.########## VER ##########
-		if (pizzas_cargadas == 5) return moto;########## VER ##########
-		// Si se cargaron menos de 5 pizzas, la moto no sale. ########## VER ##########
-		return NULL; //########## VER ##########
+		pizzas_cargadas = intentar_lista_espera(lista_espera, moto);
+		//~ // Si se cargaron 5 pizzas, el pedido esta listo para salir.########## VER ##########
+		//~ // Devuelvo la moto.########## VER ##########
+		//~ if (pizzas_cargadas == 5) return moto;########## VER ##########
+		//~ // Si se cargaron menos de 5 pizzas, la moto no sale. ########## VER ##########
+		//~ return NULL; ########## VER ##########
 		
 		// Permito salir a la moto aun si tiene menos de 5 pizzas. ########## VER ##########
 		return moto;
 		}
-	intentar_cola_ppal(zona, moto);
+	intentar_cola_ppal(lista_espera, moto);
 	
 	// Apilo esta moto en pedidos_salientes
 	pila_apilar(pedidos_salientes, moto);

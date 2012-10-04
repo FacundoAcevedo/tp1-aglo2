@@ -10,7 +10,6 @@ typedef struct pedido{
     int cant_pizzas;
     unsigned int id;
 }pedido_t;
-typedef struct pedido pedido_t;
 
 
 

@@ -8,6 +8,7 @@
  * *****************************************************************/
 
 typedef struct _pila pila_t;
+typedef struct nodo nodo_t;
 typedef struct lista lista_t;
 typedef struct lista_iter lista_iter_t;
 typedef struct cola cola_t;
@@ -33,6 +34,7 @@ void cola_destruir(cola_t *cola, void destruir_dato(void*));
 bool cola_esta_vacia(const cola_t *cola);
 void* cola_ver_primero(const cola_t *cola);
 void* cola_desencolar(cola_t *cola);
+bool cola_encolar(cola_t *cola, void* valor);
 
 
 /* *****************************************************************

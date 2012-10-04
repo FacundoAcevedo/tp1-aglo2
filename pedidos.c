@@ -7,6 +7,9 @@
 /*##############################################################*/
 /*							SALIENTES*/
 /*##############################################################*/
+void (destruir_pedido)(void* dato) {
+	destruir_pedido((pedido_t*)dato);
+}
 
 pila_t* salientes_crear(){
     pila_t* salientes;
@@ -26,7 +29,7 @@ int printeo_salientes(pila_t* salientes, int n){
 		/*printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",desapilado->id, desapilado->cant_pizzas, desapilado->zona);*/
 		i += 1;
 		}
-	pila_destruir(copia, (void destruir_pedido(void *));
+	pila_destruir(copia, (*destruir_pedido));
 	return 0;
 	}
 	
@@ -74,7 +77,7 @@ unsigned int get_id(pedido_t* pedido){
  */
 lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, unsigned int id){
     //variables
-    nodo_t* act;
+    pedido_t* act;
     unsigned int id_cmp;
     // Creo un iter
     lista_iter_t* iter;
@@ -82,11 +85,8 @@ lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, unsigned int id){
     //Busco
     while(true){
         act = lista_iter_ver_actual(iter);
-        pedido_t* pedido;
-        pedido = act->valor;
-        id_cmp = pedido->id;
+        id_cmp = act->id;
         if (id_cmp == id) return iter;
-        else if (act->ref == NULL) break;
        lista_iter_avanzar(iter);     
 		}
     return NULL;
@@ -107,10 +107,6 @@ pedido_t* pedido_crear( int zona, int cant_pizzas){
 
 void pedido_destruir(pedido_t* pedido){
 	free(pedido);
-	}
-
-void (destruir_pedido)(void*dato){
-	pedido_destruir((pedido_t*)dato);
 	}
 
 
@@ -193,7 +189,7 @@ bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, unsigned int id){
 	lista_iter_t* iter_pedido_a_cancelar;
 	iter_pedido_a_cancelar = buscar_id(pedidos_entrantes, id);
 	pedido_t* pedido_a_cancelar;
-	pedido_a_cancelar = lista_borrar(pedidos_entrantes->lista, iter_pedido_a_cancelar);
+	pedido_a_cancelar = lista_borrar(pedidos_entrantes, iter_pedido_a_cancelar);
 	pedido_destruir(pedido_a_cancelar);
 	return true;
 	}
@@ -215,6 +211,7 @@ bool pedidos_entrantes_print (lista_t* pedidos_entrantes){
 		}
 	
 	// Reinicio el iter
+	lista_iter_t* iter;
     iter = lista_iter_crear(pedidos_entrantes);
 	
 	while (lista_iter_avanzar(iter)){

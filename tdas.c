@@ -5,11 +5,10 @@
 #include "tdas.h"
 
 
-typedef struct nodo{
+struct nodo{
     void* valor;
     struct nodo* ref;
-}nodo_t;
-
+};
 
 struct lista{
 	nodo_t* inicio;

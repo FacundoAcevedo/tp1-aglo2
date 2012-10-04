@@ -1,6 +1,7 @@
 #ifndef ZONASYMOTO_H
 #define ZONASYMOTO_H
 #include "tdas.h"
+#include "pedidos.h"
 
 //########################################################################
 //                                PRIMITIVAS DE ZONAS
@@ -9,9 +10,9 @@ typedef struct zona zona_t;
 
 zona_t* zona_crear();
 
-bool zona_preparar_pedidos(zona_t** vector, lista_t* pedidos);
+bool zona_preparar_pedidos(zona_t* zona1, zona_t* zona2, zona_t* zona3, zona_t* zona4, zona_t* zona5, lista_t* pedidos);
 
-pedido_t* zona_sacar (zona_t** vector, int zona_num);
+pedido_t* zona_sacar(zona_t* zona, int zona_num);
 
 //########################################################################
 //                                PRIMTIVAS DE ZONAS
