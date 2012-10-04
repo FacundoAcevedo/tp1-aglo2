@@ -65,7 +65,7 @@ entren en la moto deberán postergarse para poder maximizar la cantidad
 de pedidos a enviar en cada viaje. El programa debe informar los 
 pedidos enviados.
 DISEÑO: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto
- será una pila "moto" en la cual se apilan las pizzas de los pedidos. 
+ será una lista_enlazada "moto" en la cual se insertan las pizzas de los pedidos. 
  El máximo de pizzas por pedido es 5. La moto podrá llevar únicamente 
  pedidos enteros, es decir:
     - 1 pedido de 5 pizzas ó
@@ -119,14 +119,14 @@ de la pizzería de no demorar demasiado en la entrega de pedidos, en
 detrimento de la optimización del costo del programa. En consecuencia, 
 implementaremos la estrategia 2.
 Observación: Ambas estrategias parten de la base de que los pedidos ya 
-apilados en la pila son "incuestionables". Por ejemplo: la moto está cargada 
+apilados en la moto son "incuestionables". Por ejemplo: la moto está cargada 
 con un pedido de 4 pizzas. Idealmente necesita un pedido de 1 pizza para 
 completarse y salir. Suponiendo que la lista de espera tiene pedidos en 
 el siguiente orden: 1) 3 pizzas 2) 2 pizzas 3) 5 pizzas, se mirará el 
 primer pedido y se verá que no puede cargarse a la moto, ídem con el segundo 
 y el tercero. En conclusión, la moto quedará con cuatro pizzas y se perderá 
-en optimización. Si la moto pudiera, ante semejante situación, desapilar 
-el pedido de 4 pizzas que tiene apilado y sumarlo a lista de espera, 
+en optimización. Si la moto pudiera, ante semejante situación, descargar 
+el pedido de 4 pizzas que tiene insertado y sumarlo a lista de espera, 
 podría cargar los dos primeros pedidos de la lista de espera (3 y 2 pizzas) 
 y salir en situación óptima.
 La implementación de tal posibilidad disminuiría mucho la eficiencia del 
@@ -139,7 +139,7 @@ El programa debe permitir observar el estado de la pizzería incluyendo
 los pedidos registrados hasta el momento, los pedidos preparados (por zona)
 y los últimos N pedidos enviados (desde el más reciente al más antiguo).
 DISEÑO: básicamente es una posibilidad de printear la lista de pedidos 
-entrantes, las colas "zonai" y las últimas pila-moto que se se han creado. 
+entrantes, las colas "zonai" y los últimos pedidos que se han despachado. 
 Especificación:
 Para  imprimir las motos pasadas, éstas deben ir apilándose en una pila 
 dentro de las funciones de la moto. Elegimos una pila porque al printearla 
