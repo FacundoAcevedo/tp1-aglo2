@@ -17,9 +17,16 @@ int main(){
 	lista_t* pedidos_entrantes = lista_crear();
 	pila_t* pedidos_salientes = pila_crear();
 	
+   	int opc;
+   int cant_pizzas;
+    int eleccion;
+   int zona;
+
+   unsigned int id;
+
+
     while ( true)
         {
-    	int opc;
     	   printf("Elija una opcion (0 para salir): \n"
     			  "1) Ingresar pedido \n"
     			  "2) Modificar pedido \n"
@@ -31,10 +38,9 @@ int main(){
     	   scanf("%d", &opc);
     
     		// 1) INGRESAR PEDIDO
-    	switch ( opc){	
+    	switch (opc){	
     	   case 1 :
-    		   int cant_pizzas;
-    		   int zona;
+
     			scanf(" Cantidad de pizzas: %d \n", &cant_pizzas);
     			scanf(" Zona: %d \n", &zona);
     			if ((zona < 1) || (zona>5) || (cant_pizzas<1) || (cant_pizzas>5)){
@@ -48,8 +54,7 @@ int main(){
     
     		// 2) MODIFICAR PEDIDO
     
-    	   case 2) :
-    			int eleccion;
+    	   case 2 :
     		   printf("1) Modificar cantidad de pizzas \n" "2) Modificar zona \n");
     		   scanf("d", &eleccion);
     		   if (eleccion == 1){
@@ -57,7 +62,7 @@ int main(){
     				printf("Ingrese la nueva cantidad de pizzas \n" );
     				scanf("d", &nueva_cant);
     				if ((nueva_cant<1) || (nueva_cant>5)){
-    					puts("Cantidad de pizzas o zona invalidas");
+    					puts("Cantidad de pizzas o zona invÃ¡lidas");
     					break;
     					}
     				pedidos_entrantes_cant_pizzas(pedidos_entrantes, pedido->id, nueva_cant);
@@ -67,7 +72,7 @@ int main(){
     				printf("Ingrese la nueva zona \n" );
     				scanf("d", &nueva_zona);
     				if ((nueva_zona<1) || (nueva_zona>5)){
-    					puts("Cantidad de pizzas o zona invalidas");
+    					puts("Cantidad de pizzas o zona invÃÂ¡lidas");
     					break;
     					}
     				pedidos_entrantes_zona(pedidos_entrantes, pedido->id, nueva_zona);
@@ -83,7 +88,6 @@ int main(){
     		// 3) CANCELAR PEDIDO
     
     	   case 3:
-    		   unsigned int id;
     		   printf("Ingrese numero identificador del pedido a cancelar \n" );
     		    scanf("u", &id);
     			pedidos_entrantes_cancelar(pedidos_entrantes, id);	
@@ -103,26 +107,22 @@ int main(){
     		// 6) HISTORIAL MOTOS DESPACHADAS
     
     	   case  6:
-    		   printeo_salientes(pedidos_salientes);
+               /*printeo_salientes(pedidos_salientes);*/
                break;
     		   
     	   // 7) PRINTEO PEDIDOS ENTRANTES
     	   
     	   case 7:
-    		   int n;
-    		   printf("Ingrese la cantidad de pedidos que quiere ver en el historial: \n" );
-    		    scanf("d", &n);
-
-    		   pedidos_entrantes_print(pedidos_entrantes, n);
+               /*pedidos_entrantes_print(pedidos_entrantes);*/
                break;
            default:
                //  no cipayeees que las opciones van es espa;ol
                //  MALDITO TECALDO YANQUI!!! NO TIENE ENIE XD
     			/*printf("Invalid Choice");*/
-                puts(" Senor pizzero, la opcion es invalida")
+                puts(" Senor pizzero, la opcion es invalida");
                 break;
                 
     	} //case
     } // while
-
+return 0;
 }
