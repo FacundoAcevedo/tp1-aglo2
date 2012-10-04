@@ -225,11 +225,16 @@ bool pedidos_entrantes_print (lista_t* pedidos_entrantes){
 	pedido_t* pedido;
 	int i;
 	i =0;
+	puts( "todavia no entre al while\n");
 	while (i<lista_largo(pedidos_entrantes)){
+		puts( "entre al while\n");
 		pedido = lista_iter_ver_actual(iter);
-		printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",pedido->id, pedido->cant_pizzas, pedido->zona);
+		puts("mire ver_actual\n");
+		//~ printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n",pedido->id, pedido->cant_pizzas, pedido->zona);
 		lista_iter_avanzar(iter);
+		puts ("avance\n");
 		i += 1;
+		puts("termine el while");
 		}
 		
 	return true;
