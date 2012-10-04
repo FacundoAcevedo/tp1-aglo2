@@ -5,7 +5,6 @@
 #include "tdas.h"
 #include "pedidos.h"
 #include "zonasymoto.h"
-#include "lista_con_iter.h"
 
 
 int main(){
@@ -15,7 +14,7 @@ int main(){
 	zona_t* zona4 = zona_crear();
 	zona_t* zona5 = zona_crear();
 	
-	lista_con_iter_t* pedidos_entrantes = lista_con_iter_crear();
+	lista_t* pedidos_entrantes = lista_crear();
 	pila_t* pedidos_salientes = pila_crear();
 	
     while ( true)
@@ -58,7 +57,7 @@ int main(){
     				printf("Ingrese la nueva cantidad de pizzas \n" );
     				scanf("d", &nueva_cant);
     				if ((nueva_cant<1) || (nueva_cant>5)){
-    					puts("Cantidad de pizzas o zona invÃ¡lidas");
+    					puts("Cantidad de pizzas o zona invalidas");
     					break;
     					}
     				pedidos_entrantes_cant_pizzas(pedidos_entrantes, pedido->id, nueva_cant);
@@ -68,7 +67,7 @@ int main(){
     				printf("Ingrese la nueva zona \n" );
     				scanf("d", &nueva_zona);
     				if ((nueva_zona<1) || (nueva_zona>5)){
-    					puts("Cantidad de pizzas o zona invÃÂ¡lidas");
+    					puts("Cantidad de pizzas o zona invalidas");
     					break;
     					}
     				pedidos_entrantes_zona(pedidos_entrantes, pedido->id, nueva_zona);
@@ -110,7 +109,11 @@ int main(){
     	   // 7) PRINTEO PEDIDOS ENTRANTES
     	   
     	   case 7:
-    		   pedidos_entrantes_print(pedidos_entrantes);
+    		   int n;
+    		   printf("Ingrese la cantidad de pedidos que quiere ver en el historial: \n" );
+    		    scanf("d", &n);
+
+    		   pedidos_entrantes_print(pedidos_entrantes, n);
                break;
            default:
                //  no cipayeees que las opciones van es espa;ol

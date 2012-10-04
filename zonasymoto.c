@@ -102,8 +102,8 @@ lista_t* moto_cargar(zona_t* zona){
 		
 		// Llamo a intentar_lista_espera para llenar la moto con los pedidos
 		// de lista_espera
-		int pizzas_cargadas;
-		pizzas_cargadas = intentar_lista_espera(zona, moto);
+		//~ int pizzas_cargadas;
+		//~ pizzas_cargadas = intentar_lista_espera(zona, moto);
 		//~ // Si se cargaron 5 pizzas, el pedido esta listo para salir.########## VER ##########
 		//~ // Devuelvo la moto.########## VER ##########
 		//~ if (pizzas_cargadas == 5) return moto;########## VER ##########
@@ -161,7 +161,7 @@ int intentar_lista_espera(zona_t* zona, lista_t* moto){
 		// Si buscar_adecuado devolvio NULL, significa que no hay pedidos 
 		// en la lista de espera que puedan apilarse en la moto. Finalizo
 		// la funcion.
-		if (pedido==NULL) return;
+		if (pedido==NULL) return 0;
 		// Sino, apilo el pedido en la moto.
 		lista_insertar_primero(moto, pedido);
 		// Le sumo al contador la cantidad de pizzas que tiene el pedido
