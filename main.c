@@ -20,7 +20,7 @@ int main(){
     while ( true)
         {
     	int opc;
-    	   printf("Elija una opcion (0 para salir): \n"
+    	printf("Elija una opcion (0 para salir): \n"
     			  "1) Ingresar pedido \n"
     			  "2) Modificar pedido \n"
     			  "3) Cancelar pedido \n"
@@ -28,11 +28,12 @@ int main(){
     			  "5) Cargar y despachar moto \n"
     			  "6) Ver historial de motos enviadas \n"
     			  "7) Ver lista de pedidos entrantes \n");
-    	   scanf("%d", &opc);
-    
+    	scanf("%d", &opc);
+    	switch (opc){	
+
     		// 1) INGRESAR PEDIDO
-    	switch ( opc){	
-    	   case 1 :
+
+    	   case 1:
     		   int cant_pizzas;
     		   int zona;
     			scanf(" Cantidad de pizzas: %d \n", &cant_pizzas);
@@ -48,7 +49,7 @@ int main(){
     
     		// 2) MODIFICAR PEDIDO
     
-    	   case 2) :
+    	   case 2:
     			int eleccion;
     		   printf("1) Modificar cantidad de pizzas \n" "2) Modificar zona \n");
     		   scanf("d", &eleccion);
