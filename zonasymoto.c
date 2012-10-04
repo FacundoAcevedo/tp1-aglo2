@@ -102,8 +102,13 @@ lista_t* moto_cargar(zona_t* zona){
 		
 		// Llamo a intentar_lista_espera para llenar la moto con los pedidos
 		// de lista_espera
+<<<<<<< HEAD
 		/*int pizzas_cargadas;*/
 		/*pizzas_cargadas = intentar_lista_espera(zona, moto);*/
+=======
+		//~ int pizzas_cargadas;
+		//~ pizzas_cargadas = intentar_lista_espera(zona, moto);
+>>>>>>> 254a3d592caaa92861789310150862136f968186
 		//~ // Si se cargaron 5 pizzas, el pedido esta listo para salir.########## VER ##########
 		//~ // Devuelvo la moto.########## VER ##########
 		//~ if (pizzas_cargadas == 5) return moto;########## VER ##########
