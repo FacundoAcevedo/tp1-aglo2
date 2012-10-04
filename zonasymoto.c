@@ -132,12 +132,16 @@ pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) {
 	
 	lista_iter_t* iter;
 	iter = lista_iter_crear(lista_espera);
-	
+	pedido_t* actual;	
 	actual = lista_iter_ver_actual(iter);
-	if (actual->valor->cant_pizzas <= (5-pizzas_cargadas){
-		pedido_t* sacado;
-		sacado = lista_borrar(lista_espera, iter);
-		return sacado;
+	while (!lista_esta_vacia(lista_espera)){
+		actual = lista_iter_ver_actual(iter);
+		if (actual->cant_pizzas <= (5-pizzas_cargadas){
+			pedido_t* sacado;
+			sacado = lista_borrar(lista_espera, iter);
+			return sacado;
+			}
+		lista_iter_avanzar(iter);
 		}
 	return NULL;
 	}
