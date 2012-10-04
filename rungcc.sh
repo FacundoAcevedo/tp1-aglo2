@@ -4,12 +4,12 @@ OPCIONES="-std=c99 -Wall -pedantic -g"
 
 #~ # todo
 #~ 
-O="zonasymoto.o pedidos.o  tdas.o" 
-C="zonasymoto.c pedidos.c  tdas.c" 
+O="zonasymoto.o pedidos.o  tdas.o pantalla.o" 
+C="zonasymoto.c pedidos.c  tdas.c pantalla.c" 
 
 
 gcc $OPCIONES -c $C;
-gcc $OPCIONES $O main.c -o main.bin;
+gcc $OPCIONES  $O main.c -o main.bin;
 
 #~ # solo pedidos
 
