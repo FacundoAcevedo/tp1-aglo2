@@ -45,4 +45,7 @@ lista_t *pedidos_entrantes_crear();
 unsigned int get_id();
 lista_iter_t* buscar_id(lista_t* pedidos_entrantes, unsigned int id);
 
+int printeo_salientes(pila_t* salientes, int n);
+
+
 #endif
