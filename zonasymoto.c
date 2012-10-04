@@ -87,10 +87,10 @@ pedido_t* zona_sacar (zona_t* zone, int zona_num){
 pila_t* pedidos_salientes;
 
 // Recibe la zona a la cual se quiere enviar las pizzas. Devuelve una moto
-// tipo pila_t*.
-pila_t* moto_cargar(zona_t* zona){
+// tipo lista_t*.
+lista_t* moto_cargar(zona_t* zona){
 	// Creo la moto
-	pila_t* moto = pila_crear();
+	lista_t* moto = lista_crear();
 	cola_t* cola_ppal;
 	cola_ppal = zona->cola_ppal;
 	lista_t* lista_espera;
@@ -103,7 +103,7 @@ pila_t* moto_cargar(zona_t* zona){
 		// Llamo a intentar_lista_espera para llenar la moto con los pedidos
 		// de lista_espera
 		int pizzas_cargadas;
-		pizzas_cargadas = intentar_lista_espera(lista_espera, moto);
+		pizzas_cargadas = intentar_lista_espera(zona, moto);
 		//~ // Si se cargaron 5 pizzas, el pedido esta listo para salir.########## VER ##########
 		//~ // Devuelvo la moto.########## VER ##########
 		//~ if (pizzas_cargadas == 5) return moto;########## VER ##########
@@ -113,7 +113,7 @@ pila_t* moto_cargar(zona_t* zona){
 		// Permito salir a la moto aun si tiene menos de 5 pizzas. ########## VER ##########
 		return moto;
 		}
-	intentar_cola_ppal(lista_espera, moto);
+	intentar_cola_ppal(zona, moto);
 	
 	// Apilo esta moto en pedidos_salientes
 	pila_apilar(pedidos_salientes, moto);
@@ -136,7 +136,7 @@ pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) {
 	actual = lista_iter_ver_actual(iter);
 	while (!lista_esta_vacia(lista_espera)){
 		actual = lista_iter_ver_actual(iter);
-		if (actual->cant_pizzas <= (5-pizzas_cargadas){
+		if (actual->cant_pizzas <= (5-pizzas_cargadas)){
 			pedido_t* sacado;
 			sacado = lista_borrar(lista_espera, iter);
 			return sacado;
@@ -150,20 +150,20 @@ pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) {
 // Recibe lista_con_iter_t* zona, devuelve nada si buscar_adecuado no
 // encontro ningun pedido adecuado, devuelve un int cont con la cantidad de
 // pizzas que se han cargado en la moto.
-int intentar_lista_espera(lista_t* zona, pila_t* moto){
+int intentar_lista_espera(zona_t* zona, lista_t* moto){
 	// Inicio el contador de pizzas que se cargan a la moto.
 	int cont;
 	cont = 0;
 	pedido_t* pedido;
 	while (true){
 		// Guardo lo que devuelve buscar_adecuado
-		pedido = buscar_adecuado(zona, cont);
+		pedido = buscar_adecuado(zona->lista_espera, cont);
 		// Si buscar_adecuado devolvio NULL, significa que no hay pedidos 
 		// en la lista de espera que puedan apilarse en la moto. Finalizo
 		// la funcion.
 		if (pedido==NULL) return;
 		// Sino, apilo el pedido en la moto.
-		pila_apilar(moto, pedido);
+		lista_insertar_primero(moto, pedido);
 		// Le sumo al contador la cantidad de pizzas que tiene el pedido
 		// recien apilado. No hay peligro de que el contador se pase de
 		// 5 porque eso ya lo previo buscar_adecuado.
@@ -177,12 +177,12 @@ int intentar_lista_espera(lista_t* zona, pila_t* moto){
 
 // Intenta poner en la moto los pedidos de cola_ppal. Recibe la zona,
 // y la moto (pila_t*).
-int intentar_cola_ppal(lista_t* zona, pila_t* moto){
+int intentar_cola_ppal(zona_t* zona, lista_t* moto){
 	pedido_t* desencolado;
 	pedido_t* primero;
 	int cont;
 	// Inicio el contador con la cantidad de pizzas que tiene la moto
-	cont = moto->cantidad;
+	cont = lista_largo(moto);
 			
 	while (true){
 		// Miro el primer pedido de la cola_ppal
@@ -196,7 +196,7 @@ int intentar_cola_ppal(lista_t* zona, pila_t* moto){
 			// Desencolo el pedido "primero" de cola_ppal
 			desencolado = cola_desencolar(zona->cola_ppal);
 			// Lo apilo a la moto
-			pila_apilar(moto, desencolado);
+			lista_insertar_primero(moto, desencolado);
 			// devuelvo cont (cont = 5)
 			return cont;
 			}
@@ -211,13 +211,13 @@ int intentar_cola_ppal(lista_t* zona, pila_t* moto){
 			i = intentar_lista_espera(zona, moto);
 			// Si intentar_lista_espera me devolvio NULL, quiere decir que
 			// puedo seguir mirando los pedidos de la cola_ppal.
-			if (i == NULL) continue;
+			if (i == 0) continue;
 			// Si intentar_lista_espera me devolvio un numero distinto 
 			// de NULL, quiere decir que pudo apilar en la moto al menos
 			// un pedido de lista_espera. Actualizo el contador y si es
 			// 5, return cont (finalizo esta funcion). Si todavia no 
 			// llegue a 5, vuelvo a iniciar este while.
-			if (i != NULL) {
+			if (i != 0) {
 				cont += i;
 				if (cont == 5) return cont;
 				}
@@ -227,7 +227,7 @@ int intentar_cola_ppal(lista_t* zona, pila_t* moto){
 	}
 	
 
-void moto_destruir (pila_t* moto, void destruir_pedido(void *)){
-	pila_destruir(moto, (*destruir_pedido));
+void moto_destruir (lista_t* moto, void destruir_pedido(void *)){
+	lista_destruir(moto, (*destruir_pedido));
 	return;
 	}

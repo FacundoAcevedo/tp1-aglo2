@@ -18,13 +18,13 @@ pedido_t* zona_sacar(zona_t* zona, int zona_num);
 //                                PRIMTIVAS DE ZONAS
 //########################################################################
 
-pila_t* moto_cargar(zona_t* zona);
+lista_t* moto_cargar(zona_t* zona);
 
 pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) ;
 
-int intentar_lista_espera(lista_t* zona, pila_t* moto);
+int intentar_lista_espera(zona_t* zona, lista_t* moto);
 
-int intentar_cola_ppal(lista_t* zona, pila_t* moto);
+int intentar_cola_ppal(zona_t* zona, lista_t* moto);
 
 
 #endif
