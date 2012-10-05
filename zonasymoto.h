@@ -2,29 +2,24 @@
 #define ZONASYMOTO_H
 #include "tdas.h"
 #include "pedidos.h"
+#include "stdbool.h"
 
 //########################################################################
-//                                PRIMITIVAS DE ZONAS
-//########################################################################
-typedef struct zona zona_t;
-
-zona_t* zona_crear();
-
-bool zona_preparar_pedidos(zona_t* zona1, zona_t* zona2, zona_t* zona3, zona_t* zona4, zona_t* zona5, lista_t* pedidos);
-
-pedido_t* zona_sacar(zona_t* zona, int zona_num);
-
-//########################################################################
-//                                PRIMTIVAS DE ZONAS
+//                        PRIMITIVAS DE ZONAS Y MOTO
 //########################################################################
 
-lista_t* moto_cargar(zona_t* zona);
+// Destruye la lista "zonas" y los pedidos que contiene
+void zonas_destruir(lista_t* zonas, void destruir_pedido(void*));
 
-pedido_t* buscar_adecuado (lista_t* lista_espera, int pizzas_cargadas) ;
+// Pasa los pedidos de pedidos_entrantes a la lista zonas
+bool zona_preparar_pedidos(lista_t* zonas, lista_t* pedidos_entrantes);
 
-int intentar_lista_espera(zona_t* zona, lista_t* moto);
-
-int intentar_cola_ppal(zona_t* zona, lista_t* moto);
-
+// Recibe la lista zonas y saca de ella los pedidos que cumplan los requisitos:
+// la cantidad de pizzas en la moto debe ser mayor o igual a la capacidad
+// maxima. Recibe también la pila "salientes" a donde ira apilando las motos
+// cargadas.
+// Devuelve true si la moto se cargo con pizzas; false si pedidos_entrantes
+// estaba vacia o si la moto no pudo cargar nada 
+bool moto_cargar(lista_t* zonas, pila_t* salientes);
 
 #endif

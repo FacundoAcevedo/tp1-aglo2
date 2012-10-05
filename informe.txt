@@ -29,33 +29,14 @@ Especificación:
 lista_t* pedidos_entrantes;
 
  
-2) Preparación de pedidos: zonas 
+2) Preparación de pedidos 
 Análisis: El programa debe contar con una opción para preparar todos los pedidos, 
 agrupándolos según la zona de envío (los pedidos se preparan en 
 el orden que fueron registrados). Una vez que los pedidos son preparados
 no pueden ser modificados ni cancelados.
 DISEÑO: 
-Se tiene desde el arranque del programa, 5 colas (una por zona) en las que se 
-van encolando los pedidos de acuerdo a su atributo "zona" y respetando 
-su orden. Las características de los pedidos no se pueden modificar por 
-enunciado y porque la estructura de cola no lo permite.
-Por cada cola debe existir una estructura de datos semejante que funciona
-como "auxiliar", para retener los pedidos que quedan en lista de espera por
-no tener la cantida dde pizzas adecuada para la moto.
-Especificación:
-Definimos un struct zona_t, que contiene dos atributos: una cola llamada 
-"cola_ppal" a donde van los pedidos_entrantes correspondientes, y una lista
-enlazada "lista_de_espera" a donde van los pedidos postergados.
-Elegimos una lista_enlazada para la lista de espera porque necesitaremos
-iterar sobre los elementos para buscar un match, así como eliminarlos
-si pasan a entrar en la moto.
-Las zonas se agrupan en orden en un vector de tamaño 5 para facilitar
-el acceso a cada una de ellas desde las funciones. Se nombran zona1, zona2,
-zona3, zona4, zona5 y se referencian por su número (1, 2...).
-typedef struct zona{
-	cola_t* cola_ppal;
-	lista_t* lista_espera;
-	} zona_t;
+Tenemos una lista "preparados" a la que se le agregan los pedidos entrantes
+existentes con el método de "insertar_ultimo" para emular una cola.
 
 3) Despacho de pedidos: la moto
 Análisis: El programa debe permitir enviar los pedidos a los clientes. Esto consiste
@@ -77,62 +58,19 @@ DISEÑO: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto
     - 5 pedidos de 1, 1, 1, 1 y 1 pizzas c/1
     
 Observación: para que la moto se llene siempre de 5 pizzas, los pedido
-que queden "cortados" tienen que ser postergados. Es decir, el des-
-encolamiento de los primeros pedidos en la cola deberá "saltearse"
-al primero para intentar apilar el siguiente (o así sucesivamente hasta
-encontrar un pedido que se ajuste a las cantidades de la moto). 
-Dado que el método desencolar no permite saltearse nodos, debemos 
-crear alguna estructura auxiliar que en la que se vayan guardando los 
-pedidos salteados. Es decir, los pedidos de la cola siempre se van a des-
-encolar, y algunos entrarán en la moto y otros irán a una especie de lista de
-espera.
-
-Pensamos en dos estrategias para resolver el asunto:
-Estrategia 1: Se crea una cola auxiliar por zona. En la cola auxiliar se 
-irán encolando los pedidos postergados por la cola de la zona respectiva. 
-La cola auxiliar tendrá prioridad sobre la principal al momento de intentar 
-cargar la moto.
-Éste sería el método más "sencillo" y lógico en términos de implementación 
-y funcionalidad. Es natural pensar que los que esperan se ubiquen en una cola. 
-Sin embargo, la desventaja de este método es que, nuevamente, la cola no 
-permite saltearse nodos y sólo puede desencolar por el principio. Por lo 
-tanto, la función cargar_moto podrá chequear únicamente con el primer 
-elemento de la cola auxiliar y si éste no entra en la moto, se pasará a 
-chequear la cola principal. En perspectiva, esto generará en la cola_auxiliar
-una tasa de crecimiento mucho mayor a la de decrecimiento (se encolarán 
-varios pedidos por cada uno que se desencole), y los pedidos postergados
-deberán esperar mucho para ser enviados.
-Estrategia 2: Se crea una lista auxiliar por zona. La lista, en principio, 
-simulará los métodos de una cola, es decir, agregará pedidos al último lugar 
-(con lista_insertar_ultimo)  e intentará desagotar por el principio 
-(lista_borrar_primero). Pero como sabemos que es muy probable que el primer 
-pedido no cumpla las condiciones para pasar a la moto, y crear otra lista 
-auxiliar para la lista auxiliar sería entrar en un loop interminable, la 
-lista_aux podrá examinar cada pedido que contiene, en el orden de llegada 
-(desde el primero hasta el \'faltimo), para compararlo con el valor de 
-cant_pizzas que está buscando (o sea, cualquier valor adecuado para que 
-entre en la moto). En cuanto lo encuentre, lo sacará de la lista con 
-lista_borrar. De no encontrarlo pasará a revisar la cola principal de pedidos.
-En términos de eficiencia, este procedimiento consume mucho más tiempo 
-que el de la estrategia 1. Sin embargo, elegimos priorizar la necesidad 
-de la pizzería de no demorar demasiado en la entrega de pedidos, en 
-detrimento de la optimización del costo del programa. En consecuencia, 
-implementaremos la estrategia 2.
-Observación: Ambas estrategias parten de la base de que los pedidos ya 
-apilados en la moto son "incuestionables". Por ejemplo: la moto está cargada 
-con un pedido de 4 pizzas. Idealmente necesita un pedido de 1 pizza para 
-completarse y salir. Suponiendo que la lista de espera tiene pedidos en 
-el siguiente orden: 1) 3 pizzas 2) 2 pizzas 3) 5 pizzas, se mirará el 
-primer pedido y se verá que no puede cargarse a la moto, ídem con el segundo 
-y el tercero. En conclusión, la moto quedará con cuatro pizzas y se perderá 
-en optimización. Si la moto pudiera, ante semejante situación, descargar 
-el pedido de 4 pizzas que tiene insertado y sumarlo a lista de espera, 
-podría cargar los dos primeros pedidos de la lista de espera (3 y 2 pizzas) 
-y salir en situación óptima.
-La implementación de tal posibilidad disminuiría mucho la eficiencia del 
-programa, puesto que el proceso de cargar y despachar una moto sería de 
-un orden mayor en al menos un nivel a la opción básica.
-
+que queden "cortados" tienen que ser postergados. Por esto elegimos que
+la moto sea una lista y una cola: con un iterador, podremos ir evaluando
+cada uno de los pedidos preparados (empezando por el primero en espera)
+para cargar a la moto únicamente los adecuados. De esta forma podemos 
+"saltear" pedidos de la lista que no son adecuados.
+Implementación:	la función cargar_moto recibe la lista de pedidos preparados.
+Si ésta no está vacía, procede a cargar el primer pedido en la moto. De acuerdo
+a su zona, irá buscando entre el resto de la lista de preparados aquellos
+que cumplan con la suma de pizzas máxima (en este caso 5) y los cargará
+si es que los encuentra.
+Una vez que la moto haya llegado a cargar su capacidad máxima o, de no llegar,
+halla cargado todas los pedidos de la zona, se agrega a la lista de 
+pedidos salientes y se destruye.
 
 4) Impresiones
 El programa debe permitir observar el estado de la pizzería incluyendo 

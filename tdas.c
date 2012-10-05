@@ -188,15 +188,35 @@ bool lista_insertar(lista_t *lista, lista_iter_t *iter, void *dato){
 // Elimina el dato en la lista ubicado en la posicion que se pasa por parametro.	
 // Pre: la lista no es vacia.
 // Post: se elimina de la lista el elemento señalado por el iterador.
-void *lista_borrar(lista_t *lista, lista_iter_t *iter){
-    nodo_t *nodo_a_borrar = iter->actual;
-	void* borrado = (iter->actual)->valor;
-	iter->actual = (iter->actual)->ref;
-    free(nodo_a_borrar);
-	lista->largo -=1;
-	return borrado;
-	}
+void *lista_borrar(lista_t *lista, lista_iter_t *iter)
+{
+	if (lista_esta_vacia(lista)) return NULL;
 
+	nodo_t* puntero_auxiliar = iter -> actual;
+	void* dato_auxiliar = puntero_auxiliar -> valor;
+	
+	if (iter -> actual) iter -> actual = (iter -> actual) -> ref;
+	else return NULL;
+
+	// Caso particular: borrar el primer elemento de la lista
+	if (!(iter -> anterior))
+		lista -> inicio = (lista -> inicio) -> ref;
+	
+	else 
+	{
+		(iter -> anterior) -> ref = iter -> actual;
+		// Caso particular: borra el ultimo elemento de la lista
+		if (!(iter -> actual)) lista -> fin = iter -> anterior;
+	}
+	
+	free (puntero_auxiliar);
+	lista -> largo -= 1;
+	
+	// Caso particular: borrÃ³ el Ãºltimo elemento de la lista.
+	if (lista -> largo == 0) lista -> fin = NULL;
+	
+	return dato_auxiliar;
+}
 
 /* ******************************************************************
  *                    FUNCIONES DEL ITERADOR
@@ -239,7 +259,9 @@ void *lista_iter_ver_actual(const lista_iter_t *iter){
 // Post: devuelve true si el iterador se encuentra al final de la lista
 // false si no se encuentra al final de la lista.
 bool lista_iter_al_final(const lista_iter_t *iter){
-	if ((iter->actual)->ref== NULL) return true;
+	if (!iter->actual)
+		printf("es nulo, por eso pincha (te lo dije)");
+	if ((iter->actual)->ref == NULL) return true;
 	return false;
 }
 //~ 
@@ -409,11 +431,19 @@ pila_t* pila_crear()
 // Post: se eliminaron todos los elementos de la pila.
 void pila_destruir(pila_t *pila , void destruir_dato(void *))
 {
-    if (pila->cantidad != 0 ||  pila->datos != NULL)
-        if (destruir_dato)
-                destruir_dato(pila->datos);
-        free(pila->datos);
-    if (pila != NULL) free(pila);
+    if (pila->datos != NULL) {
+		while (!pila_esta_vacia(pila)){
+			puts("entre al while");
+			void* desapilado;
+			desapilado = pila_desapilar(pila);
+			puts("pase el desapilar");
+			if (destruir_dato)
+				destruir_dato(desapilado);
+			puts("termine un while");
+		}
+	}
+	free(pila->datos);
+    free(pila);
 }
 
 // Devuelve verdadero o falso, segÃÂºn si la pila tiene o no elementos apilados.
@@ -441,7 +471,7 @@ bool pila_apilar(pila_t *pila, void* valor )
 	    pila->tamanio += 10;
 		}    
     //verifico que todo haya funcionado
-    if (pila->datos == NULL) return false;
+    //~ if (pila->datos == NULL) return false;
     pila->cantidad += 1;
 	*(pila->datos + pila->cantidad) = valor;
 	return true;
@@ -452,12 +482,11 @@ bool pila_apilar(pila_t *pila, void* valor )
 // Pre: la pila fue creada.
 // Post: se devolviÃÂ³ el valor del tope de la pila, cuando la pila no estÃÂ¡
 // vacÃÂ­a, NULL en caso contrario.
-void* pila_ver_tope(const pila_t *pila){
-    void* tope;
-    tope = *(pila->datos + (pila->cantidad));    
-    if (pila->cantidad == 0) return NULL;
-    return tope;
-	}
+void* pila_ver_tope(const pila_t *pila){    
+    if (pila->cantidad > 0) 
+		return pila->datos[pila->cantidad];
+    return NULL;
+}
    
     
 // Saca el elemento tope de la pila. Si la pila tiene elementos, se quita el
