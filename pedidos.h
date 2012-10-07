@@ -1,14 +1,13 @@
 #ifndef PEDIDOS_H
 #define PEDIDOS_H
+#define MAX 50
 #include "tdas.h"
-/*
- *TIPOS
- */
+
 
 typedef struct pedido{
     int zona;
     int cant_pizzas;
-    unsigned int id;
+    char id[MAX];
 }pedido_t;
 
 
@@ -24,15 +23,15 @@ void(destruir_pedido)(void *dato);
 
 void pedido_destruir(pedido_t *pedido);
 
-pedido_t *pedido_crear(int zona,int cant_pizzas);
+pedido_t *pedido_crear(int zona,int cant_pizzas, char* id);
 
 void pedidos_entrantes_destruir(lista_t* pedidos_entrantes);
 
-bool pedidos_entrantes_cancelar(lista_t *pedidos_entrantes,unsigned int id);
+bool pedidos_entrantes_cancelar(lista_t *pedidos_entrantes,char* id);
 
-bool pedidos_entrantes_cant_pizzas(lista_t *pedidos_entrantes,unsigned int id,int nueva_cant);
+bool pedidos_entrantes_cant_pizzas(lista_t *pedidos_entrantes,char* id,int nueva_cant);
 
-bool pedidos_entrantes_zona(lista_t *pedidos_entrantes,unsigned int id,int nueva_zona);
+bool pedidos_entrantes_zona(lista_t *pedidos_entrantes,char* id,int nueva_zona);
 
 pedido_t *pedidos_entrantes_sacar(lista_t *pedidos_entrantes);
 
@@ -42,8 +41,8 @@ size_t pedidos_entrantes_largo(const lista_t *pedidos_entrantes);
 
 lista_t *pedidos_entrantes_crear();
 
-unsigned int get_random_id();
-lista_iter_t* buscar_id(lista_t* pedidos_entrantes, unsigned int id);
+//~ char* get_random_id();
+lista_iter_t* buscar_id(lista_t* pedidos_entrantes, char* id);
 
 int printeo_salientes(pila_t* salientes, int n);
 bool pedidos_lista_print (lista_t* lista_pedidos);

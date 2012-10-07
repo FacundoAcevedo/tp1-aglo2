@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "tdas.h"
 #include "pedidos.h"
+#include <string.h>
 /*##############################################################*/
 /*							SALIENTES*/
 /*##############################################################*/
@@ -36,7 +37,7 @@ int printeo_salientes(pila_t* salientes, int n){
 	
 	while ((i<n)&&(!pila_esta_vacia(salientes))){
 		pedido_t* desapilado = pila_desapilar(salientes);
-        printf("Pedido nro: %u \n Cantidad de pizzas: %d \n Zona: %d \n\n", 
+        printf("Cliente: %s - Cantidad de pizzas: %d - Zona: %d \n", 
 			desapilado->id, desapilado->cant_pizzas, desapilado->zona);
 		pila_apilar(auxiliar, desapilado);
 		i += 1;
@@ -62,7 +63,7 @@ int printeo_salientes(pila_t* salientes, int n){
 /*typedef struct pedido{*/
 	/*int zona;*/
 	/*int cant_pizzas;*/
-	/*unsigned int id;*/
+	/*char* id;*/
 /*}pedido_t;*/
 
 //~ // PARCHE - BORRAR EN FUTURO
@@ -75,45 +76,49 @@ int printeo_salientes(pila_t* salientes, int n){
 
 
 // Funciones auxiliares
-unsigned int get_random_id(void){
-	unsigned int id	;
-	id = rand() % (10001);
-	return id;
-}
+//~ char* get_random_id(void){
+	//~ char* id	;
+	//~ id = rand() % (10001);
+	//~ return id;
+//~ }
 /*
  *Busca sobre una lista, y devuelve un iterador donde hay un pedido.
- *PRE: recibe una pedidos_entrates_t con la lista de pedidos, y un unsigned int con el
+ *PRE: recibe una pedidos_entrates_t con la lista de pedidos, y un char* con el
  *id a buscar
  *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
  *devuelve false o el iter de caso contrario
  */
-lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, unsigned int id){
+lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, char* id){
     //variables
     pedido_t* act;
-    unsigned int id_cmp;
+    char id_cmp[MAX];
     // Creo un iter
     lista_iter_t* iter;
     iter = lista_iter_crear(pedidos_entrantes);
     //Busco
-    while(true){
+    int i = 1;
+    while(i <= lista_largo(pedidos_entrantes)){
         act = lista_iter_ver_actual(iter);
-        id_cmp = act->id;
-        if (id_cmp == id) return iter;
-       lista_iter_avanzar(iter);     
-		}
+		strcpy(id_cmp, act->id);
+	    if (strcmp(id_cmp, id)==0)
+			return iter;
+       lista_iter_avanzar(iter);
+       i +=1;
+       }
+    lista_iter_destruir(iter);
     return NULL;
 }
 
 
 
 // Funciones de pedido 
-pedido_t* pedido_crear( int zona, int cant_pizzas){
+pedido_t* pedido_crear( int zona, int cant_pizzas, char* id){
 	pedido_t* pedido;
 	pedido = malloc(sizeof(pedido_t));
 	if (pedido == NULL) return NULL;
 	pedido->zona = zona;
 	pedido->cant_pizzas = cant_pizzas;
-	pedido->id = get_random_id();	
+	strcpy(pedido->id, id);
 	return pedido;
 	}
 
@@ -154,7 +159,11 @@ size_t pedidos_entrantes_largo(const lista_t* pedidos_entrantes){
 	
 // Agrega pedido al final de la lista.
 bool pedidos_entrantes_agregar (lista_t* pedidos_entrantes, pedido_t* pedido){
-	if (lista_insertar_ultimo(pedidos_entrantes, pedido)) return true;
+	if (lista_insertar_ultimo(pedidos_entrantes, pedido)) {
+		puts("El pedido se ha incresado con exito. Detalles del pedido:");
+		printf("Cliente: %s - Cantidad de pizzas: %d - Zona: %d \n",pedido->id, pedido->cant_pizzas, pedido->zona);
+		return true;
+	}
 	return false;
 	}
 
@@ -167,8 +176,8 @@ pedido_t* pedidos_entrantes_sacar (lista_t* pedidos_entrantes){
 
 // Modifica la zona de un pedido.
 // Recibe: struct pedidos_entrantes, un int con la nueva zona
-// y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, unsigned int id, int nueva_zona){
+// y un char* id que identifica al pedido a modificar.
+bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zona){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
 	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
@@ -181,8 +190,8 @@ bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, unsigned int id, int nu
 
 // Modifica cant_pizzas de un pedido
 // Recibe: struct pedidos_entrantes, un int con la nueva cantidad
-// y un unsigned int id que identifica al pedido a modificar.
-bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, unsigned int id, int nueva_cant){
+// y un char* id que identifica al pedido a modificar.
+bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, char* id, int nueva_cant){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
 	iter_pedido_a_modif = buscar_id(pedidos_entrantes, id);
@@ -194,9 +203,9 @@ bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, unsigned int id,
 	}
 	
 // Saca el pedido de la lista de pedidos_entrantes y lo destruye.
-// Recibe: struct pedidos_entrantes, un unsigned int con el id del pedido
+// Recibe: struct pedidos_entrantes, un char* con el id del pedido
 // a cancelar.
-bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, unsigned int id){
+bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, char* id){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_cancelar;
 	iter_pedido_a_cancelar = buscar_id(pedidos_entrantes, id);
@@ -258,11 +267,16 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 		if (lista_iter_al_final(iter)) break;
 		lista_iter_avanzar(iter);
 		}
+	// Elimino el iter de lista_pedidos
+	lista_iter_destruir(iter);
 		
 	// Printeo las listas.
 	puts("####################################################");
 	puts("			Zona 1: \n");
-	if (lista_esta_vacia(zona1)) puts ("0");
+	if (lista_esta_vacia(zona1)){
+		lista_destruir(zona1,NULL);
+		puts ("0");
+	}
 	else{
 		lista_iter_t* iter1;
 		iter1 = lista_iter_crear(zona1);
@@ -270,9 +284,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter1);
-			printf("Pedido nro: %u \n Cantidad de pizzas: %d \n ",actual->id, actual->cant_pizzas);
+			printf("Cliente: %s - Cantidad de pizzas: %d \n ",actual->id, actual->cant_pizzas);
 			if (lista_iter_al_final(iter1)){
 				lista_iter_destruir(iter1);
+				//~ lista_destruir(zona1, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter1);
@@ -281,7 +296,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	
 	puts("####################################################");
 	puts("			Zona 2: \n");
-	if (lista_esta_vacia(zona2)) puts ("0");
+	if (lista_esta_vacia(zona2)){
+		lista_destruir(zona2,NULL);
+		puts ("0");
+	}
 	else{
 		lista_iter_t* iter2;
 		iter2 = lista_iter_crear(zona2);
@@ -289,9 +307,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter2);
-			printf("Pedido nro: %u \n Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
+			printf("Cliente: %s - Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
 			if (lista_iter_al_final(iter2)){
 				lista_iter_destruir(iter2);
+				//~ lista_destruir(zona2, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter2);
@@ -300,7 +319,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	
 	puts("####################################################");
 	puts("			Zona 3: \n");
-	if (lista_esta_vacia(zona3)) puts ("0");
+	if (lista_esta_vacia(zona3)){
+		lista_destruir(zona3, NULL);
+		puts ("0");
+	 }
 	else{
 		lista_iter_t* iter3;
 		iter3 = lista_iter_crear(zona3);
@@ -308,9 +330,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter3);
-			printf("Pedido nro: %u \n Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
+			printf("Cliente: %s - Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
 			if (lista_iter_al_final(iter3)){
 				lista_iter_destruir(iter3);
+				//~ lista_destruir(zona3, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter3);
@@ -319,7 +342,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	
 	puts("####################################################");
 	puts("			Zona 4: \n");
-	if (lista_esta_vacia(zona4)) puts ("0");
+	if (lista_esta_vacia(zona4)){
+		lista_destruir(zona4, NULL);
+		puts ("0");
+	}
 	else{
 		lista_iter_t* iter4;
 		iter4 = lista_iter_crear(zona4);
@@ -327,9 +353,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter4);
-			printf("Pedido nro: %u \n Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
+			printf("Cliente: %s - Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
 			if (lista_iter_al_final(iter4)){
 				lista_iter_destruir(iter4);
+				//~ lista_destruir(zona4, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter4);
@@ -338,7 +365,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	
 	puts("####################################################");
 	puts("			Zona 5: \n");
-	if (lista_esta_vacia(zona5)) puts ("0");
+	if (lista_esta_vacia(zona5)){
+		lista_destruir(zona5,NULL);
+		puts ("0");
+	}
 	else{
 		lista_iter_t* iter5;
 		iter5 = lista_iter_crear(zona5);
@@ -346,14 +376,14 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter5);
-			printf("Pedido nro: %u \n Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
+			printf("Cliente: %s - Cantidad de pizzas: %d \n",actual->id, actual->cant_pizzas);
 			if (lista_iter_al_final(iter5)){
 				lista_iter_destruir(iter5);
+				//~ lista_destruir(zona5, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter5);
 			}
 		}
-	
 	return true;
 	}

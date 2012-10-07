@@ -91,9 +91,10 @@ bool moto_cargar(lista_t* zonas, pila_t* salientes){
 		}
 	}
 	// Destruyo la moto
-	//~ lista_destruir(moto, (*destruir_pedido));
+	//~ lista_destruir(moto, destruir_pedido);
 	// devuelvo true
-
+	lista_iter_destruir(iter);
+	
 	return true;
 	
 	}

@@ -83,7 +83,7 @@ size_t lista_largo(const lista_t *lista){
 // Devuelve verdadero o falso, segÃÂºn si la lista tiene o no elementos.
 // Pre: la lista fue creada.
 bool lista_esta_vacia(const lista_t *lista){
-	if (lista->largo == 0) return true;
+	if ((int)lista_largo(lista)==0) return true;
 	return false;
 }
 
@@ -239,8 +239,10 @@ lista_iter_t *lista_iter_crear(const lista_t *lista)
 // Post: se avanzo una posicion en la actual del iterador. Si la posicion
 // actual era la ultima, se devuelve false.
 bool lista_iter_avanzar(lista_iter_t *iter){
-	if (lista_iter_al_final(iter)) return false;
-	if (iter->actual == NULL) return false;
+	if (!(iter->actual))// si la lista esta vacia
+		return false;
+	if (!((iter->actual)->ref))
+		return false;
 	iter->anterior = iter->actual;
 	iter->actual = (iter->actual)->ref;
 	return true;
@@ -433,13 +435,10 @@ void pila_destruir(pila_t *pila , void destruir_dato(void *))
 {
     if (pila->datos != NULL) {
 		while (!pila_esta_vacia(pila)){
-			puts("entre al while");
 			void* desapilado;
 			desapilado = pila_desapilar(pila);
-			puts("pase el desapilar");
 			if (destruir_dato)
 				destruir_dato(desapilado);
-			puts("termine un while");
 		}
 	}
 	free(pila->datos);
@@ -512,3 +511,4 @@ void* pila_desapilar(pila_t *pila)
     // Devuelvo la referencia al valor desapilado
     return desapilado;
 }
+

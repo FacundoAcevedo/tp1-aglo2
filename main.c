@@ -37,8 +37,8 @@ int main(){
     int zona;
     int n;
     int opc;
-    /*char opc;*/
-    unsigned int id;
+    /*char* opc;*/
+    char id[MAX];
 
          while (true)
             {
@@ -50,7 +50,7 @@ int main(){
          			  3) Cancelar pedido \n \
          			  4) Preparar pedidos \n \
          			  5) Mostrar pedidos preparados \n \
-         			  6) Cargar y despachar moto \n \
+         			  6) Cargar y despachar* moto \n \
          			  7) Ver historial de motos enviadas \n \
          			  8) Ver lista de pedidos entrantes \n \
                        0) Salir\n");
@@ -75,6 +75,15 @@ int main(){
                      lp(); //limpio la pantalla
                      barra1('-');
                      puts("#Ingresar pedido:\n");
+                     printf(" Nombre del cliente: ");
+         			scanf("%s", id);
+         			lista_iter_t* rta= buscar_id(pedidos_entrantes, id);
+                     if (rta){
+         				puts("Ya se encuentra registrado un pedido con ese nombre.");
+         				lista_iter_destruir(rta);
+                         getch();
+                         break;
+         				} 
                      printf(" Cantidad de pizzas: ");
          			scanf("%d", &cant_pizzas);
                      printf(" Zona: ");
@@ -85,19 +94,23 @@ int main(){
          				break;
          				}
          		   pedido_t* pedido;
-         		   pedido = pedido_crear(zona, cant_pizzas);
+         		   pedido = pedido_crear(zona, cant_pizzas, id);
          		   pedidos_entrantes_agregar(pedidos_entrantes, pedido);
                    break;
          
          		// 2) MODIFICAR PEDIDO
          
          	   case 2 :
-         	      printf("Ingrese el número identificador del pedido a modificar: \n");
-         		   scanf("%u", &id);
+         	      printf("Ingrese el nombre del cliente del pedido a modificar: \n");
+         		   scanf("%s", id);
          			if (!buscar_id(pedidos_entrantes, id)){
          				puts("Ese pedido no se encuentra registrado");
                          getch();
+                         break;
          				} 
+         			printf("Los detalles del pedido de %s son:\n", id);
+         			printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+         			puts("Elija lo que desea hacer:\n");  
          		   printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
          		   scanf("%d", &eleccion);
          		   if (eleccion == 1){
@@ -109,8 +122,13 @@ int main(){
                             getch();
          					break;
          					}
-         				pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant);
-         			   }
+         				if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant)){
+         				puts("Cantidad de pizzas modificada con exito. ");
+         				printf("Los detalles del pedido de %s ahora son:\n", id);
+         				printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+						}
+
+         			}
          			else if (eleccion == 2){
          			   int nueva_zona;
          				printf("Ingrese la nueva zona \n" );
@@ -120,8 +138,13 @@ int main(){
                             getch();
          					break;
          					}
-         				pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona);
-         				}
+         				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona)){
+         				puts ("Zona modificada con exito");
+         				printf("Los detalles del pedido de %s ahora son:\n", id);
+         				printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+						}
+
+         			}
          			else{
          				puts("Eleccion invalida");
                         getch();
@@ -134,9 +157,15 @@ int main(){
          		// 3) CANCELAR PEDIDO
          
          	   case 3:
-         		   printf("Ingrese numero identificador del pedido a cancelar \n" );
-         		    scanf("%u", &id);
-         			pedidos_entrantes_cancelar(pedidos_entrantes, id);	
+         		   printf("Ingrese el nombre del cliente del pedido a cancelar \n" );
+         		    scanf("%s", id);
+         			if (!buscar_id(pedidos_entrantes, id)){
+         				puts("Ese pedido no se encuentra registrado");
+                        getch();
+                        break;
+         			}
+         			pedidos_entrantes_cancelar(pedidos_entrantes, id);
+         			puts ("Pedido cancelado con exito.");	
                      break;
          		   
          	   
@@ -168,7 +197,7 @@ int main(){
          	   
 
          	   
-         	   // 6) CARGAR Y DESPACHAR MOTO
+         	   // 6) CARGAR Y DESPAchar* MOTO
          	   
          	   case 6: 
          			if (moto_cargar(zonas, pedidos_salientes)){
@@ -216,5 +245,9 @@ int main(){
             getch();
          } // while
     /*}//while*/
+// Destruyo lo que cree al principio
+pedidos_entrantes_destruir(pedidos_entrantes);
+pila_destruir(pedidos_salientes,  destruir_pedido);
+lista_destruir(zonas, destruir_pedido);
 return 0;
 }
