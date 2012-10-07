@@ -270,10 +270,11 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	lista_iter_destruir(iter);
 		
 	// Printeo las listas.
-	puts("			Zona 1: \n");
+	puts("=======================================================");
+	puts("	Zona 1:");
 	if (lista_esta_vacia(zona1)){
 		lista_destruir(zona1,NULL);
-		puts ("0");
+		puts ("	0");
 	}
 	else{
 		lista_iter_t* iter1;
@@ -282,7 +283,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter1);
-			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n ",
+			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n",
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter1)){
 				lista_iter_destruir(iter1);
@@ -293,10 +294,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 			}
 		}
 	
-	puts("			Zona 2: \n");
+	puts("	Zona 2:");
 	if (lista_esta_vacia(zona2)){
 		lista_destruir(zona2,NULL);
-		puts ("0");
+		puts ("	0");
 	}
 	else{
 		lista_iter_t* iter2;
@@ -305,7 +306,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter2);
-			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n ",
+			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n",
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter2)){
 				lista_iter_destruir(iter2);
@@ -316,10 +317,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 			}
 		}
 	
-	puts("			Zona 3: \n");
+	puts("	Zona 3:");
 	if (lista_esta_vacia(zona3)){
 		lista_destruir(zona3, NULL);
-		puts ("0");
+		puts ("	0");
 	 }
 	else{
 		lista_iter_t* iter3;
@@ -328,7 +329,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter3);
-			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n ",
+			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n",
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter3)){
 				lista_iter_destruir(iter3);
@@ -339,10 +340,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 			}
 		}
 	
-	puts("			Zona 4: \n");
+	puts("	Zona 4:");
 	if (lista_esta_vacia(zona4)){
 		lista_destruir(zona4, NULL);
-		puts ("0");
+		puts ("	0");
 	}
 	else{
 		lista_iter_t* iter4;
@@ -351,7 +352,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter4);
-			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n ",
+			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n",
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter4)){
 				lista_iter_destruir(iter4);
@@ -361,11 +362,10 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 			lista_iter_avanzar(iter4);
 			}
 		}
-	
-	puts("			Zona 5: \n");
+	puts("	Zona 5:");
 	if (lista_esta_vacia(zona5)){
 		lista_destruir(zona5,NULL);
-		puts ("0");
+		puts ("	0");
 	}
 	else{
 		lista_iter_t* iter5;
@@ -374,7 +374,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 
 		while (true){
 			actual = lista_iter_ver_actual(iter5);
-			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n ",
+			printf("Cliente: %s - Cantidad de pizzas: %d - Distancia a la pizzeria: %d \n",
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter5)){
 				lista_iter_destruir(iter5);
@@ -384,5 +384,6 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 			lista_iter_avanzar(iter5);
 			}
 		}
+	puts("=======================================================");
 	return true;
 	}

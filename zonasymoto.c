@@ -122,7 +122,7 @@ lista_t* moto_ordenar(lista_t* moto){
 		else{
 			// Recorro la lista buscando un valor mayor 
 			int i = 0;
-			while(i<lista_largo(orden)){
+			while(i<lista_largo(moto)){
 				lista_iter_t* iter_orden = lista_iter_crear(orden);
 				pedido_t* actual = lista_iter_ver_actual(iter_orden);
 				// si encuentro un valor mayor, inserto antes de el

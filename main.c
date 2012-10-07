@@ -52,7 +52,7 @@ int main(){
          			  3) Cancelar pedido \n \
          			  4) Preparar pedidos \n \
          			  5) Mostrar pedidos preparados \n \
-         			  6) Cargar y despachar moto \n \
+         			  6) Cargar y despachar* moto \n \
          			  7) Ver historial de motos enviadas \n \
          			  8) Ver lista de pedidos entrantes \n \
                        0) Salir\n");
@@ -218,7 +218,7 @@ int main(){
 					moto = moto_cargar(zonas, pedidos_salientes);
          			if (moto != NULL){
          				puts("La moto se ha cargado y despachado con exito.");
-						(moto);
+						pedidos_lista_print(moto);
          		        getch();
          				break;
          				}
