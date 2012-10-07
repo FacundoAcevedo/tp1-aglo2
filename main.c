@@ -77,8 +77,9 @@ int main(){
                      lp(); //limpio la pantalla
                      barra1('-');
                      puts("#Ingresar pedido:\n");
-                     printf(" Nombre del cliente: ");
-         			scanf("%s", id);
+                     printf(" Nombre del cliente (sin espacios): ");
+         			scanf("%50s", id);
+         			//~ fgets(id, sizeof(id), stdin);
          			lista_iter_t* rta= buscar_id(pedidos_entrantes, id);
                      if (rta){
          				puts("Ya se encuentra registrado un pedido con ese nombre.");
