@@ -30,11 +30,13 @@ int main(){
 	pila_t* pedidos_salientes = pila_crear();
 	/* Creo la lista "zonas */
 	lista_t* zonas = lista_crear();
+	lista_t* moto;
 	
     /*Declaro las variables estaticas*/
     int cant_pizzas;
     int eleccion;
     int zona;
+    int distancia;
     int n;
     int opc;
     /*char* opc;*/
@@ -50,7 +52,7 @@ int main(){
          			  3) Cancelar pedido \n \
          			  4) Preparar pedidos \n \
          			  5) Mostrar pedidos preparados \n \
-         			  6) Cargar y despachar* moto \n \
+         			  6) Cargar y despachar moto \n \
          			  7) Ver historial de motos enviadas \n \
          			  8) Ver lista de pedidos entrantes \n \
                        0) Salir\n");
@@ -83,19 +85,29 @@ int main(){
          				lista_iter_destruir(rta);
                          getch();
                          break;
-         				} 
+						} 
                      printf(" Cantidad de pizzas: ");
          			scanf("%d", &cant_pizzas);
+                    
                      printf(" Zona: ");
          			scanf("%d", &zona);
+                    
+                     printf(" Distancia a la pizzeria (metros): ");
+         			scanf("%d", &distancia);
+                    
          			if ((zona < 1) || (zona>5) || (cant_pizzas<1) || (cant_pizzas>5)){
          				puts("Cantidad de pizzas o zona inválidas");
                          getch();
          				break;
          				}
          		   pedido_t* pedido;
-         		   pedido = pedido_crear(zona, cant_pizzas, id);
-         		   pedidos_entrantes_agregar(pedidos_entrantes, pedido);
+         		   pedido = pedido_crear(zona, distancia, cant_pizzas, id);
+         		   if(pedidos_entrantes_agregar(pedidos_entrantes, pedido)){
+						puts("El pedido se ha ingresado con exito. Detalles del pedido:");
+						printf("Cliente: %s - Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros. \n",
+							pedido->id, pedido->cant_pizzas, pedido->zona, pedido->distancia);
+					}
+					else puts ("El pedido no se ha podido ingresar. Intente nuevamente.");
                    break;
          
          		// 2) MODIFICAR PEDIDO
@@ -109,7 +121,7 @@ int main(){
                          break;
          				} 
          			printf("Los detalles del pedido de %s son:\n", id);
-         			printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+         			printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d \n", pedido->cant_pizzas, pedido->zona, pedido->distancia);
          			puts("Elija lo que desea hacer:\n");  
          		   printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
          		   scanf("%d", &eleccion);
@@ -118,30 +130,33 @@ int main(){
          				printf("Ingrese la nueva cantidad de pizzas: \n" );
          				scanf("%d", &nueva_cant);
          				if ((nueva_cant<1) || (nueva_cant>5)){
-         					puts("Cantidad de pizzas o zona invalidas");
+         					puts("Cantidad de pizzas invalida");
                             getch();
          					break;
          					}
          				if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant)){
          				puts("Cantidad de pizzas modificada con exito. ");
          				printf("Los detalles del pedido de %s ahora son:\n", id);
-         				printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+         				printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", pedido->cant_pizzas, pedido->zona, pedido->distancia);
 						}
 
          			}
          			else if (eleccion == 2){
          			   int nueva_zona;
+         			   int nueva_distancia;
          				printf("Ingrese la nueva zona \n" );
          				scanf("%d", &nueva_zona);
          				if ((nueva_zona<1) || (nueva_zona>5)){
-         					puts("Cantidad de pizzas o zona invalidas");
+         					puts("Zona invalidas");
                             getch();
          					break;
-         					}
-         				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona)){
+						printf("Ingrese la nueva distancia a la pizzeria (metros) \n" );
+         				scanf("%d", &nueva_distancia);
+         				}
+         				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia)){
          				puts ("Zona modificada con exito");
          				printf("Los detalles del pedido de %s ahora son:\n", id);
-         				printf("Cantidad de pizzas: %d - Zona: %d \n", pedido->cant_pizzas, pedido->zona);
+         				printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", pedido->cant_pizzas, pedido->zona, pedido->distancia);
 						}
 
          			}
@@ -200,8 +215,10 @@ int main(){
          	   // 6) CARGAR Y DESPAchar* MOTO
          	   
          	   case 6: 
-         			if (moto_cargar(zonas, pedidos_salientes)){
+					moto = moto_cargar(zonas, pedidos_salientes);
+         			if (moto != NULL){
          				puts("La moto se ha cargado y despachado con exito.");
+						(moto);
          		        getch();
          				break;
          				}
@@ -248,6 +265,6 @@ int main(){
 // Destruyo lo que cree al principio
 pedidos_entrantes_destruir(pedidos_entrantes);
 pila_destruir(pedidos_salientes,  destruir_pedido);
-lista_destruir(zonas, destruir_pedido);
+zonas_destruir(zonas, destruir_pedido);
 return 0;
 }

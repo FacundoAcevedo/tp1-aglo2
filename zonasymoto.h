@@ -20,6 +20,11 @@ bool zona_preparar_pedidos(lista_t* zonas, lista_t* pedidos_entrantes);
 // cargadas.
 // Devuelve true si la moto se cargo con pizzas; false si pedidos_entrantes
 // estaba vacia o si la moto no pudo cargar nada 
-bool moto_cargar(lista_t* zonas, pila_t* salientes);
+lista_t* moto_cargar(lista_t* zonas, pila_t* salientes);
+
+// Recibe una lista "moto" y la devuelve ordenada por la distancia
+// De los pedidos que contiene de menor a mayor
+lista_t* moto_ordenar(lista_t* moto);
+
 
 #endif
