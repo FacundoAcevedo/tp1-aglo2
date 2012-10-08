@@ -6,11 +6,6 @@
 #include "pedidos.h"
 #include <string.h>
 
-pila_t* salientes_crear(){
-    pila_t* salientes;
-    salientes = pila_crear();
-    return salientes;
-}
 
 void pedido_destruir(pedido_t* pedido){
 	free(pedido);
@@ -224,7 +219,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter1)){
 				lista_iter_destruir(iter1);
-				free(zona1);
+				lista_destruir(zona1, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter1);
@@ -247,7 +242,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter2)){
 				lista_iter_destruir(iter2);
-				free(zona2);
+				lista_destruir(zona2, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter2);
@@ -270,7 +265,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter3)){
 				lista_iter_destruir(iter3);
-				free(zona3);
+				lista_destruir(zona3, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter3);
@@ -293,7 +288,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter4)){
 				lista_iter_destruir(iter4);
-				free(zona4);
+				lista_destruir(zona4, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter4);
@@ -315,7 +310,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter5)){
 				lista_iter_destruir(iter5);
-				free(zona5);
+				lista_destruir(zona5, destruir_pedido);
 				break;
 				}
 			lista_iter_avanzar(iter5);

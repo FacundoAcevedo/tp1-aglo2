@@ -135,7 +135,7 @@ lista_t* moto_ordenar(lista_t* moto){
 			}
 		}
 	}
-	lista_destruir(moto, destruir_pedido);
+	free(moto);
 	return orden;
 }
 	

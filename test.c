@@ -83,7 +83,7 @@ int main(int argc, char**argv)
 	lista_t* moto1 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto1);
-	lista_destruir(moto1, destruir_pedido);
+	free(moto1)	;
 	
 	puts("Lista de pedidos salientes (los 5 ultimos):\n");
     printeo_salientes(pedidos_salientes, 5);
@@ -92,7 +92,7 @@ int main(int argc, char**argv)
 	lista_t* moto2 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto2);
-    lista_destruir(moto2, destruir_pedido);
+    free(moto2);
 	
 	puts("Lista de pedidos salientes (los 10 ultimos):\n");
     printeo_salientes(pedidos_salientes, 10);
@@ -134,7 +134,7 @@ int main(int argc, char**argv)
 	lista_t* moto3 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto3);
-    lista_destruir(moto3, destruir_pedido);
+	free(moto3);
 
 	// Pruebas de modificar cantida de pizzas
 	puts("\n Pruebas de modificar cantidad de pizzas");
