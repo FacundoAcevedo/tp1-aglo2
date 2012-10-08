@@ -78,8 +78,13 @@ int main(){
                      barra1('-');
                      puts("#Ingresar pedido:\n");
                      printf(" Nombre del cliente (sin espacios): ");
-         			scanf("%50s", id);
-         			//~ fgets(id, sizeof(id), stdin);
+         			scanf("%s", id);
+					if (strlen(id)>50){
+						puts("El nombre no debe superar los 50 caracteres.");
+						getch();
+						break;
+						}
+
          			lista_iter_t* rta= buscar_id(pedidos_entrantes, id);
                      if (rta){
          				puts("Ya se encuentra registrado un pedido con ese nombre.");
