@@ -54,9 +54,9 @@ lista_t* lista_crear(){
 }
  
  
-// Destruye la lista. Si se recibe la funciÃÂ³n destruir_dato por parÃÂ¡metro,
+// Destruye la lista. Si se recibe la funciÃÂÃÂÃÂÃÂ³n destruir_dato por parÃÂÃÂÃÂÃÂ¡metro,
 // para cada uno de los elementos de la lista llama a destruir_dato.
-// Pre: la lista fue creada. destruir_dato es una funciÃÂ³n capaz de destruir
+// Pre: la lista fue creada. destruir_dato es una funciÃÂÃÂÃÂÃÂ³n capaz de destruir
 // los datos de la lista, o NULL en caso de que no se la utilice.
 // Post: se eliminaron todos los elementos de la lista.
 void lista_destruir(lista_t *lista, void destruir_dato(void *)){
@@ -80,7 +80,7 @@ size_t lista_largo(const lista_t *lista){
 	}
 
 
-// Devuelve verdadero o falso, segÃÂºn si la lista tiene o no elementos.
+// Devuelve verdadero o falso, segÃÂÃÂÃÂÃÂºn si la lista tiene o no elementos.
 // Pre: la lista fue creada.
 bool lista_esta_vacia(const lista_t *lista){
 	if ((int)lista_largo(lista)==0) return true;
@@ -132,19 +132,19 @@ bool lista_insertar_ultimo(lista_t *lista, void *dato){
 
 
 // Obtiene el valor del primer elemento de la lista. Si la lista tiene
-// elementos, se devuelve el valor del primero, si estÃÂ¡ vacÃÂ­a devuelve NULL.
+// elementos, se devuelve el valor del primero, si estÃÂÃÂÃÂÃÂ¡ vacÃÂÃÂÃÂÃÂ­a devuelve NULL.
 // Pre: la lista fue creada.
-// Post: se devolviÃÂ³ el primer elemento de la lista, cuando no estÃÂ¡ vacÃÂ­a.
+// Post: se devolviÃÂÃÂÃÂÃÂ³ el primer elemento de la lista, cuando no estÃÂÃÂÃÂÃÂ¡ vacÃÂÃÂÃÂÃÂ­a.
 void *lista_ver_primero(const lista_t *lista){
 	if (lista_esta_vacia(lista)) return NULL;
 	return (lista->inicio)->valor;
 	}
 
 // Saca el primer elemento de la lista. Si la lista tiene elementos, se quita el
-// primero de la lista, y se devuelve su valor, si estÃÂ¡ vacÃÂ­a, devuelve NULL.
+// primero de la lista, y se devuelve su valor, si estÃÂÃÂÃÂÃÂ¡ vacÃÂÃÂÃÂÃÂ­a, devuelve NULL.
 // Pre: la lista fue creada.
-// Post: se devolviÃÂ³ el valor del primer elemento anterior, la lista
-// contiene un elemento menos, si la lista no estaba vacÃÂ­a.
+// Post: se devolviÃÂÃÂÃÂÃÂ³ el valor del primer elemento anterior, la lista
+// contiene un elemento menos, si la lista no estaba vacÃÂÃÂÃÂÃÂ­a.
 void *lista_borrar_primero(lista_t *lista){
     if (lista_esta_vacia(lista)) return NULL;
 
@@ -161,7 +161,7 @@ void *lista_borrar_primero(lista_t *lista){
 // Inserta un dato en la lista en la posicion que se pasa por parametro.
 // Pre: la lista no es vacia.
 // Post: se ha insertado el valor pasado por parametro en la posicion
-// señalada por el iterador. Los elementos ubicados luego de esa posicion
+// seÃÂ±alada por el iterador. Los elementos ubicados luego de esa posicion
 // avanzan su posicion en uno.
 bool lista_insertar(lista_t *lista, lista_iter_t *iter, void *dato){
 	if (iter->anterior == NULL && iter->actual != NULL){ // o sea si iter = posicion inicial
@@ -187,33 +187,32 @@ bool lista_insertar(lista_t *lista, lista_iter_t *iter, void *dato){
 	
 // Elimina el dato en la lista ubicado en la posicion que se pasa por parametro.	
 // Pre: la lista no es vacia.
-// Post: se elimina de la lista el elemento señalado por el iterador.
+// Post: se elimina de la lista el elemento seÃÂ±alado por el iterador.
 void *lista_borrar(lista_t *lista, lista_iter_t *iter)
 {
 	if (lista_esta_vacia(lista)) return NULL;
 
-	nodo_t* puntero_auxiliar = iter -> actual;
-	void* dato_auxiliar = puntero_auxiliar -> valor;
+	nodo_t* puntero_auxiliar = iter->actual;
+	void* dato_auxiliar = puntero_auxiliar->valor;
 	
-	if (iter -> actual) iter -> actual = (iter -> actual) -> ref;
+	if (iter->actual) iter->actual = (iter->actual)->ref;
 	else return NULL;
 
 	// Caso particular: borrar el primer elemento de la lista
-	if (!(iter -> anterior))
-		lista -> inicio = (lista -> inicio) -> ref;
+	if (!(iter->anterior))
+		lista->inicio = (lista->inicio)->ref;
 	
-	else 
-	{
-		(iter -> anterior) -> ref = iter -> actual;
+	else {
+		(iter->anterior)->ref = iter->actual;
 		// Caso particular: borra el ultimo elemento de la lista
-		if (!(iter -> actual)) lista -> fin = iter -> anterior;
+		if (!(iter->actual)) lista->fin = iter->anterior;
 	}
 	
 	free (puntero_auxiliar);
-	lista -> largo -= 1;
+	lista->largo -= 1;
 	
-	// Caso particular: borrÃ³ el Ãºltimo elemento de la lista.
-	if (lista -> largo == 0) lista -> fin = NULL;
+	// Caso particular: borrÃÂÃÂ³ el ÃÂÃÂºltimo elemento de la lista.
+	if (lista->largo == 0) lista->fin = NULL;
 	
 	return dato_auxiliar;
 }
@@ -261,9 +260,8 @@ void *lista_iter_ver_actual(const lista_iter_t *iter){
 // Post: devuelve true si el iterador se encuentra al final de la lista
 // false si no se encuentra al final de la lista.
 bool lista_iter_al_final(const lista_iter_t *iter){
-	if (!iter->actual)
-		printf("es nulo, por eso pincha (te lo dije)");
-	if ((iter->actual)->ref == NULL) return true;
+	if (!(iter->actual)) return false;
+	if (!((iter->actual)->ref)) return true;
 	return false;
 }
 //~ 
@@ -274,8 +272,6 @@ void lista_iter_destruir(lista_iter_t *iter){
     free(iter);
 
 } 
-
-
 /* ******************************************************************
  *                    FUNCIONES BASICAS DE LA COLA
  * *****************************************************************/

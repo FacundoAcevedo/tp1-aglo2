@@ -2,13 +2,16 @@ Separamos el problema en módulos y planteamos el diseño de cada uno por separa
 para luego armar la resolución final.
 
 0) El tipo "pedido"
-Creamos un struct "pedido_t" que contendrá 2 atributos: cantida de pizzas
-y zona.
+Creamos un struct "pedido_t" que contendrá 4 atributos: cantida de pizzas, distancia
+y zona (del tipo enter) y una cadena "id" que contendrá el nombre del cliente.
+El máximo de la cadena es de 50 caracteres.
 Especificación: indicamos tanto la cantidad de pizzas como la zona con un
 dato de tipo int que irá del 1 al 5.
 typedef struct pedido{
 	int cant_pizzas;
 	int zona;
+	int distancia;
+	char id;
 } pedido_t;
 
 
@@ -26,8 +29,17 @@ es de vital importancia, los métodos que usaremos para agregar y borrar
 simularán los de una cola: los nuevos entran por el final y los viejos
 salen por el principio.
 Especificación: 
-lista_t* pedidos_entrantes;
-
+Para ingresar un pedido se llama a la funcion pedidos_entrantes_agregar(),
+que recibe un elemento del tipo pedido y la lista con los pedidos ya
+ingresados. La creación del pedido es a partir de los datos que ingresa
+el usuario.
+Para modificar o eliminar un pedido de esta lista, se accede a él por su
+atributo "id" a traves de la función buscar_id(), que crea un iterador de 
+la lista de pedidos registrados y haciendo uso de la función strcmp()
+busca el nombre del pedido coincidente. Devuelve un iterador en la posición
+del pedido buscado.
+La función que cancela el pedido llama a lista_borrar() haciendo uso directo
+del iterador que devolvio buscar_id().
  
 2) Preparación de pedidos 
 Análisis: El programa debe contar con una opción para preparar todos los pedidos, 
@@ -36,7 +48,9 @@ el orden que fueron registrados). Una vez que los pedidos son preparados
 no pueden ser modificados ni cancelados.
 DISEÑO: 
 Tenemos una lista "preparados" a la que se le agregan los pedidos entrantes
-existentes con el método de "insertar_ultimo" para emular una cola.
+existentes con el método de "insertar_ultimo()" para emular una cola.
+La lista se imprime separando los pedidos por zona con la funcion
+pedidos_lista_print() que se verá en el punto 5.
 
 3) Despacho de pedidos: la moto
 Análisis: El programa debe permitir enviar los pedidos a los clientes. Esto consiste
@@ -45,6 +59,10 @@ estrategia que permita optimizar los envíos. Los pedidos que no
 entren en la moto deberán postergarse para poder maximizar la cantidad
 de pedidos a enviar en cada viaje. El programa debe informar los 
 pedidos enviados.
+Consigna opcional: Los pedidos se registran junto con la distancia desde 
+la pizzerÃ­a hasta el lugar de entrega. En este caso, los env ÌÄ±os deberÃ­an 
+organizarse de manera que se muestren en orden segu Ìn la distancia de 
+entrega (primero el lugar ma Ìs cercano y u Ìltimo el mÃ¡s lejano).
 DISEÑO: se cuenta con 1 moto capaz de llevar 5 pizzas a la vez. La moto
  será una lista_enlazada "moto" en la cual se insertan las pizzas de los pedidos. 
  El máximo de pizzas por pedido es 5. La moto podrá llevar únicamente 
@@ -63,28 +81,51 @@ la moto sea una lista y una cola: con un iterador, podremos ir evaluando
 cada uno de los pedidos preparados (empezando por el primero en espera)
 para cargar a la moto únicamente los adecuados. De esta forma podemos 
 "saltear" pedidos de la lista que no son adecuados.
-Implementación:	la función cargar_moto recibe la lista de pedidos preparados.
+
+Especificación:	la función cargar_moto recibe la lista de pedidos preparados.
 Si ésta no está vacía, procede a cargar el primer pedido en la moto. De acuerdo
 a su zona, irá buscando entre el resto de la lista de preparados aquellos
 que cumplan con la suma de pizzas máxima (en este caso 5) y los cargará
 si es que los encuentra.
+Cada vez que la moto carga un pedido, éste se agrega a la lista de
+pedidos salientes que se analizará en el punto 4.
 Una vez que la moto haya llegado a cargar su capacidad máxima o, de no llegar,
-halla cargado todas los pedidos de la zona, se agrega a la lista de 
-pedidos salientes y se destruye.
+haya cargado todas los pedidos de la zona, se la pasa a la función
+moto_ordenar(). Esta función de ordenar los elementos de una lista enlazada
+de menor a mayor, en este caso de acuerdo a su atributo "distancia". Devuelve
+una lista enlazada. Automáticamente se imprime la lista ordenada de pedidos
+con los que la moto se cargó y luego se destruye.
 
 4) Impresiones
 El programa debe permitir observar el estado de la pizzería incluyendo 
 los pedidos registrados hasta el momento, los pedidos preparados (por zona)
 y los últimos N pedidos enviados (desde el más reciente al más antiguo).
-DISEÑO: básicamente es una posibilidad de printear la lista de pedidos 
-entrantes, las colas "zonai" y los últimos pedidos que se han despachado. 
-Especificación:
-Para  imprimir las motos pasadas, éstas deben ir apilándose en una pila 
-dentro de las funciones de la moto. Elegimos una pila porque al printearla 
-se utilizará el método desapilar que devolverá los pedidos desde el más 
-reciente hasta el más antiguo.
 
+DISEÑO: usaremos dos tipos de impresión: uno que imprima los pedidos por
+zona (y en orden de ingresado), y otro, más compacto, que los imprima 
+simplemente por orden de ingresado.
+Especificación:
+La función pedidos_lista_print() imprime todos los pedidos de la lista 
+de pedidos que se le pase por parámetro por orden de ingresdos y separados
+por su atributo "zona". Crea cinco listas, una por zona, en las que
+inserta los pedidos de la lista de acuerdo a su zona. Luego mediante 
+bucles de while, imprime cada zona por separado.
+La función printeo_salientes() recibe, además de una lista, un entero "n"
+que representa la cantidad de pedidos que el usuario quiere leer, del más
+nuevo al más antiguo, de la lista de pedidos que ya han sido enviados por
+la moto. Para esta función es clave que la lista que guarde los pedidos
+enviados funcione como una pila, es decir, que inserte en el tope y borre
+por el tope. Dado que los elementos del medio no son de interés, implementamos
+esta lista en una estructura del tipo pila_t*. 
 
 5) Menú
 El programa deberá contar con una menú de opciones para la funcionalidad 
 mencionada.
+DISEÑO:
+El programa se ejecuta únicamente con su nombre "./main.bin". Al iniciarse
+se imprime un menú de ocho opciones y el usuario podrá elegir entre ellas
+ingresando el número entre 1 y 8 correspondiente. El número 0 saldrá del 
+programa.
+Especificación:
+Implementamos el menú en base a un switch() donde cada case es una de las
+8 opciones principales.
