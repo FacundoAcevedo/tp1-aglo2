@@ -54,7 +54,7 @@ int main(int argc, char**argv)
 	lista_t* moto0 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto0);
-	//~ lista_destruir(moto0, destruir_pedido);	
+	lista_destruir(moto0, destruir_pedido);	
 	
 	puts("Lista de pedidos salientes:\n");
     printeo_salientes(pedidos_salientes, 2);
@@ -83,7 +83,7 @@ int main(int argc, char**argv)
 	lista_t* moto1 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto1);
-	//~ lista_destruir(moto1, destruir_pedido);
+	lista_destruir(moto1, destruir_pedido);
 	
 	puts("Lista de pedidos salientes (los 5 ultimos):\n");
     printeo_salientes(pedidos_salientes, 5);
@@ -92,7 +92,7 @@ int main(int argc, char**argv)
 	lista_t* moto2 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto2);
-	//~ lista_destruir(moto2, destruir_pedido);
+    lista_destruir(moto2, destruir_pedido);
 	
 	puts("Lista de pedidos salientes (los 10 ultimos):\n");
     printeo_salientes(pedidos_salientes, 10);
@@ -134,7 +134,7 @@ int main(int argc, char**argv)
 	lista_t* moto3 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto3);
-	//~ lista_destruir(moto3, destruir_pedido);
+    lista_destruir(moto3, destruir_pedido);
 
 
 
@@ -142,6 +142,21 @@ int main(int argc, char**argv)
 	pedidos_entrantes_destruir(pedidos_entrantes);
 	pila_destruir(pedidos_salientes,  destruir_pedido);
 	preparados_destruir(preparados, destruir_pedido);
+
+    //destruyo los iter
+    lista_iter_destruir(rta1);
+    lista_iter_destruir(rta2);
+
+    //destruyo los pedidos
+    destruir_pedido(pedido1);
+    destruir_pedido(pedido2);
+    destruir_pedido(pedido3);
+    destruir_pedido(pedido4);
+    destruir_pedido(pedido5);
+    destruir_pedido(pedido6);
+    destruir_pedido(pedido7);
+    destruir_pedido(pedido8);
+    destruir_pedido(pedido9);
 
 	return 0;
 }

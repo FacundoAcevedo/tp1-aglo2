@@ -47,15 +47,13 @@ lista_t* lista_crear(){
 	lista->fin = NULL;
 	lista->largo = 0;	
 	return lista;
-
 }
  
  
 void lista_destruir(lista_t *lista, void destruir_dato(void *)){
 	if (lista==NULL) return;
 	while (!lista_esta_vacia(lista)){
-		void* borrado;
-		borrado = lista_borrar_primero(lista);
+		void *borrado = lista_borrar_primero(lista);
 		if (destruir_dato!= NULL){
 			destruir_dato(borrado);	
 			}
