@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "tdas.h"
 #include "pedidos.h"
-#include "zonasymoto.h"
+#include "preparadosymoto.h"
 #include "pantalla.h"
 
 int main(int argc, char**argv)

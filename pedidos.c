@@ -129,7 +129,7 @@ pedido_t* pedido_crear( int zona, int distancia, int cant_pizzas, char* id){
 bool pedido_cambiar_zona (pedido_t* pedido, int nueva_zona, int nueva_distancia){
 	if (!pedido) return false;
 	pedido->zona = nueva_zona;
-	pedido->zona = nueva_distancia;
+	pedido->distancia = nueva_distancia;
 	return true;
 	}
 	

@@ -69,6 +69,10 @@ int main(){
 
                  case 0:
                  /*0) SALIR*/
+					pedidos_entrantes_destruir(pedidos_entrantes);
+					pila_destruir(pedidos_salientes,  destruir_pedido);
+					preparados_destruir(preparados, destruir_pedido);
+
                      exit(0);
 
          		// 1) INGRESAR PEDIDO
@@ -152,12 +156,13 @@ int main(){
          			   int nueva_distancia;
          				printf("Ingrese la nueva zona \n" );
          				scanf("%d", &nueva_zona);
+						printf("Ingrese la nueva distancia a la pizzeria (metros) \n" );
+         				scanf("%d", &nueva_distancia);
+
          				if ((nueva_zona<1) || (nueva_zona>5)){
          					puts("Zona invalidas");
                             getch();
          					break;
-						printf("Ingrese la nueva distancia a la pizzeria (metros) \n" );
-         				scanf("%d", &nueva_distancia);
          				}
          				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia)){
          				puts ("Zona modificada con exito");
