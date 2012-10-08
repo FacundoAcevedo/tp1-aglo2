@@ -12,8 +12,8 @@ int main(int argc, char**argv)
     /*Declaro los pedidos*/
 	lista_t* pedidos_entrantes = lista_crear();
 	pila_t* pedidos_salientes = pila_crear();
-	/* Creo la lista "zonas */
-	lista_t* zonas = lista_crear();
+	/* Creo la lista "preparados */
+	lista_t* preparados = lista_crear();
 
 	pedido_t* pedido1;
 	pedido1 = pedido_crear(3, 150, 1, "Dul");
@@ -45,13 +45,13 @@ int main(int argc, char**argv)
     puts("Agregue otro pedido (Cliente: Lolita, zona3, distancia 600, 3 pizzas)\n");
 	puts("Lista de pedidos entrantes:\n");
 	pedidos_lista_print(pedidos_entrantes);
-    zona_preparar_pedidos(zonas, pedidos_entrantes);
+    zona_preparar_pedidos(preparados, pedidos_entrantes);
 	puts("Prepare pedidos\n");
 	puts("Lista de pedidos preparados:\n");
-	pedidos_lista_print(zonas);
+	pedidos_lista_print(preparados);
 
 	puts("Cargo moto\n");
-	lista_t* moto0 = moto_cargar(zonas, pedidos_salientes);
+	lista_t* moto0 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto0);
 	//~ lista_destruir(moto0, destruir_pedido);	
@@ -60,7 +60,7 @@ int main(int argc, char**argv)
     printeo_salientes(pedidos_salientes, 2);
 
 	puts("Lista de pedidos que quedan en preparados:\n");
-	pedidos_lista_print(zonas);
+	pedidos_lista_print(preparados);
 	
 	pedido_t* pedido4;
 	pedido4 = pedido_crear(4, 650, 5, "Ranita");
@@ -74,13 +74,13 @@ int main(int argc, char**argv)
 	
 	puts("Lista de pedidos entrantes:\n");
 	pedidos_lista_print(pedidos_entrantes);
-    zona_preparar_pedidos(zonas, pedidos_entrantes);
+    zona_preparar_pedidos(preparados, pedidos_entrantes);
 	puts("Prepare pedidos\n");
 	puts("Lista de pedidos preparados:\n");
-	pedidos_lista_print(zonas);
+	pedidos_lista_print(preparados);
 
 	puts("Cargo moto\n");
-	lista_t* moto1 = moto_cargar(zonas, pedidos_salientes);
+	lista_t* moto1 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto1);
 	//~ lista_destruir(moto1, destruir_pedido);
@@ -89,7 +89,7 @@ int main(int argc, char**argv)
     printeo_salientes(pedidos_salientes, 5);
     
 	puts("Cargo moto\n");
-	lista_t* moto2 = moto_cargar(zonas, pedidos_salientes);
+	lista_t* moto2 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto2);
 	//~ lista_destruir(moto2, destruir_pedido);
@@ -129,9 +129,9 @@ int main(int argc, char**argv)
 	pedidos_entrantes_agregar(pedidos_entrantes, pedido9);
 
 	
-	zona_preparar_pedidos(zonas, pedidos_entrantes);
-	pedidos_lista_print(zonas);
-	lista_t* moto3 = moto_cargar(zonas, pedidos_salientes);
+	zona_preparar_pedidos(preparados, pedidos_entrantes);
+	pedidos_lista_print(preparados);
+	lista_t* moto3 = moto_cargar(preparados, pedidos_salientes);
 	puts("Pedidos entregados por la moto, en orden de entrega:");
 	pedidos_lista_print(moto3);
 	//~ lista_destruir(moto3, destruir_pedido);
@@ -141,7 +141,7 @@ int main(int argc, char**argv)
 	// Destruyo lo que cree al principio
 	pedidos_entrantes_destruir(pedidos_entrantes);
 	pila_destruir(pedidos_salientes,  destruir_pedido);
-	zonas_destruir(zonas, destruir_pedido);
+	preparados_destruir(preparados, destruir_pedido);
 
 	return 0;
 }
