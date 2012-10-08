@@ -165,23 +165,23 @@ int main(int argc, char**argv)
 
 	// Destruyo lo que cree al principio
 	pedidos_entrantes_destruir(pedidos_entrantes);
-	pila_destruir(pedidos_salientes,  destruir_pedido);
+	//~ pila_destruir(pedidos_salientes,  destruir_pedido);
 	preparados_destruir(preparados, destruir_pedido);
 
     //destruyo los iter
-    lista_iter_destruir(rta1);
-    lista_iter_destruir(rta2);
+    //~ lista_iter_destruir(rta1);
+    //~ lista_iter_destruir(rta2);
 
     //destruyo los pedidos
-    destruir_pedido(pedido1);
-    destruir_pedido(pedido2);
-    destruir_pedido(pedido3);
-    destruir_pedido(pedido4);
-    destruir_pedido(pedido5);
-    destruir_pedido(pedido6);
-    destruir_pedido(pedido7);
-    destruir_pedido(pedido8);
-    destruir_pedido(pedido9);
+    //~ destruir_pedido(pedido1);
+    //~ destruir_pedido(pedido2);
+    //~ destruir_pedido(pedido3);
+    //~ destruir_pedido(pedido4);
+    //~ destruir_pedido(pedido5);
+    //~ destruir_pedido(pedido6);
+    //~ destruir_pedido(pedido7);
+    //~ destruir_pedido(pedido8);
+    //~ destruir_pedido(pedido9);
 
 	return 0;
 }
