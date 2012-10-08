@@ -6,7 +6,7 @@
 #include <string.h>
 #include "tdas.h"
 #include "pedidos.h"
-#include "zonasymoto.h"
+#include "preparadosymoto.h"
 #include "pantalla.h"
 
 
@@ -28,8 +28,8 @@ int main(){
     /*Declaro los pedidos*/
 	lista_t* pedidos_entrantes = lista_crear();
 	pila_t* pedidos_salientes = pila_crear();
-	/* Creo la lista "zonas */
-	lista_t* zonas = lista_crear();
+	/* Creo la lista "preparados */
+	lista_t* preparados = lista_crear();
 	lista_t* moto;
 	
     /*Declaro las variables estaticas*/
@@ -193,7 +193,7 @@ int main(){
          	   // 4) PREPARAR PEDIDOS
          	   
          	   case 4:
-         			if (zona_preparar_pedidos(zonas, pedidos_entrantes)){
+         			if (zona_preparar_pedidos(preparados, pedidos_entrantes)){
          				puts("Los pedidos se han preparado con exito");
          		        getch();
          				break;
@@ -206,7 +206,7 @@ int main(){
          	    
          	    // 5) IMPRIMIR PEDIDOS PREPARADOS
          	   case  5:
-         			if (pedidos_lista_print(zonas)){
+         			if (pedidos_lista_print(preparados)){
          		        getch();
          				break;
          				}
@@ -221,7 +221,7 @@ int main(){
          	   // 6) CARGAR Y DESPAchar* MOTO
          	   
          	   case 6: 
-					moto = moto_cargar(zonas, pedidos_salientes);
+					moto = moto_cargar(preparados, pedidos_salientes);
          			if (moto != NULL){
          				puts("La moto se ha cargado y despachado con exito.");
 						pedidos_lista_print(moto);
@@ -271,6 +271,6 @@ int main(){
 // Destruyo lo que cree al principio
 pedidos_entrantes_destruir(pedidos_entrantes);
 pila_destruir(pedidos_salientes,  destruir_pedido);
-zonas_destruir(zonas, destruir_pedido);
+preparados_destruir(preparados, destruir_pedido);
 return 0;
 }
