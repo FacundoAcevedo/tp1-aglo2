@@ -5,13 +5,6 @@
 #include "tdas.h"
 #include "pedidos.h"
 #include <string.h>
-/*##############################################################*/
-/*							SALIENTES*/
-/*##############################################################*/
-
-/*
- *#REVISAR DESTRUIR PEIDO, SU STRUCT NO TIENE MALLOC NI NADA
- */
 
 pila_t* salientes_crear(){
     pila_t* salientes;
@@ -27,9 +20,9 @@ void (destruir_pedido)(void* dato) {
 	pedido_destruir((pedido_t*)dato);
 }
 
-// Imprime los ultimos n pedidos entregados
 int printeo_salientes(pila_t* salientes, int n){
 	if (pila_esta_vacia(salientes)){
+		puts ("Aun no se han enviado pedidos.");
 		return 1;
 	}
 	int i = 0;
@@ -51,43 +44,6 @@ int printeo_salientes(pila_t* salientes, int n){
 }
 	
 
-
-
-/*##############################################################*/
-/*						ENTRANTES*/
-/*##############################################################*/
-
-
-
-// Structs
-/*typedef struct pedido{*/
-	/*int zona;*/
-	/*int cant_pizzas;*/
-	/*char* id;*/
-/*}pedido_t;*/
-
-//~ // PARCHE - BORRAR EN FUTURO
-//~ typedef struct nodo{
-    //~ void* valor;
-    //~ struct nodo* ref;
-//~ } nodo_t;
-
-
-
-
-// Funciones auxiliares
-//~ char* get_random_id(void){
-	//~ char* id	;
-	//~ id = rand() % (10001);
-	//~ return id;
-//~ }
-/*
- *Busca sobre una lista, y devuelve un iterador donde hay un pedido.
- *PRE: recibe una pedidos_entrates_t con la lista de pedidos, y un char* con el
- *id a buscar
- *POST: mueve el iter hasta el nodo donde esta ese id, si no lo encuentra, 
- *devuelve false o el iter de caso contrario
- */
 lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, char* id){
     //variables
     pedido_t* act;
@@ -110,8 +66,6 @@ lista_iter_t*  buscar_id(lista_t* pedidos_entrantes, char* id){
 }
 
 
-
-// Funciones de pedido 
 pedido_t* pedido_crear( int zona, int distancia, int cant_pizzas, char* id){
 	pedido_t* pedido;
 	pedido = malloc(sizeof(pedido_t));
@@ -121,9 +75,7 @@ pedido_t* pedido_crear( int zona, int distancia, int cant_pizzas, char* id){
 	pedido->cant_pizzas = cant_pizzas;
 	strcpy(pedido->id, id);
 	return pedido;
-	}
-
-
+}
 
 
 bool pedido_cambiar_zona (pedido_t* pedido, int nueva_zona, int nueva_distancia){
@@ -131,51 +83,41 @@ bool pedido_cambiar_zona (pedido_t* pedido, int nueva_zona, int nueva_distancia)
 	pedido->zona = nueva_zona;
 	pedido->distancia = nueva_distancia;
 	return true;
-	}
+}
 	
 bool pedido_cambiar_cant (pedido_t* pedido, int nueva_cant){
 	if (!pedido) return false;
 	pedido->cant_pizzas = nueva_cant;
 	return true;
-	}
-
-// Funciones de pedidos_entrantes
-// El método de agregar pedido - sacar pedido simulará el de una cola:
-// usamos lista_insertar_ultimo para insertar nuevos pedidos y usamos
-// lista_borrar_primero para sacar pedidos.
+}
 
 
-// Crea una objeto pedidos_entrantes
 lista_t* pedidos_entrantes_crear(){
 	lista_t* pedidos_entrantes;
 	pedidos_entrantes = lista_crear();
 	return pedidos_entrantes;
-	}
+}
 	
-// devuelve la cantidad de pedidos que contiene la lista pedidos_entrantes
+
 size_t pedidos_entrantes_largo(const lista_t* pedidos_entrantes){
 	size_t largo;
 	largo = lista_largo(pedidos_entrantes);
 	return largo;
-	}
+}
 	
-// Agrega pedido al final de la lista.
+
 bool pedidos_entrantes_agregar (lista_t* pedidos_entrantes, pedido_t* pedido){
 	if (lista_insertar_ultimo(pedidos_entrantes, pedido))
 		return true;
 	return false;
-	}
+}
 
-// Saca el primer pedido de la lista.
-// Recibe: struct pedidos_entrantes.
-// Devuelve el dato del tipo pedido_t* que fue sacado de la lista.
+
 pedido_t* pedidos_entrantes_sacar (lista_t* pedidos_entrantes){
 	return (lista_borrar_primero(pedidos_entrantes));
-	}
+}
 
-// Modifica la zona de un pedido.
-// Recibe: struct pedidos_entrantes, un int con la nueva zona
-// y un char* id que identifica al pedido a modificar.
+
 bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zona, int nueva_distancia){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
@@ -185,11 +127,9 @@ bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zon
 	pedido_cambiar_zona(pedido_a_modif, nueva_zona, nueva_distancia);
 	lista_iter_destruir(iter_pedido_a_modif);
 	return true;
-	}
+}
 
-// Modifica cant_pizzas de un pedido
-// Recibe: struct pedidos_entrantes, un int con la nueva cantidad
-// y un char* id que identifica al pedido a modificar.
+
 bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, char* id, int nueva_cant){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_modif;
@@ -199,11 +139,9 @@ bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, char* id, int nu
 	pedido_cambiar_cant(pedido_a_modif, nueva_cant);
 	lista_iter_destruir(iter_pedido_a_modif);
 	return true;
-	}
+}
 	
-// Saca el pedido de la lista de pedidos_entrantes y lo destruye.
-// Recibe: struct pedidos_entrantes, un char* con el id del pedido
-// a cancelar.
+
 bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, char* id){
 	if (lista_largo(pedidos_entrantes) == 0) return false;
 	lista_iter_t* iter_pedido_a_cancelar;
@@ -213,15 +151,14 @@ bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, char* id){
 	pedido_destruir(pedido_a_cancelar);
 	lista_iter_destruir(iter_pedido_a_cancelar);
 	return true;
-	}
+}
 
-// Destruyo la lista pedidos_entrantes
-// Recibe: lista pedidos_entrantes
+
 void pedidos_entrantes_destruir (lista_t* pedidos_entrantes){
 	lista_destruir(pedidos_entrantes, destruir_pedido);
 }
  
-// Printea el historial de los pedidos entrantes
+
 bool pedidos_lista_print (lista_t* lista_pedidos){
 	if (!lista_pedidos) return false;
 	if (lista_largo(lista_pedidos) == 0) return false;
@@ -386,4 +323,4 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 		}
 	puts("=======================================================");
 	return true;
-	}
+}

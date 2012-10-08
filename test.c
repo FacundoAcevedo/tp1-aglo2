@@ -136,7 +136,21 @@ int main(int argc, char**argv)
 	pedidos_lista_print(moto3);
 	//~ lista_destruir(moto3, destruir_pedido);
 
-
+	// Pruebas de modificar cantida de pizzas
+	puts("\n Pruebas de modificar cantidad de pizzas");
+	pedido_t* pedido10;
+	pedido10 = pedido_crear(4, 1000, 5, "Pepe");
+	pedidos_entrantes_agregar(pedidos_entrantes, pedido10);
+	if (buscar_id(pedidos_entrantes, "Pepe")){
+		// Cambio la cantidad de 5 a 2
+		pedidos_entrantes_cant_pizzas(pedidos_entrantes, "Pepe", 2);
+		if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, "Pepe", 2)){
+        	puts("Cantidad de pizzas modificada con exito. ");
+        	printf("Los detalles del pedido de %s ahora son:\n", "Pepe");
+         	printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", 
+				pedido10->cant_pizzas, pedido10->zona, pedido10->distancia);
+		}
+	}
 
 	// Destruyo lo que cree al principio
 	pedidos_entrantes_destruir(pedidos_entrantes);
