@@ -1,11 +1,10 @@
 #ifndef PANTALLA_H
 #define PANTALLA_H
 
-/*
- *FUNCIONES
- */
+/*Todas las funciones que trabajan con la pantalla*/
 
 //Limpia la pantalla
+/*Esta funcion solo es compatible con *bsd, *linux, macos, y algunos mas*/
 void lp(void);
 
 //Separador 0
