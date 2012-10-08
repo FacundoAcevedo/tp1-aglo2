@@ -164,11 +164,11 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 	if (lista_largo(lista_pedidos) == 0) return false;
 	
 	// Inicializo las listas por zona
-	lista_t* zona1 = lista_crear(zona1);
-	lista_t* zona2 = lista_crear(zona2);
-	lista_t* zona3 = lista_crear(zona3);
-	lista_t* zona4 = lista_crear(zona4);
-	lista_t* zona5 = lista_crear(zona5);
+	lista_t* zona1 = lista_crear();
+	lista_t* zona2 = lista_crear();
+	lista_t* zona3 = lista_crear();
+	lista_t* zona4 = lista_crear();
+	lista_t* zona5 = lista_crear();
 	
 	// inicio el iter
 	lista_iter_t* iter;
