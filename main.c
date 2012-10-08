@@ -52,7 +52,7 @@ int main(){
          			  3) Cancelar pedido \n \
          			  4) Preparar pedidos \n \
          			  5) Mostrar pedidos preparados \n \
-         			  6) Cargar y despachar* moto \n \
+         			  6) Cargar y despachar moto \n \
          			  7) Ver historial de motos enviadas \n \
          			  8) Ver lista de pedidos entrantes \n \
                        0) Salir\n");
@@ -160,12 +160,12 @@ int main(){
          				scanf("%d", &nueva_distancia);
 
          				if ((nueva_zona<1) || (nueva_zona>5)){
-         					puts("Zona invalidas");
+         					puts("Zona invalida");
                             getch();
          					break;
          				}
          				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia)){
-         				puts ("Zona modificada con exito");
+         				puts ("Zona y distancia modificadas con exito");
          				printf("Los detalles del pedido de %s ahora son:\n", id);
          				printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", pedido->cant_pizzas, pedido->zona, pedido->distancia);
 						}

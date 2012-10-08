@@ -56,7 +56,7 @@ int main(int argc, char**argv)
 	pedidos_lista_print(moto0);
 	//~ lista_destruir(moto0, destruir_pedido);	
 	
-	puts("Lista de pedidos salientes:\n");
+	puts("Lista de pedidos salientes (ultimos 2):\n");
     printeo_salientes(pedidos_salientes, 2);
 
 	puts("Lista de pedidos que quedan en preparados:\n");
@@ -143,9 +143,20 @@ int main(int argc, char**argv)
 	pedidos_entrantes_agregar(pedidos_entrantes, pedido10);
 	if (buscar_id(pedidos_entrantes, "Pepe")){
 		// Cambio la cantidad de 5 a 2
-		pedidos_entrantes_cant_pizzas(pedidos_entrantes, "Pepe", 2);
 		if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, "Pepe", 2)){
         	puts("Cantidad de pizzas modificada con exito. ");
+        	printf("Los detalles del pedido de %s ahora son:\n", "Pepe");
+         	printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", 
+				pedido10->cant_pizzas, pedido10->zona, pedido10->distancia);
+		}
+		else puts ("ERROR");
+	}
+	// Pruebas de modificar zona y distancia
+	puts("\n Pruebas de modificar zona y distancia");
+	if (buscar_id(pedidos_entrantes, "Pepe")){
+		// Cambio la zona de 4 a 1, distancia de 1000 a 25
+		if (pedidos_entrantes_zona(pedidos_entrantes, "Pepe", 1, 25)){
+        	puts("Zona y distancia modificadas con exito. ");
         	printf("Los detalles del pedido de %s ahora son:\n", "Pepe");
          	printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", 
 				pedido10->cant_pizzas, pedido10->zona, pedido10->distancia);
