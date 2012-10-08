@@ -59,10 +59,6 @@ int main(){
             barra0('#');
             fflush(NULL);
          	scanf("%d", &opc);
-            /*if ( cantidad_digitos(opc) != 1){*/
-                /*puts("CULOOOOOOOOOOOOOOOOOO!!!!");*/
-                /*getch();*/
-                /*}*/
 
              /*Switch del menu*/
          	switch (opc){	
