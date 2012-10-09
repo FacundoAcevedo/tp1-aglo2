@@ -102,10 +102,11 @@ int main(int argc, char**argv)
 	lista_insertar_primero(moto0, pedido6);
 	lista_insertar_primero(moto0, pedido7);
 
-	printf("largo de ordenada: %zu", lista_largo(moto0));	
+	printf("largo de moto: %zu\n", lista_largo(moto0));	
 	lista_t* ordenada = moto_ordenar(moto0);
 	printf("largo de ordenada: %zu", lista_largo(ordenada));
-	lista_destruir(ordenada, destruir_pedido);
+    /*lista_destruir(ordenada, destruir_pedido);*/
+    lista_destruir(moto0, destruir_pedido);
 	
 	return 0;
 }

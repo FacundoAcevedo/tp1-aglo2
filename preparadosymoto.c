@@ -92,11 +92,16 @@ lista_t* moto_cargar(lista_t* preparados, pila_t* salientes){
 lista_t* moto_ordenar(lista_t* moto){
 	lista_t* orden = lista_crear();
 	int c = 0;
-	while (c< lista_largo(moto)){
+    int largo_1 = lista_largo(moto);
+	/*while (c< lista_largo(moto)){*/
+        
+	while (c< largo_1){
+         printf("#### LARGO %d\n",largo_1);
 		pedido_t* borrado = lista_borrar_primero(moto);
 		// Si la lista ordenada esta vacia, inserto
-		if (lista_esta_vacia(orden)) {lista_insertar_primero(orden, borrado);
-		puts("a insert");
+		if (lista_esta_vacia(orden)) {
+            lista_insertar_primero(orden, borrado);
+		    puts("a insert");
 		}
 		// SI la lista ordenada tiene 1 elemento
 		else if (lista_largo(orden) == 1){
@@ -110,7 +115,8 @@ lista_t* moto_ordenar(lista_t* moto){
 				puts("b insert");
 			}
 			// Si es menor, lo inserto en el primer lugar
-			else if (borrado->distancia < dist) {
+			/*else if (borrado->distancia < dist) {*/
+			else  {
 				lista_insertar_primero(orden, borrado);
 				puts ("c insert");
 			}
@@ -120,7 +126,8 @@ lista_t* moto_ordenar(lista_t* moto){
 	if (lista_largo(orden)>1){
 			// Recorro la lista buscando un valor mayor 
 			int i = 0;
-			while(i<lista_largo(moto)){
+			/*while(i<lista_largo(moto)){*/
+			while(i<largo_1){
 				lista_iter_t* iter_orden = lista_iter_crear(orden);
 				pedido_t* actual = lista_iter_ver_actual(iter_orden);
 				// si encuentro un valor mayor, inserto antes de el
@@ -136,10 +143,10 @@ lista_t* moto_ordenar(lista_t* moto){
 						puts("e insert");
 				lista_iter_avanzar(iter_orden);
 				i +=1;
-			}
-		}
+			}//while
+		}//if
 		c += 1;
-	}
+	}//while
 	lista_destruir(moto, NULL);
 	return orden;
 }
