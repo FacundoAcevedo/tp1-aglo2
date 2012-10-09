@@ -66,7 +66,7 @@ int main(){
                  case 0:
                  /*0) SALIR*/
 					pedidos_entrantes_destruir(pedidos_entrantes);
-					//~ pila_destruir(pedidos_salientes,  destruir_pedido);
+					pila_destruir(pedidos_salientes,  destruir_pedido);
 					lista_destruir(preparados, destruir_pedido);
 
                      exit(0);
@@ -253,7 +253,7 @@ int main(){
     /*}//while*/
 // Destruyo lo que cree al principio
 pedidos_entrantes_destruir(pedidos_entrantes);
-//~ pila_destruir(pedidos_salientes,  destruir_pedido);
+pila_destruir(pedidos_salientes,  destruir_pedido);
 lista_destruir(preparados, destruir_pedido);
 return 0;
 }
