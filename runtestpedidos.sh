@@ -4,8 +4,8 @@ OPCIONES="-std=c99 -Wall -pedantic -g"
 
 #~ # todo
 #~ 
-O="preparadosymoto.o pedidos.o  tdas.o pantalla.o" 
-C="preparadosymoto.c pedidos.c  tdas.c pantalla.c" 
+O="preparadosymotoBACKUP.o pedidos.o  tdas.o pantalla.o" 
+C="preparadosymotoBACKUP.c pedidos.c  tdas.c pantalla.c" 
 
 
 gcc $OPCIONES -c $C;

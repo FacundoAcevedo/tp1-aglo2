@@ -92,61 +92,51 @@ lista_t* moto_cargar(lista_t* preparados, pila_t* salientes){
 lista_t* moto_ordenar(lista_t* moto){
 	lista_t* orden = lista_crear();
 	int c = 0;
-    int largo_1 = lista_largo(moto);
-	/*while (c< lista_largo(moto)){*/
-        
-	while (c< largo_1){
-         printf("#### LARGO %d\n",largo_1);
+	int largo_moto= lista_largo(moto);
+	while (c< largo_moto){
 		pedido_t* borrado = lista_borrar_primero(moto);
 		// Si la lista ordenada esta vacia, inserto
-		if (lista_esta_vacia(orden)) {
-            lista_insertar_primero(orden, borrado);
-		    puts("a insert");
-		}
+		if (lista_esta_vacia(orden)) 
+			lista_insertar_primero(orden, borrado);
+
+
 		// SI la lista ordenada tiene 1 elemento
 		else if (lista_largo(orden) == 1){
 			lista_iter_t* iter = lista_iter_crear(orden);
+			puts("Creo iter");
 			pedido_t* pedido = lista_iter_ver_actual(iter);
 			int dist = pedido->distancia;
 			// Si el que tengo que insertar es mayor al elemento de la lista ordenada
 			// lo inserto en el 2do lugar con insertar_ultimo
-			if (borrado->distancia >= dist) {
+			if (borrado->distancia >= dist)
 				lista_insertar_ultimo(orden, borrado);
-				puts("b insert");
-			}
 			// Si es menor, lo inserto en el primer lugar
-			/*else if (borrado->distancia < dist) {*/
-			else  {
+			else if (borrado->distancia < dist)
 				lista_insertar_primero(orden, borrado);
-				puts ("c insert");
-			}
+			puts("destruyo iter");
 			lista_iter_destruir(iter);
 		}
+
+
 			// Si la lista ordenada tiene mas de un elemento:
-	if (lista_largo(orden)>1){
-			// Recorro la lista buscando un valor mayor 
-			int i = 0;
-			/*while(i<lista_largo(moto)){*/
-			while(i<largo_1){
-				lista_iter_t* iter_orden = lista_iter_crear(orden);
-				pedido_t* actual = lista_iter_ver_actual(iter_orden);
-				// si encuentro un valor mayor, inserto antes de el
-				// y corto este while
-				if (actual->distancia > borrado->distancia){
-					lista_insertar(orden, iter_orden, borrado);
-							puts("d insert");
-					lista_iter_destruir(iter_orden);
-					break;
-				}
-				// Si llegue al final y no encontre mayor, inserto en ultimo lugar
-				lista_insertar_ultimo(orden, borrado);
-						puts("e insert");
-				lista_iter_avanzar(iter_orden);
-				i +=1;
-			}//while
-		}//if
+		else if (lista_largo(orden)>1){
+			puts("creo iter_orde");
+			lista_iter_t* iter_orden = lista_iter_crear(orden);
+			pedido_t* actual = lista_iter_ver_actual(iter_orden);
+			// si encuentro un valor mayor, inserto antes de el
+			// y corto este while
+			if (actual->distancia > borrado->distancia){
+				lista_insertar(orden, iter_orden, borrado);
+				puts("destruyo iter_orden");
+				lista_iter_destruir(iter_orden);
+				break;
+			}
+			// Si llegue al final y no encontre mayor, inserto en ultimo lugar
+			lista_insertar_ultimo(orden, borrado);
+			lista_iter_avanzar(iter_orden);
+		}
 		c += 1;
-	}//while
+	}
 	lista_destruir(moto, NULL);
 	return orden;
 }
