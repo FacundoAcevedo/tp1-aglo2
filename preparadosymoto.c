@@ -8,13 +8,8 @@
 #include "pantalla.h"
 
 
-void preparados_destruir(lista_t* preparados, void destruir_pedido(void*)){
-	lista_destruir(preparados, (*destruir_pedido));
-	return;
-	}
 
-
-bool zona_preparar_pedidos(lista_t* preparados, lista_t* pedidos_entrantes){
+bool pedidos_preparar(lista_t* preparados, lista_t* pedidos_entrantes){
 	// Si pedidos_entrantes no existe
 	if (!pedidos_entrantes) return false;
 	// Si la lista de pedidos_entrantes esta vacia
@@ -96,10 +91,13 @@ lista_t* moto_cargar(lista_t* preparados, pila_t* salientes){
 
 lista_t* moto_ordenar(lista_t* moto){
 	lista_t* orden = lista_crear();
-	while (!lista_esta_vacia(moto)){
+	int c = 0;
+	while (c< lista_largo(moto)){
 		pedido_t* borrado = lista_borrar_primero(moto);
 		// Si la lista ordenada esta vacia, inserto
-		if (lista_esta_vacia(orden)) lista_insertar_primero(orden, borrado);
+		if (lista_esta_vacia(orden)) {lista_insertar_primero(orden, borrado);
+		puts("a insert");
+		}
 		// SI la lista ordenada tiene 1 elemento
 		else if (lista_largo(orden) == 1){
 			lista_iter_t* iter = lista_iter_crear(orden);
@@ -107,15 +105,19 @@ lista_t* moto_ordenar(lista_t* moto){
 			int dist = pedido->distancia;
 			// Si el que tengo que insertar es mayor al elemento de la lista ordenada
 			// lo inserto en el 2do lugar con insertar_ultimo
-			if (borrado->distancia >= dist) 
+			if (borrado->distancia >= dist) {
 				lista_insertar_ultimo(orden, borrado);
+				puts("b insert");
+			}
 			// Si es menor, lo inserto en el primer lugar
-			else if (borrado->distancia < dist) 
+			else if (borrado->distancia < dist) {
 				lista_insertar_primero(orden, borrado);
+				puts ("c insert");
+			}
 			lista_iter_destruir(iter);
 		}
 			// Si la lista ordenada tiene mas de un elemento:
-		else{
+	if (lista_largo(orden)>1){
 			// Recorro la lista buscando un valor mayor 
 			int i = 0;
 			while(i<lista_largo(moto)){
@@ -125,17 +127,20 @@ lista_t* moto_ordenar(lista_t* moto){
 				// y corto este while
 				if (actual->distancia > borrado->distancia){
 					lista_insertar(orden, iter_orden, borrado);
+							puts("d insert");
 					lista_iter_destruir(iter_orden);
 					break;
 				}
 				// Si llegue al final y no encontre mayor, inserto en ultimo lugar
 				lista_insertar_ultimo(orden, borrado);
+						puts("e insert");
 				lista_iter_avanzar(iter_orden);
 				i +=1;
 			}
 		}
+		c += 1;
 	}
-	free(moto);
+	lista_destruir(moto, NULL);
 	return orden;
 }
 	

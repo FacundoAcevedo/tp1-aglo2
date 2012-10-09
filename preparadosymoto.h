@@ -8,11 +8,8 @@
 //                        PRIMITIVAS DE PREPARADOS Y MOTO
 //########################################################################
 
-// Destruye la lista "preparados" y los pedidos que contiene
-void preparados_destruir(lista_t* preparados, void destruir_pedido(void*));
-
 // Pasa los pedidos de pedidos_entrantes a la lista preparados
-bool zona_preparar_pedidos(lista_t* preparados, lista_t* pedidos_entrantes);
+bool pedidos_preparar(lista_t* preparados, lista_t* pedidos_entrantes);
 
 // Recibe la lista preparados y saca de ella los pedidos que cumplan los requisitos:
 // la cantidad de pizzas en la moto debe ser mayor o igual a la capacidad

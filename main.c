@@ -67,7 +67,7 @@ int main(){
                  /*0) SALIR*/
 					pedidos_entrantes_destruir(pedidos_entrantes);
 					pila_destruir(pedidos_salientes,  destruir_pedido);
-					preparados_destruir(preparados, destruir_pedido);
+					lista_destruir(preparados, destruir_pedido);
 
                      exit(0);
 
@@ -194,7 +194,7 @@ int main(){
          	   // 4) PREPARAR PEDIDOS
          	   
          	   case 4:
-         			if (zona_preparar_pedidos(preparados, pedidos_entrantes)){
+         			if (pedidos_preparar(preparados, pedidos_entrantes)){
          				puts("Los pedidos se han preparado con exito");
          		        getch();
          				break;
@@ -272,6 +272,6 @@ int main(){
 // Destruyo lo que cree al principio
 pedidos_entrantes_destruir(pedidos_entrantes);
 pila_destruir(pedidos_salientes,  destruir_pedido);
-preparados_destruir(preparados, destruir_pedido);
+lista_destruir(preparados, destruir_pedido);
 return 0;
 }

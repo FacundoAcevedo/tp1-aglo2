@@ -33,7 +33,7 @@ int printeo_salientes(pila_t* salientes, int n){
 	while(!pila_esta_vacia(auxiliar))
 		pila_apilar(salientes, pila_desapilar(auxiliar));
 	
-	pila_destruir(auxiliar, destruir_pedido);
+	pila_destruir(auxiliar, NULL);
 
 	return 0;
 }
@@ -94,13 +94,6 @@ lista_t* pedidos_entrantes_crear(){
 }
 	
 
-size_t pedidos_entrantes_largo(const lista_t* pedidos_entrantes){
-	size_t largo;
-	largo = lista_largo(pedidos_entrantes);
-	return largo;
-}
-	
-
 bool pedidos_entrantes_agregar (lista_t* pedidos_entrantes, pedido_t* pedido){
 	if (lista_insertar_ultimo(pedidos_entrantes, pedido))
 		return true;
@@ -109,6 +102,7 @@ bool pedidos_entrantes_agregar (lista_t* pedidos_entrantes, pedido_t* pedido){
 
 
 pedido_t* pedidos_entrantes_sacar (lista_t* pedidos_entrantes){
+	// NO DESTRUYE EL PEDIDO
 	return (lista_borrar_primero(pedidos_entrantes));
 }
 
@@ -242,7 +236,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter2)){
 				lista_iter_destruir(iter2);
-				lista_destruir(zona2, destruir_pedido);
+				lista_destruir(zona2, NULL);
 				break;
 				}
 			lista_iter_avanzar(iter2);
@@ -265,7 +259,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter3)){
 				lista_iter_destruir(iter3);
-				lista_destruir(zona3, destruir_pedido);
+				lista_destruir(zona3, NULL);
 				break;
 				}
 			lista_iter_avanzar(iter3);
@@ -288,7 +282,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter4)){
 				lista_iter_destruir(iter4);
-				lista_destruir(zona4, destruir_pedido);
+				lista_destruir(zona4, NULL);
 				break;
 				}
 			lista_iter_avanzar(iter4);
@@ -310,7 +304,7 @@ bool pedidos_lista_print (lista_t* lista_pedidos){
 				actual->id, actual->cant_pizzas, actual->distancia);
 			if (lista_iter_al_final(iter5)){
 				lista_iter_destruir(iter5);
-				lista_destruir(zona5, destruir_pedido);
+				lista_destruir(zona5, NULL);
 				break;
 				}
 			lista_iter_avanzar(iter5);
