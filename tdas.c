@@ -202,6 +202,7 @@ bool lista_iter_avanzar(lista_iter_t *iter){
 
 
 void *lista_iter_ver_actual(const lista_iter_t *iter){
+	if (iter->actual == NULL) return NULL;
 	void* valor = (iter->actual)->valor;
 	return valor;
 }

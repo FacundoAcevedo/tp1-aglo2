@@ -12,7 +12,6 @@ typedef struct nodo nodo_t;
 typedef struct lista lista_t;
 typedef struct lista_iter lista_iter_t;
 typedef struct cola cola_t;
-typedef struct lista_con_iter lista_con_iter_t;
 
 
 

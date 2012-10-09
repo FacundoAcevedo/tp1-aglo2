@@ -35,19 +35,17 @@ bool pedido_cambiar_zona (pedido_t* pedido, int nueva_zona, int nueva_distancia)
 bool pedido_cambiar_cant (pedido_t* pedido, int nueva_cant);
 
 
-/*##############################################################*/
-/*							SALIENTES*/
-/*##############################################################*/
-// Crea una pila
-pila_t* salientes_crear();
-
-
 // Destruye un elemento del tipo pedido_t*
 void pedido_destruir(pedido_t* pedido);
 
 
 // Wrap de pedido_destruir
 void (destruir_pedido)(void* dato);
+
+
+/*##############################################################*/
+/*							SALIENTES*/
+/*##############################################################*/
 
 
 // Imprime los ultimos n pedidos entregados
@@ -87,9 +85,9 @@ pedido_t* pedidos_entrantes_sacar (lista_t* pedidos_entrantes);
 // Recibe: lista enlazada con elementos del tipo pedido_t*, un char* con
 // el nombre del cliente cuyo pedido se quiere modificar, un entero con
 // la nueva zona y un entero con la nueva distancia.
-// Pre: el dato char* es atributo de uno de los elementos de la lista.
 // Post: el dato de tipo pedido_t* coincideente ha sido con los nuevos
-// valores en los atributos zona y distancia.
+// valores en los atributos zona y distancia o devuelve false si 
+// no hay ningun pedido en la lista o si el pedido no se encuentra.
 bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zona, int nueva_distancia);
 
 
@@ -97,18 +95,17 @@ bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zon
 // Recibe: lista enlazada con elementos del tipo pedido_t*, un char* con
 // el nombre del cliente cuyo pedido se quiere modificar y un entero con
 // la nueva cantidad.
-// Pre: el dato char* es atributo de uno de los elementos de la lista.
 // Post: el dato de tipo pedido_t* coincideente ha sido con el nuevo
-// valor del atributo cant_pizza.
+// valor del atributo cant_pizzao devuelve false si no hay ningun pedido
+// en la lista o si el pedido no se encuentra.
 bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, char* id, int nueva_cant);
 	
 
 // Saca el pedido de la lista de pedidos_entrantes y lo destruye.
 // Recibe: lista enlazada con elementos del tipo pedido_t* y un char* con
 // el nombre del cliente cuyo pedido se quiere eliminar.
-// Devuelve false si no hay ningun pedido en la lista.
-// Pre: el dato char* es atributo de uno de los elementos de la lista.
 // Post: el dato de tipo pedido_t* coincideente ha sido destruido.
+// o devuelve false si no hay ningun pedido en la lista o si el pedido no se encuentra.
 bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, char* id);
 
 

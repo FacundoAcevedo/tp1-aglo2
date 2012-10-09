@@ -66,7 +66,7 @@ int main(){
                  case 0:
                  /*0) SALIR*/
 					pedidos_entrantes_destruir(pedidos_entrantes);
-					pila_destruir(pedidos_salientes,  destruir_pedido);
+					//~ pila_destruir(pedidos_salientes,  destruir_pedido);
 					lista_destruir(preparados, destruir_pedido);
 
                      exit(0);
@@ -84,14 +84,14 @@ int main(){
 						getch();
 						break;
 						}
-
-         			lista_iter_t* rta= buscar_id(pedidos_entrantes, id);
-                     if (rta){
+					lista_iter_t* id_bus = buscar_id(pedidos_entrantes,id);
+                     if (id_bus!= NULL){
          				puts("Ya se encuentra registrado un pedido con ese nombre.");
-         				lista_iter_destruir(rta);
-                         getch();
+         				lista_iter_destruir(id_bus);
+         				 getch();
                          break;
 						} 
+					lista_iter_destruir(id_bus);
                      printf(" Cantidad de pizzas: ");
          			scanf("%d", &cant_pizzas);
                     
@@ -161,7 +161,6 @@ int main(){
          					break;
          				}
          				if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia)){
-         				puts ("Zona y distancia modificadas con exito");
          				printf("Los detalles del pedido de %s ahora son:\n", id);
          				printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d metros \n ", pedido->cant_pizzas, pedido->zona, pedido->distancia);
 						}
@@ -181,14 +180,8 @@ int main(){
          	   case 3:
          		   printf("Ingrese el nombre del cliente del pedido a cancelar \n" );
          		    scanf("%s", id);
-         			if (!buscar_id(pedidos_entrantes, id)){
-         				puts("Ese pedido no se encuentra registrado");
-                        getch();
-                        break;
-         			}
-         			pedidos_entrantes_cancelar(pedidos_entrantes, id);
-         			puts ("Pedido cancelado con exito.");	
-                     break;
+					pedidos_entrantes_cancelar(pedidos_entrantes, id);
+					break;
          		   
          	   
          	   // 4) PREPARAR PEDIDOS
@@ -207,15 +200,10 @@ int main(){
          	    
          	    // 5) IMPRIMIR PEDIDOS PREPARADOS
          	   case  5:
-         			if (pedidos_lista_print(preparados)){
-         		        getch();
-         				break;
-         				}
-                     else{
-         				puts("No hay pedidos preparados.");
-         				getch();
-         				break;
-         				}
+         			pedidos_lista_print(preparados);
+        		    getch();
+        			break;
+         			
          	   
 
          	   
@@ -226,15 +214,11 @@ int main(){
          			if (moto != NULL){
          				puts("La moto se ha cargado y despachado con exito.");
 						pedidos_lista_print(moto);
+						// Una vez impresa, la moto ya no me sirve: se destruye
+						lista_destruir(moto, NULL);
          		        getch();
          				break;
-         				}
-                     else{
-         				puts("No hay pedidos para cargar en la moto.");
-         				getch();
-         				break;
-         				}
-         	   
+					}
          		
          		// 7) HISTORIAL MOTOS DESPACHADAS
          
@@ -249,8 +233,7 @@ int main(){
          	   // 8) PRINTEO PEDIDOS ENTRANTES
          	   
          	   case 8:
-                    if (!pedidos_lista_print(pedidos_entrantes)) 
-                    puts ("La lista de pedidos entrantes no existe o esta vacia");
+                    pedidos_lista_print(pedidos_entrantes);
                     getch();
                     break;
 
@@ -259,7 +242,6 @@ int main(){
                 default:
                      lp();
                      puts(" Senor pizzero, la opcion es invalida");
-                     /*getch();*/
                      fflush(NULL);
                      break;
          
@@ -271,7 +253,7 @@ int main(){
     /*}//while*/
 // Destruyo lo que cree al principio
 pedidos_entrantes_destruir(pedidos_entrantes);
-pila_destruir(pedidos_salientes,  destruir_pedido);
+//~ pila_destruir(pedidos_salientes,  destruir_pedido);
 lista_destruir(preparados, destruir_pedido);
 return 0;
 }
