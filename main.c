@@ -8,7 +8,7 @@
 #include "pedidos.h"
 #include "preparadosymoto.h"
 #include "pantalla.h"
-
+#include "interaccion.h"
 
 int cantidad_digitos(int num)
 {
@@ -40,8 +40,7 @@ int main(){
     int n;
     int opc;
     /*char* opc;*/
-    char id[MAX];
-
+    char* id;
          while (true)
             {
             lp(); //limpio la pantalla
@@ -58,8 +57,7 @@ int main(){
                        0) Salir\n");
             barra0('#');
             fflush(NULL);
-         	scanf("%d", &opc);
-
+			opc = leer_numero();
              /*Switch del menu*/
          	switch (opc){	
 
@@ -77,13 +75,9 @@ int main(){
                      lp(); //limpio la pantalla
                      barra1('-');
                      puts("#Ingresar pedido:\n");
-                     printf(" Nombre del cliente (sin espacios): ");
-         			scanf("%s", id);
-					if (strlen(id)>50){
-						puts("El nombre no debe superar los 50 caracteres.");
-						getch();
-						break;
-						}
+                     puts(" Nombre del cliente: ");
+         			id = leer_texto();
+					
 					lista_iter_t* id_bus = buscar_id(pedidos_entrantes,id);
                      if (id_bus!= NULL){
          				puts("Ya se encuentra registrado un pedido con ese nombre.");
@@ -92,18 +86,17 @@ int main(){
                          break;
 						} 
 					lista_iter_destruir(id_bus);
-                     printf(" Cantidad de pizzas: ");
-         			scanf("%d", &cant_pizzas);
+                    puts(" Cantidad de pizzas: ");
+         			cant_pizzas = leer_numero();
                     
-                     printf(" Zona: ");
-         			scanf("%d", &zona);
-                    
-                     printf(" Distancia a la pizzeria (metros): ");
-         			scanf("%d", &distancia);
-                    
+                    puts(" Zona: ");
+         			zona = leer_numero();
+         			
+                    puts(" Distancia a la pizzeria (metros): ");
+         			distancia = leer_numero();
+         			
          			if ((zona < 1) || (zona>5) || (cant_pizzas<1) || (cant_pizzas>5)){
          				puts("Cantidad de pizzas o zona inválidas");
-                         getch();
          				break;
          				}
          		   pedido_t* pedido;
@@ -114,27 +107,27 @@ int main(){
 							pedido->id, pedido->cant_pizzas, pedido->zona, pedido->distancia);
 					}
 					else puts ("El pedido no se ha podido ingresar. Intente nuevamente.");
-                   break;
+                    break;
          
          		// 2) MODIFICAR PEDIDO
          
          	   case 2 :
          	      printf("Ingrese el nombre del cliente del pedido a modificar: \n");
-         		   scanf("%s", id);
-         			if (!buscar_id(pedidos_entrantes, id)){
-         				puts("Ese pedido no se encuentra registrado");
-                         getch();
-                         break;
-         				} 
-         			printf("Los detalles del pedido de %s son:\n", id);
+         		  id = leer_texto();
+         		  if (!buscar_id(pedidos_entrantes, id)){
+					  puts("Ese pedido no se encuentra registrado");
+                      getch();
+                      break;
+                  } 
+					printf("Los detalles del pedido de %s son:\n", id);
          			printf("Cantidad de pizzas: %d - Zona: %d - Distancia a la pizzeria: %d \n", pedido->cant_pizzas, pedido->zona, pedido->distancia);
          			puts("Elija lo que desea hacer:\n");  
          		   printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
-         		   scanf("%d", &eleccion);
+         		   eleccion = leer_numero();
          		   if (eleccion == 1){
          			   int nueva_cant;
          				printf("Ingrese la nueva cantidad de pizzas: \n" );
-         				scanf("%d", &nueva_cant);
+						nueva_cant = leer_numero();
          				if ((nueva_cant<1) || (nueva_cant>5)){
          					puts("Cantidad de pizzas invalida");
                             getch();
@@ -150,11 +143,11 @@ int main(){
          			else if (eleccion == 2){
          			   int nueva_zona;
          			   int nueva_distancia;
-         				printf("Ingrese la nueva zona \n" );
-         				scanf("%d", &nueva_zona);
-						printf("Ingrese la nueva distancia a la pizzeria (metros) \n" );
-         				scanf("%d", &nueva_distancia);
-
+         				puts("Ingrese la nueva zona \n" );
+         				nueva_zona = leer_numero();
+         				puts("Ingrese la nueva distancia a la pizzeria (metros) \n" );
+         				nueva_distancia = leer_numero();
+         				
          				if ((nueva_zona<1) || (nueva_zona>5)){
          					puts("Zona invalida");
                             getch();
@@ -179,8 +172,8 @@ int main(){
          
          	   case 3:
          		   printf("Ingrese el nombre del cliente del pedido a cancelar \n" );
-         		    scanf("%s", id);
-					pedidos_entrantes_cancelar(pedidos_entrantes, id);
+         		    id = leer_texto();
+         		    pedidos_entrantes_cancelar(pedidos_entrantes, id);
 					break;
          		   
          	   
@@ -189,20 +182,17 @@ int main(){
          	   case 4:
          			if (pedidos_preparar(preparados, pedidos_entrantes)){
          				puts("Los pedidos se han preparado con exito");
-         		        getch();
-         				break;
-         				}
+         		        break;
+         			}
                      else{
          				puts("No hay pedidos para preparar");
-         				getch();
          				break;
-         				}
+         			}
          	    
          	    // 5) IMPRIMIR PEDIDOS PREPARADOS
          	   case  5:
          			pedidos_lista_print(preparados);
-        		    getch();
-        			break;
+        		   break;
          			
          	   
 
@@ -216,25 +206,21 @@ int main(){
 						pedidos_lista_print(moto);
 						// Una vez impresa, la moto ya no me sirve: se destruye
 						lista_destruir(moto, NULL);
-         		        getch();
-         				break;
+						break;
 					}
          		
          		// 7) HISTORIAL MOTOS DESPACHADAS
          
          	   case  7:
          	        printf("Ingrese cantidad de pedidos que desea ver del historial: \n" );
-                     scanf("%i", &n);
-         		
-                     printeo_salientes(pedidos_salientes, n);
-                     getch();
-                     break;
+                    n = leer_numero();
+                    printeo_salientes(pedidos_salientes, n);
+                    break;
          		   
          	   // 8) PRINTEO PEDIDOS ENTRANTES
          	   
          	   case 8:
                     pedidos_lista_print(pedidos_entrantes);
-                    getch();
                     break;
 
 
