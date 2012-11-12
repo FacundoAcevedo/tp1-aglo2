@@ -122,7 +122,6 @@ bool pedidos_entrantes_zona (lista_t* pedidos_entrantes, char* id, int nueva_zon
 	pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
 	pedido_cambiar_zona(pedido_a_modif, nueva_zona, nueva_distancia);
 	lista_iter_destruir(iter_pedido_a_modif);
-	puts("Pedido modificado con exito.");
 	return true;
 }
 
@@ -142,27 +141,21 @@ bool pedidos_entrantes_cant_pizzas (lista_t* pedidos_entrantes, char* id, int nu
 	pedido_a_modif = lista_iter_ver_actual(iter_pedido_a_modif);
 	pedido_cambiar_cant(pedido_a_modif, nueva_cant);
 	lista_iter_destruir(iter_pedido_a_modif);
-	puts("Pedido modificado con exito.");
 	return true;
 }
 	
 
 bool pedidos_entrantes_cancelar (lista_t* pedidos_entrantes, char* id){
-	if (lista_largo(pedidos_entrantes) == 0){
-		puts("No hay pedidos para modificar.");
+	if (lista_largo(pedidos_entrantes) == 0)
 		return false;
-	}
 	lista_iter_t* iter_pedido_a_cancelar;
 	iter_pedido_a_cancelar = buscar_id(pedidos_entrantes, id);
-	if (!iter_pedido_a_cancelar){
-		printf("No se encuentra registrado el pedido de %s.", id);
+	if (!iter_pedido_a_cancelar)
 		return false;
-		}
 	pedido_t* pedido_a_cancelar;
 	pedido_a_cancelar = lista_borrar(pedidos_entrantes, iter_pedido_a_cancelar);
 	pedido_destruir(pedido_a_cancelar);
 	lista_iter_destruir(iter_pedido_a_cancelar);
-	puts("Pedido cancelado con exito.");
 	return true;
 }
 

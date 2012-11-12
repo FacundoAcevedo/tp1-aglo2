@@ -26,10 +26,8 @@ bool pedidos_preparar(lista_t* preparados, lista_t* pedidos_entrantes){
 
 lista_t* moto_cargar(lista_t* preparados, pila_t* salientes){
 	// Si no hay pedidos para las preparados devuelvo NULL.
-	if (lista_esta_vacia(preparados)) {
-		puts("No hay pedidos para cargar.");
+	if (lista_esta_vacia(preparados))
 		return false;
-	}
 	
 	// Creo la moto
 	lista_t* moto = lista_crear();

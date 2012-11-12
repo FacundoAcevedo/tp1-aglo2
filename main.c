@@ -21,6 +21,24 @@ int cantidad_digitos(int num)
     return x;
 }
 
+// Imprime el menu principal
+void print_menu(){
+	lp(); //limpio la pantalla
+	barra0('%');
+	printf("Elija una opcion : \n \
+	1) Ingresar pedido \n \
+	2) Modificar pedido \n \
+	3) Cancelar pedido \n \
+	4) Preparar pedidos \n \
+	5) Mostrar pedidos preparados \n \
+	6) Cargar y despachar moto \n \
+	7) Ver historial de motos enviadas \n \
+	8) Ver lista de pedidos entrantes \n \
+	0) Salir\n");
+	barra0('#');
+	fflush(NULL);
+	return;
+}
 // Destruye datos creados al arrancar el programa
 void destruir (lista_t* pedidos_entrantes, pila_t* pedidos_salientes, lista_t* preparados){
 	pedidos_entrantes_destruir(pedidos_entrantes);
@@ -71,7 +89,7 @@ pedido_t* opcion_uno(lista_t* pedidos_entrantes, char* id, int cant_pizzas, int 
 	} 
 	pedido_t* pedido = tomar_datos(id);
 	lista_iter_destruir(id_bus);
-	if(pedidos_entrantes_agregar(pedidos_entrantes, pedido)) print_detalles(pedido, id);
+	if(pedido && pedidos_entrantes_agregar(pedidos_entrantes, pedido)) print_detalles(pedido, id);
 	else puts ("El pedido no se ha podido ingresar. Intente nuevamente.");
     
     return pedido;
@@ -80,17 +98,15 @@ pedido_t* opcion_uno(lista_t* pedidos_entrantes, char* id, int cant_pizzas, int 
 // Modifica cantidad de pizzas de un pedido 
 void modificar_cantidad (lista_t* pedidos_entrantes, char* id, pedido_t* pedido){
 	int nueva_cant;
-	printf("Ingrese la nueva cantidad de pizzas: \n" );
+	printf("Ingrese la nueva cantidad de pizzas: " );
 	nueva_cant = leer_numero();
 	if ((nueva_cant<1) || (nueva_cant>5)){
 		puts("Cantidad de pizzas invalida");
 		return;
 	}
 
-	if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant)){
-		puts("Cantidad de pizzas modificada con exito. ");
+	if (pedidos_entrantes_cant_pizzas(pedidos_entrantes, id, nueva_cant))
 		print_detalles(pedido, id);
-	}
 	return;
 }
 
@@ -98,9 +114,9 @@ void modificar_cantidad (lista_t* pedidos_entrantes, char* id, pedido_t* pedido)
 void modificar_zona (lista_t* pedidos_entrantes, char* id, pedido_t* pedido){
 	int nueva_zona;
 	int nueva_distancia;
-	puts("Ingrese la nueva zona \n" );
+	puts("Ingrese la nueva zona " );
 	nueva_zona = leer_numero();
-	puts("Ingrese la nueva distancia a la pizzeria (metros) \n" );
+	puts("Ingrese la nueva distancia a la pizzeria (metros) " );
 	nueva_distancia = leer_numero();
 
 	if ((nueva_zona<1) || (nueva_zona>5)){
@@ -108,22 +124,19 @@ void modificar_zona (lista_t* pedidos_entrantes, char* id, pedido_t* pedido){
 		return;
 	}
 
-	if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia)){
-		puts("Zona y distancia modificadas con exito.");
+	if (pedidos_entrantes_zona(pedidos_entrantes, id, nueva_zona, nueva_distancia))
 		print_detalles(pedido, id);
-	}
 	return;
 }
 // OPCION 2
 void opcion_dos (char* id, lista_t* pedidos_entrantes, pedido_t* pedido){
-	printf("Ingrese el nombre del cliente del pedido a modificar: \n");
+	printf("Ingrese el nombre del cliente del pedido a modificar: ");
 	id = leer_texto();
 	if (!buscar_id(pedidos_entrantes, id)){
 		puts("Ese pedido no se encuentra registrado");
 		return;
 	} 
-	print_detalles(pedido, id);	
-	
+
 	puts("Elija lo que desea hacer:\n");  
 	printf("		1) Modificar cantidad de pizzas \n		2) Modificar zona \n");
 	
@@ -137,6 +150,7 @@ void opcion_dos (char* id, lista_t* pedidos_entrantes, pedido_t* pedido){
 		puts("Eleccion invalida");
 		return;
 	}
+
 	return;
 }
 
@@ -178,20 +192,7 @@ int main(){
     char* id;
          while (true)
             {
-            lp(); //limpio la pantalla
-            barra0('%');
-         	printf("Elija una opcion : \n \
-         			  1) Ingresar pedido \n \
-         			  2) Modificar pedido \n \
-         			  3) Cancelar pedido \n \
-         			  4) Preparar pedidos \n \
-         			  5) Mostrar pedidos preparados \n \
-         			  6) Cargar y despachar moto \n \
-         			  7) Ver historial de motos enviadas \n \
-         			  8) Ver lista de pedidos entrantes \n \
-                       0) Salir\n");
-            barra0('#');
-            fflush(NULL);
+			print_menu();
 			opc = leer_numero();
              /*Switch del menu*/
          	switch (opc){	
@@ -219,7 +220,11 @@ int main(){
          	   case 3:
          		   printf("Ingrese el nombre del cliente del pedido a cancelar \n" );
          		    id = leer_texto();
-         		    pedidos_entrantes_cancelar(pedidos_entrantes, id);
+         		    bool rta = pedidos_entrantes_cancelar(pedidos_entrantes, id);
+         		    if (rta == false)
+         		    	printf("No se encuentra registrado el pedido de %s.\n", id);
+         		    else
+						puts("Pedido cancelado con exito.");
 					break;
          		   
          	   
@@ -239,13 +244,15 @@ int main(){
          	   
          	   case 6: 
 					moto = moto_cargar(preparados, pedidos_salientes);
-         			if (moto != NULL){
+         			if (moto){
          				puts("La moto se ha cargado y despachado con exito.");
 						pedidos_lista_print(moto);
 						// Una vez impresa, la moto ya no me sirve: se destruye
 						lista_destruir(moto, NULL);
-						break;
 					}
+					else 
+						puts("No hay pedidos para cargar.");
+					break;
          		
          		// 7) HISTORIAL MOTOS DESPACHADAS
          
@@ -276,6 +283,6 @@ int main(){
          } // while
     /*}//while*/
 	// Destruyo lo que cree al principio
-	destruir(pedidos_entrantes, pedidos_salientes, preparados, destruir_pedido);
+	destruir(pedidos_entrantes, pedidos_salientes, preparados);
 	return 0;
 }
