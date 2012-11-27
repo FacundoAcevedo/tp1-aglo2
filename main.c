@@ -183,11 +183,11 @@ int main(){
 	pedido_t* pedido;
 	
     /*Declaro las variables estaticas*/
-    int cant_pizzas;
-    int zona;
-    int distancia;
-    int n;
-    int opc;
+    int cant_pizzas=0;
+    int zona=0;
+    int distancia=0;
+    int n=0;
+    int opc=0;
     /*char* opc;*/
     char* id;
          while (true)
