@@ -85,13 +85,14 @@ pedido_t* opcion_uno(lista_t* pedidos_entrantes, char* id, int cant_pizzas, int 
 	if (id_bus!= NULL){
 		puts("Ya se encuentra registrado un pedido con ese nombre.");
 		lista_iter_destruir(id_bus);
+        free(id);
 		return NULL;
 	} 
 	pedido_t* pedido = tomar_datos(id);
 	lista_iter_destruir(id_bus);
 	if(pedido && pedidos_entrantes_agregar(pedidos_entrantes, pedido)) print_detalles(pedido, id);
 	else puts ("El pedido no se ha podido ingresar. Intente nuevamente.");
-    
+    free(id);    
     return pedido;
 }
 
@@ -134,6 +135,7 @@ void opcion_dos (char* id, lista_t* pedidos_entrantes, pedido_t* pedido){
 	id = leer_texto();
 	if (!buscar_id(pedidos_entrantes, id)){
 		puts("Ese pedido no se encuentra registrado");
+        free(id);
 		return;
 	} 
 
@@ -148,8 +150,10 @@ void opcion_dos (char* id, lista_t* pedidos_entrantes, pedido_t* pedido){
 		modificar_zona(pedidos_entrantes, id, pedido);
 	else{
 		puts("Eleccion invalida");
+        free(id);
 		return;
 	}
+    free(id);
 
 	return;
 }
@@ -225,6 +229,7 @@ int main(){
          		    	printf("No se encuentra registrado el pedido de %s.\n", id);
          		    else
 						puts("Pedido cancelado con exito.");
+                    free(id);
 					break;
          		   
          	   

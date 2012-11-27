@@ -14,12 +14,3 @@ gcc $OPCIONES  $O main.c -o main.bin;
 echo "TEST:::::::::::::::::::::::::::::::::::::::::::::";
 gcc $OPCIONES  $O test.c -o test.bin;
 
-#~ # solo pedidos
-
-#~ gcc $OPCIONES -c tdas.c;
-#~ gcc $OPCIONES tdas.o pedidos.c -o pedidos.bin;
-
-# preparadosymoto y pedidos
-
-#~ gcc $OPCIONES -c $C;
-#~ gcc $OPCIONES tdas.o pedidos.c -o pedidos.bin;
